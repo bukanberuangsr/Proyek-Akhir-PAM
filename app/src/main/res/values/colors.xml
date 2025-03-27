@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+
+<!--  SYSTEM COLOR  -->
+<!--  Palette  -->
     <color name="white">#FFFFFFFF</color>
     <color name="tosca">#78B3CE</color>
     <color name="orange">#F96E2A</color>

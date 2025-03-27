@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--  INTER  -->
+<!--  FOR INTER FONT  -->
 <!--  Body text  -->
     <style name="inter_regular">
         <item name="android:fontFamily">@font/inter_variable</item>
@@ -26,7 +26,7 @@
         <item name="android:textFontWeight">700</item>
     </style>
 
-<!--   LEXEND  -->
+<!--  FOR LEXEND FONT -->
 <!--  Regylar text  -->
     <style name="lexend_regular">
         <item name="android:fontFamily">@font/lexend_variable</item>
