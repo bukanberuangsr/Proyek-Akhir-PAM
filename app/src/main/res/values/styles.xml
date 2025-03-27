@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--  FOR INTER FONT  -->
+<!--  Body text  -->
+    <style name="inter_regular">
+        <item name="android:fontFamily">@font/inter_variable</item>
+        <item name="android:textFontWeight">400</item>
+    </style>
+
+<!--  Subheading  -->
+    <style name="inter_medium">
+        <item name="android:fontFamily">@font/inter_variable</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+
+<!--  Emphasis  -->
+    <style name="inter_semibold">
+        <item name="android:fontFamily">@font/inter_variable</item>
+        <item name="android:textFontWeight">600</item>
+    </style>
+
+<!--  Heading  -->
+    <style name="inter_bold">
+        <item name="android:fontFamily">@font/inter_variable</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+
+<!--  FOR LEXEND FONT -->
+<!--  Regylar text  -->
+    <style name="lexend_regular">
+        <item name="android:fontFamily">@font/lexend_variable</item>
+        <item name="android:textFontWeight">400</item>
+    </style>
+
+<!--  Button  -->
+    <style name="lexend_semibold">
+        <item name="android:fontFamily">@font/lexend_variable</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+
+</resources>
