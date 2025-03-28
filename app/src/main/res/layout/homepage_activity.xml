@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Custom Search Bar -->
+    <include
+        layout="@layout/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Konten di bawah Search Bar -->
+        <ImageView
+            android:id="@+id/greeting"
+            android:layout_width="250dp"
+            android:layout_height="130dp"
+            android:src="@drawable/card_greeting"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"/>
+
+        <ImageView
+            android:id="@+id/greeting2"
+            android:layout_width="250dp"
+            android:layout_height="130dp"
+            android:src="@drawable/card_greeting"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingHorizontal="28dp">
+
+        <!-- Item 1: Makanan -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/makanan"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/makanan"/>
+
+            <TextView
+                android:id="@+id/judul_mkn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Makanan"
+                android:textStyle="bold"
+                android:textColor="@color/grey"/>
+        </LinearLayout>
+
+        <!-- Item 2: Sembako -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/sembako"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/sembako"/>
+
+            <TextView
+                android:id="@+id/judul_sbk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sembako"
+                android:textStyle="bold"
+                android:textColor="@color/grey"/>
+        </LinearLayout>
+
+        <!-- Item 3: Galang Dana -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/galang_dana"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/galang_dana"/>
+
+            <TextView
+                android:id="@+id/judul_gd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Galang Dana"
+                android:textStyle="bold"
+                android:textColor="@color/grey"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/judul_kat_mkn"
+        android:text="Seporsi Makanan Sebuah Kebahagiaan"
+        android:textStyle="bold"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="-10dp"
+        android:layout_marginLeft="16dp">
+
+        <ImageView
+            android:id="@+id/card1"
+            android:layout_width="281dp"
+            android:layout_height="233dp"
+            android:src="@drawable/card1"
+            android:layout_marginTop="16dp"/>
+
+        <ImageView
+            android:id="@+id/card2"
+            android:layout_width="281dp"
+            android:layout_height="233dp"
+            android:src="@drawable/card2"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/judul_kat_sbk"
+        android:text="Sembako bagi Mereka yang Membutuhkan"
+        android:textStyle="bold"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="-10dp"
+        android:layout_marginLeft="16dp">
+
+        <ImageView
+            android:id="@+id/card3"
+            android:layout_width="281dp"
+            android:layout_height="233dp"
+            android:src="@drawable/card3"
+            android:layout_marginTop="16dp"/>
+
+        <ImageView
+            android:id="@+id/card4"
+            android:layout_width="281dp"
+            android:layout_height="233dp"
+            android:src="@drawable/card4"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
