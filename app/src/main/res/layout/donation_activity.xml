@@ -149,13 +149,18 @@
                 android:layout_marginTop="20dp"
                 style="@style/inter_regular"/>
 
-            <androidx.appcompat.widget.AppCompatButton
+            <EditText
+                android:id="@+id/tanggal_kadaluarsa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/bg_input"
-                android:text="@string/btn_masukkan_tanggal"
+                android:hint="@string/et_masukkan_tanggal"
+                android:inputType="numberDecimal"
                 android:textColor="@color/light_grey_text"
+                android:textSize="16sp"
+                android:focusable="false"
+                android:layout_marginTop="16dp"
+                android:padding="15dp"
                 style="@style/inter_regular"/>
 
             <TextView
@@ -179,6 +184,7 @@
                 style="@style/inter_regular"/>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_bagikan"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
