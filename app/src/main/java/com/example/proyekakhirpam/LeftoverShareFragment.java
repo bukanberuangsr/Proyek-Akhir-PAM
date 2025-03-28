@@ -1,7 +1,9 @@
 package com.example.proyekakhirpam;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -58,7 +60,16 @@ public class LeftoverShareFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leftover_share, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_leftover_share, container, false);
+
+        AppCompatButton compatButton = view.findViewById(R.id.btn_donate);
+        compatButton.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), DonationActivity.class);
+            startActivity(intent);
+        });
+
+        return view;
     }
+
 }
