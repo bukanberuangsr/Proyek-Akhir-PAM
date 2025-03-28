@@ -17,7 +17,7 @@
     <string name="tv_jumlah_yang_ingin_di_donasikan">Jumlah yang Ingin di Donasikan</string>
     <string name="et_masukkan_jumlah">Masukkan jumlah</string>
     <string name="tv_expired_date">Expired Date</string>
-    <string name="btn_masukkan_tanggal">Masukkan tanggal</string>
+    <string name="et_masukkan_tanggal">Masukkan tanggal</string>
     <string name="tv_harga">Harga</string>
     <string name="et_masukkan_harga">Masukkan harga</string>
     <string name="btn_bagikan">Bagikan</string>
