@@ -37,7 +37,7 @@
 <!--  Button  -->
     <style name="lexend_semibold">
         <item name="android:fontFamily">@font/lexend_variable</item>
-        <item name="android:textFontWeight">400</item>
+        <item name="android:textFontWeight">700</item>
     </style>
 
 
