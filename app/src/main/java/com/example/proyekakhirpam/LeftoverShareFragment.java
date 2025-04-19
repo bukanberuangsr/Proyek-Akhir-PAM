@@ -84,7 +84,7 @@ public class LeftoverShareFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false
         ));
-        recyclerView.setAdapter(new DonasiAdapter(data));
+        recyclerView.setAdapter(new DonationAdapter(data));
         return view;
     }
 
