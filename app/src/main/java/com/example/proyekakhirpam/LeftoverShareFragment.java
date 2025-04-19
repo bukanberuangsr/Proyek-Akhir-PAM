@@ -3,12 +3,17 @@ package com.example.proyekakhirpam;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,13 +68,54 @@ public class LeftoverShareFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_leftover_share, container, false);
 
-        AppCompatButton compatButton = view.findViewById(R.id.btn_donate);
+        ImageButton compatButton = view.findViewById(R.id.btn_add_donation);
         compatButton.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), DonationActivity.class);
             startActivity(intent);
         });
 
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_donasi_1);
+
+        // Data Dummy
+        List<Donasi> data = new ArrayList<>();
+        data.add(new Donasi(R.drawable.img_donasi_1, "Palestina: Donasi Makanan untuk Saudara Kita yang Membutuhkan", "Joni", "Rp. 200.000"));
+        data.add(new Donasi(R.drawable.img_donasi_1, "Yaman: Donasi Makanan untuk Mengatasi Kelaparan", "Hani", "Rp. 500.000"));
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(
+                getContext(), LinearLayoutManager.HORIZONTAL, false
+        ));
+        recyclerView.setAdapter(new DonasiAdapter(data));
         return view;
     }
 
+    public static class Donasi {
+        int gambarId;
+        String judul;
+        String namaDonatur;
+        String nominalDonasi;
+
+        public Donasi(int gambarId, String judul, String namaDonatur, String nominalDonasi) {
+            this.gambarId = gambarId;
+            this.judul = judul;
+            this.namaDonatur = namaDonatur;
+            this.nominalDonasi = nominalDonasi;
+        }
+
+        public int getGambar() {
+            return gambarId;
+        }
+
+        public String getJudul() {
+            return judul;
+        }
+
+        public String getNamaDonatur() {
+            return namaDonatur;
+        }
+
+        public String getNominalDonasi() {
+            return nominalDonasi;
+        }
+
+    }
 }
