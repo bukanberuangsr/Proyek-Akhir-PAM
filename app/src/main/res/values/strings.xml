@@ -21,6 +21,7 @@
     <string name="tv_harga">Harga</string>
     <string name="et_masukkan_harga">Masukkan harga</string>
     <string name="btn_bagikan">Bagikan</string>
+    <string name="tambah_donasi">Tambah donasi</string>
     <string-array name="dropdown_gratis_berbayar">
         <item>Gratis</item>
         <item>Berbayar</item>
