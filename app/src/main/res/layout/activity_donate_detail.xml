@@ -5,6 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DonatePage">
+    tools:context=".DonateDetail">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
