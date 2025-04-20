@@ -211,5 +211,5 @@
         android:text="Simpan"
         android:textColor="@color/white"
         android:textSize="16sp"
-        style="@style/inter_semibold"/>
+        style="@style/lexend_semibold"/>
 </LinearLayout>
