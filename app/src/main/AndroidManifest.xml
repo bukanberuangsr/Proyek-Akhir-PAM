@@ -13,7 +13,10 @@
         android:theme="@style/Theme.ProyekAkhirPAM"
         tools:targetApi="31">
         <activity
-            android:name=".DonatePage"
+            android:name=".DonatePayment"
+            android:exported="false" />
+        <activity
+            android:name=".DonateDetail"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
