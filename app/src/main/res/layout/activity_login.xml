@@ -62,7 +62,7 @@
             android:paddingLeft="30dp"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:textColor="@color/light_grey_fill"
+            android:textColor="@color/grey"
             android:textColorHint="@color/light_grey_text"/>
 
         <TextView
@@ -83,21 +83,23 @@
             android:paddingLeft="30dp"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColor="@color/light_grey_fill"
+            android:textColor="@color/grey"
             android:textColorHint="@color/light_grey_text"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_login"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="340dp"
+            android:layout_height="50dp"
             android:background="@drawable/bg_button"
-            android:layout_marginTop="25dp"
             android:text="LOGIN"
-            android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="normal"/>
-
+            android:textSize="24sp"
+            android:layout_marginTop="20dp"
+            style="@style/lexend_semibold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </LinearLayout>
 
     <TextView
