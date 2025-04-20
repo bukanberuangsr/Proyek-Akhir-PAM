@@ -24,18 +24,19 @@
             android:scaleType="centerCrop"/>
 
         <TextView
+            style="@style/inter_bold"
             android:id="@+id/judul_donasi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:text="Judul Konten"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:textSize="12sp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textColor="#000" />
 
         <TextView
+            style="@style/inter_regular"
             android:id="@+id/nama_donatur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,6 +47,7 @@
             android:textSize="12sp"/>
 
         <TextView
+            style="@style/inter_regular"
             android:id="@+id/nominal_donasi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
