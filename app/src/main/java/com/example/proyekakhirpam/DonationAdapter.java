@@ -1,5 +1,7 @@
 package com.example.proyekakhirpam;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,9 @@ import java.util.List;
 
 public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.DonationViewHolder>{
     private List<LeftoverShareFragment.Donasi> dataList;
-    public DonationAdapter(List<LeftoverShareFragment.Donasi> data) {
+    private Context context;
+    public DonationAdapter(Context context, List<LeftoverShareFragment.Donasi> data) {
+        this.context = context;
         this.dataList = data;
     }
 
@@ -32,7 +36,15 @@ public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.Donati
         holder.imageView.setImageResource(item.getGambar());
         holder.judulText.setText(item.getJudul());
         holder.namaDonatur.setText("Nama Donatur: " + item.getNamaDonatur());
-        holder.nominalDonasi.setText("Donasi Sebesar " + item.getNominalDonasi());
+        holder.nominalDonasi.setText("Donasi Sebesar Rp." + item.getNominalDonasi());
+
+        holder.cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DonateDetail.class);
+            intent.putExtra("judul", item.getJudul());
+            intent.putExtra("gambar", item.getGambar());
+            intent.putExtra("deskripsi", item.getDeskripsiDonasi());
+            context.startActivity(intent);
+        });
     }
 
     @Override

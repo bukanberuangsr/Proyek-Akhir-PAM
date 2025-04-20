@@ -36,7 +36,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_donasi_1"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="275dp"
         android:layout_marginTop="16dp"
         android:paddingBottom="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -45,6 +45,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <TextView
+        android:id="@+id/second_row_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Darurat Dalam Negeri"
+        android:textSize="20sp"
+        android:textColor="@color/grey"
+        style="@style/inter_bold"
+        app:layout_constraintTop_toBottomOf="@id/recycler_donasi_1"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_donasi_2"
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_donation"
+        app:layout_constraintTop_toBottomOf="@id/second_row_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

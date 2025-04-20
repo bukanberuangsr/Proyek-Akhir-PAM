@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,23 +69,76 @@ public class LeftoverShareFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_leftover_share, container, false);
 
-        ImageButton compatButton = view.findViewById(R.id.btn_add_donation);
-        compatButton.setOnClickListener(v->{
+        ImageButton imageButton = view.findViewById(R.id.btn_add_donation);
+        imageButton.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), DonationActivity.class);
             startActivity(intent);
         });
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_donasi_1);
+        RecyclerView recyclerView1 = view.findViewById(R.id.recycler_donasi_1);
+        RecyclerView recyclerView2 = view.findViewById(R.id.recycler_donasi_2);
 
         // Data Dummy
-        List<Donasi> data = new ArrayList<>();
-        data.add(new Donasi(R.drawable.img_donasi_1, "Palestina: Donasi Makanan untuk Saudara Kita yang Membutuhkan", "Joni", "Rp. 200.000"));
-        data.add(new Donasi(R.drawable.img_donasi_1, "Yaman: Donasi Makanan untuk Mengatasi Kelaparan", "Hani", "Rp. 500.000"));
+        List<Donasi> dataRC1 = new ArrayList<>();
+        dataRC1.add(new Donasi(
+                R.drawable.img_donasi_1,
+                "Palestina: Donasi Makanan untuk Saudara Kita",
+                "Satria",
+                "200000",
+                "Di tengah konflik dan krisis kemanusiaan yang terus berlangsung, ribuan keluarga di Palestina berjuang untuk mendapatkan makanan setiap hari. Akses terhadap kebutuhan dasar semakin terbatas, dan mereka sangat membutuhkan uluran tangan kita.\n" +
+                "\n" +
+                "Blokade dan keterbatasan distribusi bahan pangan membuat harga makanan melambung tinggi, sementara persediaan semakin menipis. Banyak keluarga hanya mampu makan satu kali sehari atau bahkan terpaksa berpuasa karena tidak ada makanan yang tersisa. Situasi ini semakin diperparah dengan rusaknya infrastruktur dan sulitnya akses bantuan kemanusiaan."
+        ));
+        dataRC1.add(new Donasi(
+                R.drawable.img_donasi_2,
+                "Yaman: Donasi Makanan untuk Mengatasi Kelaparan",
+                "Farhah",
+                "500000",
+                "Lorem ipsum dolor sit amet."
+        ));
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(
+        List<Donasi> dataRC2 = new ArrayList<>();
+        dataRC2.add(new Donasi(
+                R.drawable.img_donasi_3,
+                "Papua: Donasi Makanan untuk Selamatkan Nyawa",
+                "Kinky",
+                "10000",
+                "Lorem ipsum dolor sit amet."
+        ));
+
+        Bundle bundle = getActivity().getIntent().getExtras();
+        if (bundle != null) {
+            String judul = bundle.getString("judul");
+            String gambar = bundle.getString("gambar");
+            String nominalBaru = bundle.getString("nominal");
+
+            if (judul!=null && nominalBaru!=null){
+                boolean found = false;
+                for (Donasi d : dataRC1){
+                    if (d.getJudul().equals(judul)){
+                        int total = Integer.parseInt(d.getNominalDonasi()) + Integer.parseInt(nominalBaru);
+                        d.nominalDonasi = String.valueOf(total);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found){
+                    Toast.makeText(getContext(), "Data tidak ditemukan", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+        DonationAdapter donationAdapter = new DonationAdapter(getContext(), dataRC1);
+        DonationAdapter donationAdapter2 = new DonationAdapter(getContext(), dataRC2);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false
         ));
-        recyclerView.setAdapter(new DonationAdapter(data));
+        recyclerView2.setLayoutManager(new LinearLayoutManager(
+                getContext(), LinearLayoutManager.HORIZONTAL, false
+        ));
+        recyclerView1.setAdapter(donationAdapter);
+        recyclerView2.setAdapter(donationAdapter2);
+        donationAdapter.notifyDataSetChanged();
         return view;
     }
 
@@ -93,12 +147,14 @@ public class LeftoverShareFragment extends Fragment {
         String judul;
         String namaDonatur;
         String nominalDonasi;
+        String deskripsiDonasi;
 
-        public Donasi(int gambarId, String judul, String namaDonatur, String nominalDonasi) {
+        public Donasi(int gambarId, String judul, String namaDonatur, String nominalDonasi, String deskripsiDonasi) {
             this.gambarId = gambarId;
             this.judul = judul;
             this.namaDonatur = namaDonatur;
             this.nominalDonasi = nominalDonasi;
+            this.deskripsiDonasi = deskripsiDonasi;
         }
 
         public int getGambar() {
@@ -115,6 +171,10 @@ public class LeftoverShareFragment extends Fragment {
 
         public String getNominalDonasi() {
             return nominalDonasi;
+        }
+
+        public String getDeskripsiDonasi() {
+            return deskripsiDonasi;
         }
 
     }
