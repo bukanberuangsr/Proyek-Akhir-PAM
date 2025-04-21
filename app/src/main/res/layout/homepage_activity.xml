@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,12 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="60dp" />
 
+    <!-- Greeting Cards -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:orientation="horizontal">
 
-        <!-- Konten di bawah Search Bar -->
         <ImageView
             android:id="@+id/greeting"
             android:layout_width="250dp"
@@ -36,14 +37,15 @@
 
     </LinearLayout>
 
+    <!-- Fitur Kategori -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:id="@+id/kategori"
         android:paddingHorizontal="28dp">
 
-        <!-- Item 1: Makanan -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -66,7 +68,6 @@
                 android:textColor="@color/grey"/>
         </LinearLayout>
 
-        <!-- Item 2: Sembako -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -89,7 +90,6 @@
                 android:textColor="@color/grey"/>
         </LinearLayout>
 
-        <!-- Item 3: Galang Dana -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -114,62 +114,157 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/judul_kat_mkn"
-        android:text="Seporsi Makanan Sebuah Kebahagiaan"
-        android:textStyle="bold"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"/>
+    <!-- Tambahkan RecyclerView di sini -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_contact"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kategori"
+        app:layout_constraintVertical_bias="0.0"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_post"/>
 
-    <LinearLayout
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/contact_card"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/judulPost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pandu Satria"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="135dp"
+                android:src="@drawable/pc_makanan"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/reactionBar"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/ellipse_search"
+                android:weightSum="3"
+                android:layout_marginBottom="8dp">
+
+                <!-- reaction 1 -->
+                <LinearLayout
+                    android:id="@+id/react1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/emot1"
+                        android:src="@drawable/emot_smile" />
+
+                    <TextView
+                        android:id="@+id/react1Count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="10" />
+                </LinearLayout>
+
+                <!-- reaction 2 -->
+                <LinearLayout
+                    android:id="@+id/react2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/emot2"
+                        android:src="@drawable/emot_haru" />
+
+                    <TextView
+                        android:id="@+id/react2Count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="10" />
+                </LinearLayout>
+
+                <!-- reaction 3 -->
+                <LinearLayout
+                    android:id="@+id/react3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/emot3"
+                        android:src="@drawable/emot_hug" />
+
+                    <TextView
+                        android:id="@+id/react3Count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="7" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/detailPost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alhamdulillah senang sekali dapat berbagi makanan kepada mereka yang membutuhkan"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnTambah"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="-10dp"
-        android:layout_marginLeft="16dp">
-
-        <ImageView
-            android:id="@+id/card1"
-            android:layout_width="281dp"
-            android:layout_height="233dp"
-            android:src="@drawable/card1"
-            android:layout_marginTop="16dp"/>
-
-        <ImageView
-            android:id="@+id/card2"
-            android:layout_width="281dp"
-            android:layout_height="233dp"
-            android:src="@drawable/card2"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"/>
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/judul_kat_sbk"
-        android:text="Sembako bagi Mereka yang Membutuhkan"
-        android:textStyle="bold"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"/>
-
-        <ImageView
-            android:id="@+id/card3"
-            android:layout_width="281dp"
-            android:layout_height="233dp"
-            android:src="@drawable/card3"
-            android:layout_marginTop="16dp"/>
-
-        <ImageView
-            android:id="@+id/card4"
-            android:layout_width="281dp"
-            android:layout_height="233dp"
-            android:src="@drawable/card4"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"/>
-
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/orange"
+        android:text="Buat Postingan"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        style="@style/lexend_semibold" />
 
 </LinearLayout>

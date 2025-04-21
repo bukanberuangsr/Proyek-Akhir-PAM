@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+
+        <!-- Header dengan ikon back dan teks "Postingan" -->
+        <RelativeLayout
+            android:layout_width="411dp"
+            android:layout_height="wrap_content"
+            android:background="@color/light_blue"
+            android:padding="20dp">
+
+            <!-- Tombol Back -->
+            <ImageView
+                android:id="@+id/backIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_back" />
+
+            <!-- Judul "Postingan" -->
+            <TextView
+                android:id="@+id/postingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Postingan"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/detailImage"
+            android:layout_width="match_parent"
+            android:layout_height="198dp"
+            android:src="@drawable/pic1"
+            android:contentDescription="Gambar detail donasi" />
+
+        <TextView
+            android:id="@+id/detailNama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:text="Pandu Satria"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/detailDeskripsi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:text="Deskripsi donasi panjang..." />
+
+        <!-- Reaction Bar -->
+        <LinearLayout
+            android:id="@+id/reactionBar"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/ellipse_search"
+            android:weightSum="3"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="60dp">
+
+            <!-- reaction 1 -->
+            <LinearLayout
+                android:id="@+id/react1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/emot1"
+                    android:src="@drawable/emot_smile" />
+
+                <TextView
+                    android:id="@+id/react1Count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="10" />
+            </LinearLayout>
+
+            <!-- reaction 2 -->
+            <LinearLayout
+                android:id="@+id/react2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/emot2"
+                    android:src="@drawable/emot_haru" />
+
+                <TextView
+                    android:id="@+id/react2Count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="10" />
+            </LinearLayout>
+
+            <!-- reaction 3 -->
+            <LinearLayout
+                android:id="@+id/react3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/emot3"
+                    android:src="@drawable/emot_hug" />
+
+                <TextView
+                    android:id="@+id/react3Count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="7" />
+            </LinearLayout>
+        </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:text="Hapus Postingan"
+        android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>
