@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <!-- Custom Search Bar -->
         <include
             layout="@layout/search_bar"
@@ -131,7 +132,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/item_post" />
+            tools:listitem="@layout/item_post"/>
     </LinearLayout>
 
     <!-- Tombol Buat Postingan di pojok kanan bawah -->

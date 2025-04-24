@@ -17,16 +17,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     private Context context;
     private List<Post> postList;
+
     private OnItemClickListener listener;
 
+    // 2. Interface untuk callback click
     public interface OnItemClickListener {
         void onItemClick(Post post);
     }
 
+    // 3. Setter untuk listener
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
+    // Constructor
     public PostAdapter(Context context, List<Post> postList) {
         this.context = context;
         this.postList = postList;
@@ -51,7 +55,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onItemClick(post);
+                listener.onItemClick(post); // klik listener
             }
         });
     }
@@ -61,8 +65,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return postList.size();
     }
 
+    // ViewHolder
     public static class PostViewHolder extends RecyclerView.ViewHolder {
-
         TextView nama, deskripsi, react1Count, react2Count, react3Count;
         ImageView imageView;
         CardView card;

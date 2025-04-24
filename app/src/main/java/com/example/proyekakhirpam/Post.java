@@ -4,17 +4,17 @@ public class Post {
     private String nama;
     private String deskripsi;
     private int imageRes;
-    private int reactSmile;
-    private int reactHaru;
-    private int reactHug;
+    private int smile;
+    private int haru;
+    private int hug;
 
-    public Post(String nama, String deskripsi, int imageRes, int reactSmile, int reactHaru, int reactHug) {
+    public Post(String nama, String deskripsi, int imageRes, int smile, int haru, int hug) {
         this.nama = nama;
         this.deskripsi = deskripsi;
         this.imageRes = imageRes;
-        this.reactSmile = reactSmile;
-        this.reactHaru = reactHaru;
-        this.reactHug = reactHug;
+        this.smile = smile;
+        this.haru = haru;
+        this.hug = hug;
     }
 
     public String getNama() {
@@ -30,14 +30,14 @@ public class Post {
     }
 
     public int getReactSmile() {
-        return reactSmile;
+        return smile;
     }
 
     public int getReactHaru() {
-        return reactHaru;
+        return haru;
     }
 
     public int getReactHug() {
-        return reactHug;
+        return hug;
     }
 }

@@ -35,9 +35,10 @@
                 android:id="@+id/postingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:text="Postingan"
                 android:textColor="@android:color/black"
+                android:layout_toEndOf="@+id/backIcon"
+                android:layout_marginStart="20dp"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -65,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
             android:text="Deskripsi donasi panjang..." />
 
         <!-- Reaction Bar -->
@@ -77,7 +79,7 @@
             android:background="@drawable/ellipse_search"
             android:weightSum="3"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="60dp">
+            android:layout_marginTop="30dp">
 
             <!-- reaction 1 -->
             <LinearLayout
@@ -149,12 +151,13 @@
             </LinearLayout>
         </LinearLayout>
 
-    <Button
+    <TextView
+        android:id="@+id/hapusPostingan"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:backgroundTint="@android:color/holo_red_light"
+        android:textColor="@color/light_grey_text"
         android:text="Hapus Postingan"
         android:textStyle="bold" />
 

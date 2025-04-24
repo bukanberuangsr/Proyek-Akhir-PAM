@@ -38,7 +38,9 @@
             android:layout_height="wrap_content"
             android:text="Detail post"
             android:textSize="14sp"
-            android:lineSpacingExtra="4dp"/>
+            android:lineSpacingExtra="4dp"
+            android:maxLines="3"
+            android:ellipsize="end"/>
 
         <LinearLayout
             android:id="@+id/reactionBar"
