@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -17,6 +20,12 @@
             android:exported="false" />
         <activity
             android:name=".DonateDetail"
+            android:exported="false" />
+        <activity
+            android:name=".TemanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PertemananActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -40,6 +49,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RincianPembelianActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DaftarPembelianActivity"
+            android:exported="false" /> <!-- Hanya SATU deklarasi AccountActivity -->
         <activity android:name=".DonationActivity" />
         <activity
             android:name=".EditProfileActivity"
@@ -55,6 +70,12 @@
             android:exported="false" />
         <activity
             android:name=".WelcomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
             android:exported="false" />
     </application>
 
