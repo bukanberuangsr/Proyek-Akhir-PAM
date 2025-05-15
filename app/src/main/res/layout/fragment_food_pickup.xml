@@ -132,7 +132,6 @@
                 style="@style/inter_regular"
                 android:layout_width="50dp"
                 android:layout_height="20dp"
-                android:layout_gravity="end"
                 android:background="@drawable/bg_availability"
                 android:text="7"
                 android:textAlignment="center"
