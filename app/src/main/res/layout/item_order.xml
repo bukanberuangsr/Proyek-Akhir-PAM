@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:orientation="horizontal"
+    android:paddingVertical="8dp">
+
+    <ImageView
+        android:id="@+id/iv_placehoder"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_gravity="center"
+        android:contentDescription="Steak sapi"
+        android:src="@drawable/ic_placeholder" />
+
+    <LinearLayout
+        android:id="@+id/listview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_nama_makanan"
+            style="@style/inter_semibold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama_makanan"
+            android:textColor="@color/grey"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_nama_restoran"
+            style="@style/inter_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama_pemberi"
+            android:textColor="@color/grey"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_total"
+            style="@style/inter_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total"
+            android:textColor="@color/tosca"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_expired"
+            style="@style/inter_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x"
+            android:textColor="@color/orange"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/btn_batal"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:backgroundTint="#EB2E2E"
+            android:text="Batalkan"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            style="@style/lexend_semibold"/>
+    </LinearLayout>
+</LinearLayout>
