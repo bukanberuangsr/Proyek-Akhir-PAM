@@ -1,0 +1,195 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Header dengan background biru -->
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@color/light_blue"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_back"
+        android:layout_alignParentStart="true"
+        android:contentDescription="Back Button"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/tvAkun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Akun"
+        android:textSize="16sp"
+        android:textColor="@color/grey"
+        android:layout_toEndOf="@id/btnBack"
+        android:layout_marginStart="12dp"
+        android:layout_centerVertical="true"
+        style="@style/inter_semibold"/>
+</RelativeLayout>
+
+    <!-- Profil dengan jarak lebih baik dari header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:layout_marginTop="8dp"> <!-- Dikurangi jarak agar lebih rapi -->
+
+        <ImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_profile"
+            android:contentDescription="Profile Image"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp">
+
+            <TextView
+                android:id="@+id/tvNamaPengguna"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Pengguna"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                style="@style/inter_semibold"/>
+
+            <TextView
+                android:id="@+id/tvLengkapiProfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lengkapi profil"
+                android:textSize="12sp"
+                android:textColor="@color/tosca"
+                android:layout_marginTop="4dp"
+                style="@style/inter_regular"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical">
+
+                <ProgressBar
+                    android:id="@+id/progressProfil"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="270dp"
+                    android:layout_height="8dp"
+                    android:progress="25"
+                    android:max="100"
+                    android:progressDrawable="@drawable/progress_bar"/>
+
+                <TextView
+                    android:id="@+id/tvPersentaseProfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25%"
+                    android:textSize="12sp"
+                    android:textColor="@color/orange"
+                    android:layout_marginStart="5dp"
+                    style="@style/inter_semibold"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Garis Pembatas -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_grey_text"/>
+
+    <!-- Donasi Saya -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/tvDonasiSaya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donasi saya"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            style="@style/inter_semibold"/>
+
+        <ImageView
+            android:id="@+id/icArrowDonasi"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Arrow Right"/>
+    </RelativeLayout>
+
+    <!-- Garis Pembatas -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_grey_text"/>
+
+    <!-- Riwayat Donasi -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/tvRiwayatDonasi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Riwayat"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            style="@style/inter_semibold"/>
+
+        <ImageView
+            android:id="@+id/icArrowRiwayat"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Arrow Right"/>
+    </RelativeLayout>
+
+    <!-- Garis Pembatas -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_grey_text"/>
+
+    <!-- Spacer -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="310dp"/>
+
+
+    <!-- Tombol Keluar -->
+    <Button
+        android:id="@+id/btnKeluar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Keluar"
+        android:textColor="@color/orange"
+        android:background="@drawable/button_outline_orange"
+        android:backgroundTint="@android:color/transparent"
+        android:layout_margin="16dp"
+        style="@style/inter_semibold"/>
+</LinearLayout>

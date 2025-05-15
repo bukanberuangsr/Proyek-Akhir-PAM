@@ -22,8 +22,17 @@
             android:name=".MainActivity"
             android:exported="false"/>
         <activity
+            android:name=".AccountActivity"
+            android:exported="false">
+        <activity
+            android:name=".RincianPembelianActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false" /> <!-- Hanya SATU deklarasi AccountActivity -->
+        <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,6 +40,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".DonationActivity" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
