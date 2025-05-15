@@ -7,10 +7,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
     private ImageView btnBack;
-    private Button btnBatalkanSteak, btnBatalkanBaguette;
+    private Button btnBatalkan;
+
+    RecyclerView recyclerView;
+    OrderAdapter adapter;
+    List<OrderItem> orderList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,16 +28,25 @@ public class HistoryActivity extends AppCompatActivity {
 
         // Inisialisasi komponen UI
         btnBack = findViewById(R.id.btnBack);
-        btnBatalkanSteak = findViewById(R.id.btnBatalkanSteak);
 
         // Event klik tombol back
         btnBack.setOnClickListener(v -> finish());
 
-        // Event klik tombol "Batalkan" untuk Steak
-        btnBatalkanSteak.setOnClickListener(v -> {
-            Toast.makeText(HistoryActivity.this, "Pesanan Steak berhasil dibatalkan", Toast.LENGTH_SHORT).show();
+        // Event klik tombol "Batalkan"
+        btnBatalkan.setOnClickListener(v -> {
+            Toast.makeText(HistoryActivity.this, "Pesanan Baguette berhasil dibatalkan", Toast.LENGTH_SHORT).show();
         });
 
-        // Event klik tombol "Batalkan" untuk Baguette
+        recyclerView = findViewById(R.id.rv_order);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Dummy data
+        orderList = new ArrayList<>();
+        orderList.add(new OrderItem("Roti", "Rozy Bakery", 3, "2025-04-25", 15000, R.drawable.img_bread));
+        recyclerView.setAdapter(new OrderAdapter(orderList));
+
+
+        // Ambil dari Intent, later
+
     }
 }

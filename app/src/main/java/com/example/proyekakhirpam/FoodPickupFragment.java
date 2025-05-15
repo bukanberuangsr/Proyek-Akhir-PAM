@@ -1,11 +1,8 @@
 package com.example.proyekakhirpam;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
-
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -42,8 +40,13 @@ public class FoodPickupFragment extends Fragment {
 
     private RadioButton rbDariHati;
     private RadioButton rbDariKantong;
+    private View btnAddFood;
     private boolean isDariHatiSelected = false;
     private boolean isDariKantongSelected = false;
+
+    RecyclerView recyclerView;
+    FoodAdapter adapter;
+    List<FoodItem> dummyList;
 
     public FoodPickupFragment() {
         // Required empty public constructor
@@ -95,10 +98,20 @@ public class FoodPickupFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_food_pickup, container, false);
+        View btn_add_food = view.findViewById(R.id.btn_add_food);
 
         // Inisialisasi view di sini
         rbDariHati = view.findViewById(R.id.rb_dariHati);
         rbDariKantong = view.findViewById(R.id.rb_dariKantong);
+
+        //Button menambahkan makanan
+        btn_add_food.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddFoodActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Setup listener di sini
         rbDariHati.setOnClickListener(v -> {
@@ -129,30 +142,52 @@ public class FoodPickupFragment extends Fragment {
             }
         });
 
-        LinearLayout cardSteak = view.findViewById(R.id.cardSteak);
-        cardSteak.setOnClickListener(v -> showOrderPopup());
+        recyclerView = view.findViewById(R.id.rv_food); // pastikan id ini ada di layout
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // tanpa 'context:'
+
+        // Dummy data
+        dummyList = new ArrayList<>();
+        dummyList.add(new FoodItem("Roti", "Rozy Bakery", 3, "2025-04-25", 15000, R.drawable.img_bread));
+        dummyList.add(new FoodItem("Roti", "Rozy Bakery", 3, "2025-04-25", 15000, R.drawable.img_bread));
+        dummyList.add(new FoodItem("Roti", "Rozy Bakery", 3, "2025-04-25", 15000, R.drawable.img_bread));
+        dummyList.add(new FoodItem("Roti", "Rozy Bakery", 3, "2025-04-25", 15000, R.drawable.img_bread));
+        dummyList.add(new FoodItem("Roti", "Rozy Bakery", 3, "2025-04-25", 15000, R.drawable.img_bread));
+        dummyList.add(new FoodItem("Roti", "Rozy Bakery", 3, "2025-04-25", 15000, R.drawable.img_bread));
+        dummyList.add(new FoodItem("Roti", "Rozy Bakery", 3, "2025-04-25", 15000, R.drawable.img_bread));
+
+        adapter = new FoodAdapter(dummyList);
+        recyclerView.setAdapter(adapter);
+
+        //Untuk detect row mana yang di klik
+        adapter.setOnItemClickListener(item -> {
+            showOrderPopup(item); // ganti Toast dengan ini
+        });
 
         return view;
     }
 
-    private void showOrderPopup() {
-        // Inflate layout buat pop-up
+    private void showOrderPopup(FoodItem item) {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_order, null);
 
-        // Deklarasi elemen form
+        // Ambil view dari layout
+        TextView tvNamaMakanan = dialogView.findViewById(R.id.tv_nama_makanan);
+        TextView tvNamaRestoran = dialogView.findViewById(R.id.tv_nama_restoran);
         EditText et_jumlah = dialogView.findViewById(R.id.et_jumlah);
         Button btn_beli = dialogView.findViewById(R.id.btn_beli);
 
-        // Build AlertDialog di fragment pakai getContext()
+        // Set isi text sesuai item yang dipilih
+        tvNamaMakanan.setText(item.getNamaMakanan());
+        tvNamaRestoran.setText(item.getNamaRestoran());
+
+        // Buat dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
 
-        // Klik tombol Beli
         btn_beli.setOnClickListener(v -> {
-            String jumlah = et_jumlah.getText().toString().trim();
-            if (!jumlah.isEmpty()) {
-                Toast.makeText(getContext(), "Steak sapi sejumlah " + jumlah + " berhasil dibeli!", Toast.LENGTH_SHORT).show();
+            String jumlahStr = et_jumlah.getText().toString().trim();
+            if (!jumlahStr.isEmpty()) {
+                // Bisa lanjutkan ke Intent nanti
                 dialog.dismiss();
             } else {
                 Toast.makeText(getContext(), "Masukkan jumlah terlebih dahulu", Toast.LENGTH_SHORT).show();
