@@ -9,7 +9,6 @@
     android:background="@color/white">
 
     <!-- Header -->
-    <!-- Header -->
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -32,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Riwayat aktivitas"
+            android:text="Daftar Pembelian"
             android:textColor="@color/grey"
             android:textSize="16sp"
             android:layout_gravity="center_vertical"/>
