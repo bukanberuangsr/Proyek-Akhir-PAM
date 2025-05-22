@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow Layer -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="32dp"/>
+            <solid android:color="#00000029"/>
+        </shape>
+    </item>
+
+    <!-- Main Shape (Putih) -->
+    <item android:top="3dp" android:left="0dp" android:right="0dp" android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="25dp"/>
+            <solid android:color="@color/orange"/>
+        </shape>
+    </item>
+</layer-list>
