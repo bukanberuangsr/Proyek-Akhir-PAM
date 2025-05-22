@@ -17,6 +17,14 @@ public class SearchBarActivity extends AppCompatActivity {
         // Inisialisasi ImageView
         icHistory = findViewById(R.id.ic_history);
 
+        // Event handler klik ic_history
+//        icHistory.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(SearchBarActivity.this, HistoryActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
     }
 }

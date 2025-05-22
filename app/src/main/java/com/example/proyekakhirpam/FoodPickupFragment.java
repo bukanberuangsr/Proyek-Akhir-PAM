@@ -1,12 +1,28 @@
 package com.example.proyekakhirpam;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
+import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +39,11 @@ public class FoodPickupFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RadioButton rbDariHati;
+    private RadioButton rbDariKantong;
+    private boolean isDariHatiSelected = false;
+    private boolean isDariKantongSelected = false;
 
     public FoodPickupFragment() {
         // Required empty public constructor
@@ -55,10 +76,89 @@ public class FoodPickupFragment extends Fragment {
         }
     }
 
+    private void filterDariHati() {
+        // TODO: logika filtering di sini (harga <= 0)
+        // Butuh database dulu
+    }
+
+    private void filterDariKantong() {
+        // TODO: logika filtering di sini (harga > 0)
+        // Butuh database dulu
+    }
+
+    private void resetFilter() {
+        // Reset filter kalau tidak ada tombol yang dipilih
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_food_pickup, container, false);
+        View view = inflater.inflate(R.layout.fragment_food_pickup, container, false);
+
+        // Inisialisasi view di sini
+        rbDariHati = view.findViewById(R.id.rb_dariHati);
+        rbDariKantong = view.findViewById(R.id.rb_dariKantong);
+
+        // Setup listener di sini
+        rbDariHati.setOnClickListener(v -> {
+            if (isDariHatiSelected) {
+                rbDariHati.setChecked(false);
+                isDariHatiSelected = false;
+                resetFilter();
+            } else {
+                rbDariHati.setChecked(true);
+                isDariHatiSelected = true;
+                isDariKantongSelected = false;
+                rbDariKantong.setChecked(false);
+                filterDariHati();
+            }
+        });
+
+        rbDariKantong.setOnClickListener(v -> {
+            if (isDariKantongSelected) {
+                rbDariKantong.setChecked(false);
+                isDariKantongSelected = false;
+                resetFilter();
+            } else {
+                rbDariKantong.setChecked(true);
+                isDariKantongSelected = true;
+                isDariHatiSelected = false;
+                rbDariHati.setChecked(false);
+                filterDariKantong();
+            }
+        });
+
+        LinearLayout cardSteak = view.findViewById(R.id.cardSteak);
+        cardSteak.setOnClickListener(v -> showOrderPopup());
+
+        return view;
+    }
+
+    private void showOrderPopup() {
+        // Inflate layout buat pop-up
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_order, null);
+
+        // Deklarasi elemen form
+        EditText et_jumlah = dialogView.findViewById(R.id.et_jumlah);
+        Button btn_beli = dialogView.findViewById(R.id.btn_beli);
+
+        // Build AlertDialog di fragment pakai getContext()
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        // Klik tombol Beli
+        btn_beli.setOnClickListener(v -> {
+            String jumlah = et_jumlah.getText().toString().trim();
+            if (!jumlah.isEmpty()) {
+                Toast.makeText(getContext(), "Steak sapi sejumlah " + jumlah + " berhasil dibeli!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            } else {
+                Toast.makeText(getContext(), "Masukkan jumlah terlebih dahulu", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
     }
 }
