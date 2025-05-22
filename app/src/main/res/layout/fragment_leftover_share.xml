@@ -1,32 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".LeftoverShareFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageButton
+        android:id="@+id/btn_add_donation"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/tambah_donasi"
+        android:background="@drawable/bg_add_donation"
+        android:src="@drawable/btn_add_donation"
+        android:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:labelFor="@id/btn_add_donation"/>
+
+    <TextView
+        android:id="@+id/first_row_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="40dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Darurat Internasional"
+        android:textSize="20sp"
+        android:textColor="@color/grey"
+        style="@style/inter_bold"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_donate"
-            android:layout_width="350dp"
-            android:layout_height="150dp"
-            android:background="@drawable/bg_btn"
-            android:text="Mulai Donasi"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:padding="50dp"
-            style="@style/lexend_semibold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_donasi_1"
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_donation"
+        app:layout_constraintTop_toBottomOf="@id/first_row_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/second_row_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Darurat Dalam Negeri"
+        android:textSize="20sp"
+        android:textColor="@color/grey"
+        style="@style/inter_bold"
+        app:layout_constraintTop_toBottomOf="@id/recycler_donasi_1"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_donasi_2"
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_donation"
+        app:layout_constraintTop_toBottomOf="@id/second_row_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

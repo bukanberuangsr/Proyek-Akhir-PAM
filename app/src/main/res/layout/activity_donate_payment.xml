@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DonatePayment">
+
+    <ImageView
+        android:id="@+id/img_main"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@color/light_blue"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        style="@style/inter_bold"
+        android:id="@+id/tv_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Judul Donasi"
+        android:textSize="16sp"
+        android:textColor="@color/grey"
+        android:background="@color/light_blue"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@id/img_main"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_main">
+
+        <TextView
+            style="@style/inter_bold"
+            android:id="@+id/tv_nominal_btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Masukkan Nominal Anda"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textColor="@color/grey"/>
+
+        <Button
+            style="@style/lexend_semibold"
+            android:id="@+id/btn_donate_10"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/light_grey_text"
+            android:text="Rp. 10.000"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/tv_nominal_btns"/>
+        <Button
+            style="@style/lexend_semibold"
+            android:id="@+id/btn_donate_25"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/light_grey_text"
+            android:text="Rp. 25.000"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/btn_donate_10"/>
+        <Button
+            style="@style/lexend_semibold"
+            android:id="@+id/btn_donate_50"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/light_grey_text"
+            android:text="Rp. 50.000"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/btn_donate_25"/>
+        <Button
+            style="@style/lexend_semibold"
+            android:id="@+id/btn_donate_100"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/light_grey_text"
+            android:text="Rp. 100.000"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/btn_donate_50"/>
+        <Button
+            style="@style/lexend_semibold"
+            android:id="@+id/btn_donate_150"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/light_grey_text"
+            android:text="Rp. 150.000"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/btn_donate_100"/>
+
+        <TextView
+            style="@style/inter_bold"
+            android:id="@+id/tv_nominal_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Tentukan Nominalmu Sendiri"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textColor="@color/grey"/>
+
+        <EditText
+            style="@style/inter_regular"
+            android:id="@+id/et_nominal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_input"
+            android:hint="Masukkan Nominal"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            android:padding="16dp"
+            />
+
+    </LinearLayout>
+
+    <Button
+        style="@style/lexend_semibold"
+        android:id="@+id/btn_confirm_payment"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/orange"
+        android:text="Bayar"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
