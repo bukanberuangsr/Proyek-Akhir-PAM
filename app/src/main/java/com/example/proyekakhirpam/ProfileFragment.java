@@ -56,7 +56,7 @@ public class ProfileFragment extends Fragment {
 
         // Klik baris Detail Pembelian
         layoutDetailPembelian.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), DaftarPembelianActivity.class);
+            Intent intent = new Intent(requireContext(), HistoryActivity.class);
             startActivity(intent);
         });
 
