@@ -63,7 +63,7 @@
             android:paddingLeft="30dp"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:textColor="@color/light_grey_fill"
+            android:textColor="@color/grey"
             android:textColorHint="@color/light_grey_text"/>
 
         <TextView
@@ -84,7 +84,7 @@
             android:paddingLeft="30dp"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColor="@color/light_grey_fill"
+            android:textColor="@color/grey"
             android:textColorHint="@color/light_grey_text"/>
 
         <Button
