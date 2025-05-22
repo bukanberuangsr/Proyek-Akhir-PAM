@@ -24,7 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         binding.btnLogin.setOnClickListener(v -> {
             // Pindah ke LoginActivity - langsung ke page gw
-            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 

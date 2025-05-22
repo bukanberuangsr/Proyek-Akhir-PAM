@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DonationActivity">
+
+    <!--Header-->
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@color/tosca"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/inter_semibold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:text="@string/topbar_text_leftover_share"
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/leftover_share_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="45dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_upload_image"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/btn_upload_image"
+                android:text="@string/btn_upload_foto"
+                android:textColor="@color/light_grey_text"
+                android:textSize="12sp"
+                android:padding="50dp"
+                style="@style/inter_regular"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_gratis_berbayar"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/grey"
+                style="@style/inter_regular"/>
+
+            <Spinner
+                android:id="@+id/dropdown_gratis_berbayar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="15dp"
+                style="@style/inter_regular"
+                android:entries="@array/dropdown_gratis_berbayar"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_jenis_donasi"
+                android:layout_marginTop="20dp"
+                style="@style/inter_regular"/>
+
+            <Spinner
+                android:id="@+id/dropdown_jenis_donasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="15dp"
+                style="@style/inter_regular"
+                android:entries="@array/jenis_donasi"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_nama_makanan"
+                android:layout_marginTop="20dp"
+                style="@style/inter_regular"/>
+
+            <EditText
+                android:id="@+id/nama_makanan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_input"
+                android:hint="@string/et_masukkan_nama_makanan"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                android:padding="15dp"
+                style="@style/inter_regular"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_nama_restoran_atau_individu"
+                android:layout_marginTop="20dp"
+                style="@style/inter_regular"/>
+
+            <EditText
+                android:id="@+id/nama_restoran_atau_individu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_input"
+                android:hint="@string/et_masukkan_nama_anda"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                android:padding="15dp"
+                style="@style/inter_regular"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_jumlah_yang_ingin_di_donasikan"
+                android:layout_marginTop="20dp"
+                style="@style/inter_regular"/>
+
+            <EditText
+                android:id="@+id/jumlah_donasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_input"
+                android:hint="@string/et_masukkan_jumlah"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                android:padding="15dp"
+                style="@style/inter_regular"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_expired_date"
+                android:layout_marginTop="20dp"
+                style="@style/inter_regular"/>
+
+            <EditText
+                android:id="@+id/tanggal_kadaluarsa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_input"
+                android:hint="@string/et_masukkan_tanggal"
+                android:inputType="numberDecimal"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                android:focusable="false"
+                android:layout_marginTop="16dp"
+                android:padding="15dp"
+                style="@style/inter_regular"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_harga"
+                android:layout_marginTop="20dp"
+                style="@style/inter_regular"/>
+
+            <EditText
+                android:id="@+id/harga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_input"
+                android:hint="@string/et_masukkan_harga"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                android:padding="15dp"
+                style="@style/inter_regular"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_bagikan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/bg_btn"
+                android:text="@string/btn_bagikan"
+                android:textColor="@color/white"
+                style="@style/lexend_semibold"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

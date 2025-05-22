@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back"
+            android:layout_alignParentStart="true"
+            android:contentDescription="Back Button"/>
+
+        <TextView
+            android:id="@+id/tvProfilSaya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profil Saya"
+            android:textSize="16sp"
+            android:textColor="@color/grey"
+            android:layout_toEndOf="@id/btnBack"
+            android:layout_marginStart="8dp"
+            style="@style/inter_semibold"/>
+
+        <TextView
+            android:id="@+id/tvBatal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BATAL"
+            android:textColor="@color/orange"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="8dp"
+            style="@style/inter_semibold"/>
+    </RelativeLayout>
+
+    <!-- Foto Profil -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_profile"
+            android:contentDescription="Profile Image"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/btnEditPhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignEnd="@id/imgProfile"
+            android:layout_alignBottom="@id/imgProfile"
+            android:layout_marginEnd="-5dp"
+            android:layout_marginBottom="-9dp"
+            android:src="@drawable/ic_camera" />
+    </RelativeLayout>
+
+    <!-- Nama Lengkap -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Lengkap"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginTop="24dp"
+        style="@style/inter_semibold"/>
+
+    <EditText
+        android:id="@+id/etNama"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="Masukkan nama lengkap Anda"
+        android:paddingStart="16dp"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        style="@style/inter_regular"/>
+
+    <!-- Tanggal Lahir -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal Lahir"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        style="@style/inter_semibold"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/edit_text_bg">
+
+        <EditText
+            android:id="@+id/etTanggalLahir"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="40dp"
+            android:background="@android:color/transparent"
+            android:hint="Masukkan tanggal lahir Anda"
+            android:paddingStart="16dp"
+            android:focusable="false"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            style="@style/inter_regular"/>
+
+        <ImageView
+            android:id="@+id/btnPickDate"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_calendar"
+            android:contentDescription="Pick Date"/>
+    </RelativeLayout>
+
+    <!-- Bio Singkat -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bio Singkat"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        style="@style/inter_semibold"/>
+
+    <EditText
+        android:id="@+id/etBio"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="Tulis bio singkat Anda"
+        android:paddingStart="16dp"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        style="@style/inter_regular"/>
+
+    <!-- Info dengan kotak -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp">
+
+        <!-- Kotak latar belakang teks -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/light_grey_fill"
+            android:orientation="vertical"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="4dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/inter_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Informasi berikut "
+                    android:textColor="@color/tosca"
+                    android:textSize="12sp" />
+
+                <TextView
+                    style="@style/inter_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="hanya dapat dilihat oleh kamu"
+                    android:textColor="@color/tosca"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/inter_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dan tidak akan kami publikasikan"
+                android:textColor="@color/tosca"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Tombol Simpan -->
+    <Button
+        android:id="@+id/btnSimpan"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/orange"
+        android:text="Simpan"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        style="@style/lexend_semibold"/>
+</LinearLayout>
