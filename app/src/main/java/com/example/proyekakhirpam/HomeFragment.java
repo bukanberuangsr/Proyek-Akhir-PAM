@@ -41,7 +41,6 @@ public class HomeFragment extends Fragment {
         postList.add(new Post("Rizky Pratama",
                 "Alhamdulillah, hari ini berhasil menyalurkan 15 paket sembako ke warga yang terdampak PHK di sekitar lingkungan. Terima kasih untuk teman-teman LeftoverShare yang udah donasi. Semoga jadi berkah untuk kita semua!",
                 R.drawable.pc_makanan, 14, 8, 2));
-
         postList.add(new Post("Kinky Maylana",
                 "Pagi tadi, kami berhasil membagikan nasi bungkus sisa event ke para pengemudi ojek online. Mereka nggak nyangka bisa dapat sarapan gratis. Kecil bagi kita, tapi besar buat mereka. Yuk terus berbagi lewat LeftoverShare!",
                 R.drawable.pc_makanan, 20, 15, 6));
@@ -61,7 +60,7 @@ public class HomeFragment extends Fragment {
         adapter = new PostAdapter(getContext(), postList);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(post -> {
+        adapter.setOnItemClickListener((post, position) -> {
             Intent intent = new Intent(getContext(), DetailActivity.class);
             intent.putExtra("nama", post.getNama());
             intent.putExtra("deskripsi", post.getDeskripsi());

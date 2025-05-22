@@ -13,7 +13,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView namaPost, deskripsiPost;
     TextView react1Count, react2Count, react3Count, hapusPostingan;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -22,7 +22,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     // 2. Interface untuk callback click
     public interface OnItemClickListener {
-        void onItemClick(Post post);
+        void onItemClick(Post post, int position);
     }
 
     // 3. Setter untuk listener
@@ -55,7 +55,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onItemClick(post); // klik listener
+                listener.onItemClick(postList.get(position), position); // klik listener
             }
         });
     }
