@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
 
@@ -59,6 +60,13 @@ public class ProfileFragment extends Fragment {
         layoutDetailPembelian.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), HistoryActivity.class);
             startActivity(intent);
+        });
+
+        btnKeluar.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(requireContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
         });
 
         return view;
