@@ -8,30 +8,56 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/dialog_bg"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498"
         tools:layout_editor_absoluteX="0dp">
 
         <TextView
+            style="@style/inter_semibold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Masukkan jumlah makanan"
+            android:textColor="@color/grey"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_nama_makanan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Makanan"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="30dp"
+            style="@style/inter_semibold"
+            android:textColor="@color/grey"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_nama_restoran"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Restoran"
             style="@style/inter_medium"
             android:textColor="@color/grey"
-            android:textSize="20sp"/>
+            android:textSize="14sp"/>
+
 
         <EditText
             android:id="@+id/et_jumlah"
             style="@style/inter_regular"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/bg_edit_text"
             android:hint="Masukkan jumlah makanan"
             android:inputType="number"
             android:padding="10dp"
+            android:textColor="@color/grey"
             android:textSize="16sp"
             tools:layout_editor_absoluteX="-16dp"
             tools:layout_editor_absoluteY="125dp" />
@@ -40,6 +66,7 @@
             android:id="@+id/btn_beli"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="#FF5722"
             android:text="Beli"
             android:textColor="@color/white"
