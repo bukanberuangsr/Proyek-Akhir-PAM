@@ -16,12 +16,11 @@ import java.util.List;
 
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FoodPickupFragment#newInstance} factory method to
@@ -38,12 +37,13 @@ public class FoodPickupFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private RadioButton rbDariHati;
-    private RadioButton rbDariKantong;
+    private RadioButton rbDaftarMakanan;
+    private RadioButton rbDariSaya;
     private View btnAddFood;
-    private boolean isDariHatiSelected = false;
-    private boolean isDariKantongSelected = false;
+    private boolean isDaftarMakananSelected = false;
+    private boolean isYourDonationSelected = false;
 
+    FirebaseFirestore db;
     RecyclerView recyclerView;
     FoodAdapter adapter;
     List<FoodItem> dummyList;
@@ -88,11 +88,7 @@ public class FoodPickupFragment extends Fragment {
         // TODO: logika filtering di sini (harga > 0)
         // Butuh database dulu
     }
-
-    private void resetFilter() {
-        // Reset filter kalau tidak ada tombol yang dipilih
-    }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -101,8 +97,8 @@ public class FoodPickupFragment extends Fragment {
         View btn_add_food = view.findViewById(R.id.btn_add_food);
 
         // Inisialisasi view di sini
-        rbDariHati = view.findViewById(R.id.rb_dariHati);
-        rbDariKantong = view.findViewById(R.id.rb_dariKantong);
+        rbDaftarMakanan = view.findViewById(R.id.rb_daftarMakanan);
+        rbDariSaya = view.findViewById(R.id.rb_dariSaya);
 
         //Button menambahkan makanan
         btn_add_food.setOnClickListener(new View.OnClickListener() {
@@ -113,35 +109,7 @@ public class FoodPickupFragment extends Fragment {
             }
         });
 
-        // Setup listener di sini
-        rbDariHati.setOnClickListener(v -> {
-            if (isDariHatiSelected) {
-                rbDariHati.setChecked(false);
-                isDariHatiSelected = false;
-                resetFilter();
-            } else {
-                rbDariHati.setChecked(true);
-                isDariHatiSelected = true;
-                isDariKantongSelected = false;
-                rbDariKantong.setChecked(false);
-                filterDariHati();
-            }
-        });
-
-        rbDariKantong.setOnClickListener(v -> {
-            if (isDariKantongSelected) {
-                rbDariKantong.setChecked(false);
-                isDariKantongSelected = false;
-                resetFilter();
-            } else {
-                rbDariKantong.setChecked(true);
-                isDariKantongSelected = true;
-                isDariHatiSelected = false;
-                rbDariHati.setChecked(false);
-                filterDariKantong();
-            }
-        });
-
+        // Setup listener untuk Daftar Makanan dan Your Donation
         recyclerView = view.findViewById(R.id.rv_food); // pastikan id ini ada di layout
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // tanpa 'context:'
 

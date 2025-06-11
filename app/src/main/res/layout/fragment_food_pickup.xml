@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/subheading">
 
         <RadioButton
-            android:id="@+id/rb_dariHati"
+            android:id="@+id/rb_daftarMakanan"
             style="@style/lexend_semibold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,12 +54,12 @@
             android:background="@drawable/bg_radio_selected"
             android:button="@null"
             android:gravity="center"
-            android:text="Ambil / beli"
+            android:text="Daftar Makanan"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
         <RadioButton
-            android:id="@+id/rb_dariKantong"
+            android:id="@+id/rb_dariSaya"
             style="@style/lexend_semibold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:background="@drawable/bg_radio_selected"
             android:button="@null"
             android:gravity="center"
-            android:text="Bagikan makanan"
+            android:text="Dari saya"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

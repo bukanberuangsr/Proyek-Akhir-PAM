@@ -56,15 +56,18 @@
 
             <!-- Upload foto -->
             <FrameLayout
+                android:id="@+id/upload_placeholder"
                 android:layout_width="280dp"
                 android:layout_height="180dp"
                 android:layout_gravity="center"
                 android:background="@drawable/bg_upload_foto">
 
                 <ImageView
-                    android:src="@drawable/bg_upload_foto"
                     android:layout_width="48dp"
-                    android:layout_height="48dp" />
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="40dp"
+                    android:src="@drawable/ic_upload" />
 
                 <TextView
                     android:layout_width="match_parent"

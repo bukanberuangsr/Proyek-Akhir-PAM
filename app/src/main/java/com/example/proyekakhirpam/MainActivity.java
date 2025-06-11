@@ -1,8 +1,9 @@
 package com.example.proyekakhirpam;
 
+import android.os.Bundle;
+import android.net.Uri;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +13,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.bumptech.glide.Glide;
+import com.cloudinary.Transformation;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
+import com.example.proyekakhirpam.databinding.ActivityMainBinding;
+//import com.cloudinary.cloudinaryquickstart.databinding.ActivityMainBinding;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
