@@ -28,8 +28,6 @@ import okhttp3.Response;
 
 /**
  * Helper class for Cloudinary unsigned upload.
- * Requires OkHttp dependency in build.gradle:
- * implementation 'com.squareup.okhttp3:okhttp:4.9.3'
  */
 public class CloudinaryManager {
     private static final String CLOUD_NAME = "donwrrlnv";
