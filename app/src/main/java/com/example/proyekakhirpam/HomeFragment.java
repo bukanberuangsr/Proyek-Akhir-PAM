@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +32,13 @@ public class HomeFragment extends Fragment {
     private List<Postingan> postList;
     private FirebaseFirestore db;
 
+    private final ActivityResultLauncher<Intent> launcherFormPostingan =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
+                    loadDataFromFirestore(); // Reload data setelah posting
+                }
+            });
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -38,7 +48,7 @@ public class HomeFragment extends Fragment {
         FloatingActionButton btnTambah = view.findViewById(R.id.btnTambah);
         btnTambah.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), FormPostinganActivity.class);
-            startActivity(intent);
+            launcherFormPostingan.launch(intent);
         });
 
         recyclerView = view.findViewById(R.id.recycle_contact);

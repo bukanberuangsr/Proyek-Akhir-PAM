@@ -102,6 +102,7 @@ public class FormPostinganActivity extends AppCompatActivity {
                 .add(post)
                 .addOnSuccessListener(doc -> {
                     Toast.makeText(this, "Postingan berhasil disimpan!", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
                     finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Gagal simpan data: " + e.getMessage(), Toast.LENGTH_SHORT).show());

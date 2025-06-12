@@ -41,8 +41,9 @@
         <ImageView
             android:id="@+id/detailImage"
             android:layout_width="match_parent"
-            android:layout_height="198dp"
-            android:src="@drawable/pic1"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:contentDescription="Gambar detail donasi" />
 
         <TextView

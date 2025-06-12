@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.androidx.recyclerview.selection)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation ("com.google.android.material:material:1.11.0")
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-storage")
