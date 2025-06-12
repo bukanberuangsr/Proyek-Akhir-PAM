@@ -65,7 +65,18 @@
             android:layout_marginRight="20dp"
             android:text="Deskripsi donasi panjang..." />
 
-    <TextView
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Edit Postingan"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/orange" />
+
+        <TextView
         android:id="@+id/hapusPostingan"
         android:layout_width="wrap_content"
         android:layout_height="48dp"

@@ -2,6 +2,7 @@ package com.example.proyekakhirpam;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,8 @@ public class DetailActivity extends AppCompatActivity {
     ImageView imageView, backIcon;
     TextView judulPost, deskripsiPost;
     TextView hapusPostingan;
+    Button btnEdit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
         deskripsiPost = findViewById(R.id.deskripsiPostingan);
         backIcon = findViewById(R.id.backIcon);
         hapusPostingan = findViewById(R.id.hapusPostingan);
+        btnEdit = findViewById(R.id.btnEdit);
 
         // Ambil data dari intent
         Intent intent = getIntent();
@@ -46,6 +50,17 @@ public class DetailActivity extends AppCompatActivity {
 
         // tombol kembali
         backIcon.setOnClickListener(v -> finish());
+
+        // tombol edit
+        btnEdit.setOnClickListener(v -> {
+            Intent intentEdit = new Intent(DetailActivity.this, FormPostinganActivity.class);
+            intentEdit.putExtra("isEdit", true);
+            intentEdit.putExtra("postinganId", postinganId);
+            intentEdit.putExtra("nama", judulPost.getText().toString());
+            intentEdit.putExtra("deskripsi", deskripsiPost.getText().toString());
+            intentEdit.putExtra("image", imageUrl);
+            startActivityForResult(intentEdit, 1); // requestCode = 1
+        });
 
         // klik hapus
         hapusPostingan.setOnClickListener(v -> {
@@ -71,6 +86,32 @@ public class DetailActivity extends AppCompatActivity {
                     .setNegativeButton("Batal", (dialog, which) -> dialog.dismiss())
                     .show();
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            // Ambil ulang dari Firestore
+            String postinganId = getIntent().getStringExtra("postinganId");
+            if (postinganId != null) {
+                FirebaseFirestore.getInstance().collection("postingan")
+                        .document(postinganId)
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                String nama = documentSnapshot.getString("nama");
+                                String deskripsi = documentSnapshot.getString("deskripsi");
+                                String image = documentSnapshot.getString("imageUrl");
+
+                                judulPost.setText(nama);
+                                deskripsiPost.setText(deskripsi);
+                                Glide.with(this).load(image).into(imageView);
+                            }
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(this, "Gagal memuat data terbaru", Toast.LENGTH_SHORT).show());
+            }
+        }
     }
 }
 
