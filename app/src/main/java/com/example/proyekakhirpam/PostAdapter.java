@@ -8,77 +8,77 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Post> postList;
-
+    private final Context context;
+    private final List<Postingan> postinganList;
     private OnItemClickListener listener;
 
-    // 2. Interface untuk callback click
-    public interface OnItemClickListener {
-        void onItemClick(Post post, int position);
+    public PostAdapter(Context context, List<Postingan> postinganList) {
+        this.context = context;
+        this.postinganList = postinganList;
     }
 
-    // 3. Setter untuk listener
+    // Interface listener
+    public interface OnItemClickListener {
+        void onItemClick(Postingan postingan, int position);
+    }
+
+    // Setter untuk listener
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    // Constructor
-    public PostAdapter(Context context, List<Post> postList) {
-        this.context = context;
-        this.postList = postList;
-    }
-
     @NonNull
     @Override
-    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
-        return new PostViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_postingan, parent, false);
+        return new ViewHolder(view, listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        Post post = postList.get(position);
-        holder.nama.setText(post.getNama());
-        holder.deskripsi.setText(post.getDeskripsi());
-        holder.imageView.setImageResource(post.getImageRes());
-        holder.react1Count.setText(String.valueOf(post.getReactSmile()));
-        holder.react2Count.setText(String.valueOf(post.getReactHaru()));
-        holder.react3Count.setText(String.valueOf(post.getReactHug()));
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Postingan postingan = postinganList.get(position);
 
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(postList.get(position), position); // klik listener
-            }
-        });
+        holder.tvJudul.setText(postingan.getNama());
+        holder.tvDetail.setText(postingan.getDeskripsi());
+
+        Glide.with(context)
+                .load(postingan.getImageUrl())
+                .placeholder(R.drawable.pc_makanan)
+                .into(holder.imageView);
+
+        // Tag dibutuhkan agar listener bisa dapat objek postingan
+        holder.itemView.setTag(postingan);
     }
 
     @Override
     public int getItemCount() {
-        return postList.size();
+        return postinganList.size();
     }
 
-    // ViewHolder
-    public static class PostViewHolder extends RecyclerView.ViewHolder {
-        TextView nama, deskripsi, react1Count, react2Count, react3Count;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvJudul, tvDetail;
         ImageView imageView;
-        CardView card;
 
-        public PostViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            nama = itemView.findViewById(R.id.judulPost);
-            deskripsi = itemView.findViewById(R.id.detailPost);
+            tvJudul = itemView.findViewById(R.id.judulPost);
+            tvDetail = itemView.findViewById(R.id.detailPost);
             imageView = itemView.findViewById(R.id.imageView);
-            react1Count = itemView.findViewById(R.id.react1Count);
-            react2Count = itemView.findViewById(R.id.react2Count);
-            react3Count = itemView.findViewById(R.id.react3Count);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    Postingan post = (Postingan) v.getTag();
+                    listener.onItemClick(post, getAdapterPosition());
+                }
+            });
         }
     }
 }

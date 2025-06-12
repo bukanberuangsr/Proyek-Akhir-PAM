@@ -133,7 +133,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/item_post"/>
+            tools:listitem="@layout/item_postingan"/>
     </LinearLayout>
 
     <!-- Tombol Buat Postingan di pojok kanan bawah -->
