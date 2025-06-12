@@ -46,17 +46,17 @@
             android:contentDescription="Gambar detail donasi" />
 
         <TextView
-            android:id="@+id/detailNama"
+            android:id="@+id/judulPostingan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="15dp"
-            android:text="Pandu Satria"
+            android:text="Berbagi Akhir Pekan"
             android:textStyle="bold"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/detailDeskripsi"
+            android:id="@+id/deskripsiPostingan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

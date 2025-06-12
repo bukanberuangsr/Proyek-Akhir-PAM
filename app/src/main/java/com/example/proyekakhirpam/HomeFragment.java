@@ -56,10 +56,20 @@ public class HomeFragment extends Fragment {
             intent.putExtra("nama", post.getNama());
             intent.putExtra("deskripsi", post.getDeskripsi());
             intent.putExtra("image", post.getImageUrl());
-            startActivity(intent);
+            intent.putExtra("postinganId", post.getPostinganId());
+            startActivityForResult(intent, 1001);
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1001 && resultCode == getActivity().RESULT_OK) {
+            loadDataFromFirestore(); // Refresh daftar postingan
+        }
     }
 
     private void loadDataFromFirestore() {
@@ -71,6 +81,7 @@ public class HomeFragment extends Fragment {
                         for (DocumentSnapshot doc : queryDocumentSnapshots) {
                             Postingan post = doc.toObject(Postingan.class);
                             if (post != null) {
+                                post.setPostinganId(doc.getId());
                                 postList.add(post);
                                 Log.d("PostCheck", "Nama: " + post.getNama());
                             }
