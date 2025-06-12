@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -16,28 +18,35 @@
         android:theme="@style/Theme.ProyekAkhirPAM"
         tools:targetApi="31">
         <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".DonatePayment"
             android:exported="false" />
         <activity
             android:name=".DonateDetail"
             android:exported="false" />
         <activity
-            android:name=".TemanActivity"
-            android:exported="false" />
-        <activity
             android:name=".PertemananActivity"
             android:exported="false" />
         <activity
-            android:name=".ShareFood"
-            android:exported="false" />
+            android:name=".MainActivity"
+            android:exported="false"/>
         <activity
             android:name=".AddFoodActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ShareFood"
-            android:exported="false" />
-        <activity
-            android:name=".AccountActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".RincianPembelianActivity"
@@ -55,34 +64,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RincianPembelianActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DaftarPembelianActivity"
-            android:exported="false" /> <!-- Hanya SATU deklarasi AccountActivity -->
-        <activity android:name=".DonationActivity" />
-        <activity
-            android:name=".EditProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FoodPickupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".WelcomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
