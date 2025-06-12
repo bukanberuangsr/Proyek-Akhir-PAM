@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -23,7 +25,8 @@ import java.util.Map;
 public class FormPostinganActivity extends AppCompatActivity {
 
     private EditText etNama, etDeskripsi;
-    private ImageView imagePreview;
+    private ImageView imagePreview, iconUpload;
+    private TextView textUpload;
     private Button btnPilihGambar, btnSubmit;
     private Uri imageUri;
 
@@ -34,6 +37,9 @@ public class FormPostinganActivity extends AppCompatActivity {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     imageUri = result.getData().getData();
                     imagePreview.setImageURI(imageUri);
+                    imagePreview.setVisibility(View.VISIBLE);
+                    iconUpload.setVisibility(View.GONE);
+                    textUpload.setVisibility(View.GONE);
                 }
             });
 
@@ -45,6 +51,8 @@ public class FormPostinganActivity extends AppCompatActivity {
         etNama = findViewById(R.id.etNama);
         etDeskripsi = findViewById(R.id.etDeskripsi);
         imagePreview = findViewById(R.id.imagePreview);
+        iconUpload = findViewById(R.id.iconUpload);
+        textUpload = findViewById(R.id.textUpload);
         btnPilihGambar = findViewById(R.id.btnPilihGambar);
         btnSubmit = findViewById(R.id.btnSubmit);
 
