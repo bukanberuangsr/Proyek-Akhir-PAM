@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
@@ -36,13 +35,15 @@
             android:exported="false"
             android:theme="@style/Theme.ProyekAkhirPAM" />
         <activity
+            android:name=".EditFoodActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddFoodActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".RincianPembelianActivity"
             android:exported="false" />
-
         <!-- Profile -->
         <activity
             android:name=".PertemananActivity"
@@ -82,9 +83,9 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 </manifest>
