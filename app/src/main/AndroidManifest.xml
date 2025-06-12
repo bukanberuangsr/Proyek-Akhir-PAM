@@ -15,9 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyekAkhirPAM"
         tools:targetApi="31">
-
         <activity
-            android:name=".DonatePayment"
+            android:name=".DonatePaymment"
             android:exported="false" />
         <activity
             android:name=".DonateDetail"
@@ -76,6 +75,9 @@
         <activity
             android:name=".FormPostinganActivity"
             android:exported="false" />
+        <activity
+            android:name=".HistoryPage"
+            android:exported="false"/>S
 
         <!-- Activity launcher utama -->
         <activity
