@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     tools:context=".AddFoodActivity">
 
     <View
@@ -34,6 +35,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/btn_back"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="28dp"
@@ -46,6 +48,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:fitsSystemWindows="true"
         android:padding="16dp"
         android:layout_marginTop="80dp">
 
@@ -61,6 +65,14 @@
                 android:layout_height="180dp"
                 android:layout_gravity="center"
                 android:background="@drawable/bg_upload_foto">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:shapeAppearanceOverlay="@style/RoundedImageView"/>
 
                 <ImageView
                     android:layout_width="48dp"

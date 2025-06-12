@@ -40,4 +40,9 @@
         <item name="android:textFontWeight">700</item>
     </style>
 
+<!--  Image preview style : AddFoodActivity  -->
+    <style name="RoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">25dp</item>
+    </style>
 </resources>
