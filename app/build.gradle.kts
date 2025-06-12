@@ -46,6 +46,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.7.7")
     implementation("com.google.firebase:firebase-firestore:25.1.4")
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
