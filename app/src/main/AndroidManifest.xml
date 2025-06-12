@@ -89,6 +89,7 @@
             android:name=".DetailActivity"
             android:exported="false" />
         <activity
+            android:name=".InfoProfileActivity"
             android:name=".FormPostinganActivity"
             android:exported="false" />
 

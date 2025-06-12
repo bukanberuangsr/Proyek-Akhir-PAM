@@ -54,7 +54,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // Tombol Kembali untuk kembali ke halaman ProfileActivity
         btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
+            Intent intent = new Intent(EditProfileActivity.this, InfoProfileActivity.class);
             startActivity(intent);
             finish();
         });
@@ -103,7 +103,7 @@ public class EditProfileActivity extends AppCompatActivity {
         editor.apply();
 
         // Pindah ke ProfileActivity setelah menyimpan
-        Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(EditProfileActivity.this, InfoProfileActivity.class);
         startActivity(intent);
         finish();
     }

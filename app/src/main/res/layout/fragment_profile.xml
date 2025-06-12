@@ -25,7 +25,7 @@
             android:orientation="vertical"
             android:background="@color/white">
 
-            <!-- Header (Hanya background biru, tanpa panah & teks) -->
+            <!-- Header -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
