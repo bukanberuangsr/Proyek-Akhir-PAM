@@ -11,7 +11,7 @@ android:paddingVertical="8dp">
     android:layout_height="60dp"
     android:layout_marginStart="16dp"
     android:layout_gravity="center"
-    android:contentDescription="Steak sapi"
+    android:scaleType="centerCrop"
     android:src="@drawable/ic_placeholder" />
 
 <LinearLayout

@@ -67,7 +67,7 @@
             android:background="@drawable/bg_radio_selected"
             android:button="@null"
             android:gravity="center"
-            android:text="Dari saya"
+            android:text="Donasi makanan saya"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

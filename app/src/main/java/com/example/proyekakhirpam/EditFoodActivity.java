@@ -1,6 +1,7 @@
 package com.example.proyekakhirpam;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -23,6 +24,7 @@ public class EditFoodActivity extends AppCompatActivity {
 
     private EditText etNamaMakanan, etNamaDonor, etJumlah, etTanggal, etHarga;
     private FrameLayout uploadPlaceholder;
+    private View btnBack;
     private ImageView ivPreview;
     private Button btnUpdate, btnDelete;
     private String foodItemId;
@@ -39,12 +41,14 @@ public class EditFoodActivity extends AppCompatActivity {
         etHarga = findViewById(R.id.et_harga);
         uploadPlaceholder = findViewById(R.id.upload_placeholder);
         ivPreview = findViewById(R.id.iv_preview);
+        btnBack = findViewById(R.id.btn_back);
         btnUpdate = findViewById(R.id.btn_update);
         btnDelete = findViewById(R.id.btn_delete);
 
         foodItemId = getIntent().getStringExtra("foodItemId");
         fetchFoodItem(foodItemId);
 
+        btnBack.setOnClickListener(v -> finish());
         btnUpdate.setOnClickListener(v -> updateFood());
         btnDelete.setOnClickListener(v -> deleteFood());
     }

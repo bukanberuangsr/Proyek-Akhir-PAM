@@ -7,9 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
@@ -59,15 +62,22 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
         Glide.with(holder.itemView.getContext())
                 .load(item.getGambar_url())
-                .placeholder(R.drawable.ic_placeholder)
-                .error(R.drawable.ic_placeholder)
-                .centerCrop()
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.ic_placeholder)
+                        .error(R.drawable.ic_placeholder)
+                        .centerCrop()
+                        .transform(new RoundedCorners(24)))
                 .into(holder.ivPlaceholder);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(item);
             }
+        });
+
+        holder.ivPlaceholder.setOnClickListener(v -> {
+            FoodPreviewDialog.newInstance(item.getGambar_url())
+                    .show(((AppCompatActivity) v.getContext()).getSupportFragmentManager(), "image_preview");
         });
     }
 

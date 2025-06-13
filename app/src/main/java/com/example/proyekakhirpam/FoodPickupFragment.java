@@ -81,17 +81,31 @@ public class FoodPickupFragment extends Fragment {
 
         adapter.setOnItemClickListener(item -> {
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            boolean isDaftarMakananMode = rbDaftarMakanan.isChecked();
-            if (!isDaftarMakananMode) {
-                // Mode donasi saya, cek donor_id
-                if (currentUser != null && item.getDonor_id() != null && item.getDonor_id().equals(currentUser.getUid())) {
+            boolean isDaftarMakananMode = rbDaftarMakanan.isChecked(); // atau simpan flag mode
+
+            boolean isMyDonation = currentUser != null
+                    && item.getDonor_id() != null
+                    && item.getDonor_id().equals(currentUser.getUid());
+
+            if (isDaftarMakananMode) {
+                // Tab Daftar Makanan
+                if (isMyDonation) {
+                    Toast.makeText(getContext(), "Aksi tidak valid. Untuk mengedit makanan, buka tab Donasi Saya.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // Bukan makanan sendiri, tampilkan order popup
+                showOrderPopup(item);
+            } else {
+                // Tab Donasi Saya
+                if (isMyDonation) {
+                    // Boleh edit
                     Intent intent = new Intent(getActivity(), EditFoodActivity.class);
                     intent.putExtra("foodItemId", item.getId());
                     startActivity(intent);
+                } else {
+                    // Kalau bukan donasi sendiri di tab ini, bisa abaikan atau beri toast
+                    Toast.makeText(getContext(), "Hanya bisa mengedit donasi milik Anda.", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                // Mode daftar makanan, hanya bisa order (dengan pengecekan donor_id di showOrderPopup)
-                showOrderPopup(item);
             }
         });
 

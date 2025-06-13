@@ -59,6 +59,9 @@
             android:layout_height="wrap_content">
 
             <!-- Upload foto -->
+
+            <!-- Form input -->
+
             <FrameLayout
                 android:id="@+id/upload_placeholder"
                 android:layout_width="280dp"
@@ -72,7 +75,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:visibility="gone"
-                    app:shapeAppearanceOverlay="@style/RoundedImageView"/>
+                    app:shapeAppearanceOverlay="@style/RoundedImageView" />
 
                 <ImageView
                     android:layout_width="48dp"
@@ -82,17 +85,15 @@
                     android:src="@drawable/ic_upload" />
 
                 <TextView
+                    style="@style/inter_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="100dp"
                     android:gravity="center"
                     android:text="Upload foto makanan"
-                    style="@style/inter_regular"
-                    android:textSize="10sp"
-                    android:textColor="@color/light_grey_text"/>
+                    android:textColor="@color/light_grey_text"
+                    android:textSize="10sp" />
             </FrameLayout>
-
-            <!-- Form input -->
 
             <TextView
                 style="@style/inter_regular"
