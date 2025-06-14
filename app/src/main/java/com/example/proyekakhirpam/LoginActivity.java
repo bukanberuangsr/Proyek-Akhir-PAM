@@ -3,6 +3,7 @@ package com.example.proyekakhirpam;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,10 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
-    Button btnLogin;
-    EditText etEmail;
-    EditText etPassword;
-    FirebaseAuth mAuth;
+    private Button btnLogin;
+    private EditText etEmail, etPassword;
+    private TextView registerLink;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.button_login);
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
+        registerLink = findViewById(R.id.register_link);
+
         mAuth = FirebaseAuth.getInstance();
 
         // Event handler untuk tombol login
@@ -50,6 +53,11 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Login gagal: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
+        });
+
+        // Event handler untuk link register
+        registerLink.setOnClickListener(view -> {
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         });
     }
 }
