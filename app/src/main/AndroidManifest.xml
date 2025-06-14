@@ -39,6 +39,9 @@
             android:name=".DonateDetail"
             android:exported="false" />
         <activity
+            android:name=".AddDonationActivity"
+            android:exported="false"/>
+        <activity
             android:name=".PertemananActivity"
             android:exported="false" />
         <activity
