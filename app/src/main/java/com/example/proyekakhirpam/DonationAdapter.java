@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.DonationViewHolder>{
-    private List<LeftoverShareFragment.Donasi> dataList;
+    private List<DonationItem> dataList;
     private Context context;
-    public DonationAdapter(Context context, List<LeftoverShareFragment.Donasi> data) {
+    public DonationAdapter(Context context, List<DonationItem> data) {
         this.context = context;
         this.dataList = data;
     }
@@ -32,7 +32,7 @@ public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.Donati
 
     @Override
     public void onBindViewHolder(@NonNull DonationViewHolder holder, int position) {
-        LeftoverShareFragment.Donasi item = dataList.get(position);
+        DonationItem item = dataList.get(position);
         holder.imageView.setImageResource(item.getGambar());
         holder.judulText.setText(item.getJudul());
         holder.namaDonatur.setText("Nama Donatur: " + item.getNamaDonatur());

@@ -22,7 +22,12 @@
         <activity
             android:name=".DonateDetail"
             android:exported="false" />
+        <activity
             android:name=".DonatePayment"
+            android:exported="false" />
+        <activity
+            android:name=".AddDonationActivity"
+            android:exported="false" />
 
         <!-- Food Donation -->
         <activity

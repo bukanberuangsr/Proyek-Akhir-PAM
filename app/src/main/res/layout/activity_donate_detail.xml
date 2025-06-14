@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DonateDetail">
+    tools:context=".DonateDetail"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/img_main"
@@ -36,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Deskripsi"
+        android:textColor="@color/grey"
         android:textSize="14sp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
@@ -61,6 +63,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:text="Konten Deskripsi"
+                android:textColor="@color/grey"
                 android:textSize="14sp"
                 android:justificationMode="inter_character"
                 android:paddingStart="16dp"
@@ -80,6 +83,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/orange"
         android:text="Donasi Sekarang"
+        android:textColor="@color/white"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
