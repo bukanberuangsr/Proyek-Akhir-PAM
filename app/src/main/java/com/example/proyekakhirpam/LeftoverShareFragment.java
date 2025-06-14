@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,28 +25,24 @@ import java.util.List;
  */
 public class LeftoverShareFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // Tidak Dipakai
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    // Dipakai
+    ImageButton imageButton;
+    FirebaseFirestore db;
+    RecyclerView rvInternasional, rvNasional;
+    DonationAdapter adapter;
+    List<DonationItem> donationList;
 
     public LeftoverShareFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LeftoverShareFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static LeftoverShareFragment newInstance(String param1, String param2) {
         LeftoverShareFragment fragment = new LeftoverShareFragment();
         Bundle args = new Bundle();
@@ -69,42 +67,44 @@ public class LeftoverShareFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_leftover_share, container, false);
 
-        ImageButton imageButton = view.findViewById(R.id.btn_add_donation);
-        imageButton.setOnClickListener(v->{
-            Intent intent = new Intent(getActivity(), DonationActivity.class);
+        imageButton = view.findViewById(R.id.btn_add_donation);
+        imageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), AddDonationActivity.class);
             startActivity(intent);
         });
 
-        RecyclerView recyclerView1 = view.findViewById(R.id.recycler_donasi_1);
-        RecyclerView recyclerView2 = view.findViewById(R.id.recycler_donasi_2);
+        rvInternasional = view.findViewById(R.id.recycler_donasi_1);
+        rvNasional = view.findViewById(R.id.recycler_donasi_2);
+
+
 
         // Data Dummy
-        List<Donasi> dataRC1 = new ArrayList<>();
-        dataRC1.add(new Donasi(
-                R.drawable.img_donasi_1,
-                "Palestina: Donasi Makanan untuk Saudara Kita",
-                "Satria",
-                "200000",
-                "Di tengah konflik dan krisis kemanusiaan yang terus berlangsung, ribuan keluarga di Palestina berjuang untuk mendapatkan makanan setiap hari. Akses terhadap kebutuhan dasar semakin terbatas, dan mereka sangat membutuhkan uluran tangan kita.\n" +
-                "\n" +
-                "Blokade dan keterbatasan distribusi bahan pangan membuat harga makanan melambung tinggi, sementara persediaan semakin menipis. Banyak keluarga hanya mampu makan satu kali sehari atau bahkan terpaksa berpuasa karena tidak ada makanan yang tersisa. Situasi ini semakin diperparah dengan rusaknya infrastruktur dan sulitnya akses bantuan kemanusiaan."
-        ));
-        dataRC1.add(new Donasi(
-                R.drawable.img_donasi_2,
-                "Yaman: Donasi Makanan untuk Mengatasi Kelaparan",
-                "Farhah",
-                "500000",
-                "Lorem ipsum dolor sit amet."
-        ));
-
-        List<Donasi> dataRC2 = new ArrayList<>();
-        dataRC2.add(new Donasi(
-                R.drawable.img_donasi_3,
-                "Papua: Donasi Makanan untuk Selamatkan Nyawa",
-                "Kinky",
-                "10000",
-                "Lorem ipsum dolor sit amet."
-        ));
+//        List<DonationItem> dataRC1 = new ArrayList<>();
+//        dataRC1.add(new DonationItem(
+//                R.drawable.img_donasi_1,
+//                "Palestina: Donasi Makanan untuk Saudara Kita",
+//                "Satria",
+//                "200000",
+//                "Di tengah konflik dan krisis kemanusiaan yang terus berlangsung, ribuan keluarga di Palestina berjuang untuk mendapatkan makanan setiap hari. Akses terhadap kebutuhan dasar semakin terbatas, dan mereka sangat membutuhkan uluran tangan kita.\n" +
+//                "\n" +
+//                "Blokade dan keterbatasan distribusi bahan pangan membuat harga makanan melambung tinggi, sementara persediaan semakin menipis. Banyak keluarga hanya mampu makan satu kali sehari atau bahkan terpaksa berpuasa karena tidak ada makanan yang tersisa. Situasi ini semakin diperparah dengan rusaknya infrastruktur dan sulitnya akses bantuan kemanusiaan."
+//        ));
+//        dataRC1.add(new DonationItem(
+//                R.drawable.img_donasi_2,
+//                "Yaman: Donasi Makanan untuk Mengatasi Kelaparan",
+//                "Farhah",
+//                "500000",
+//                "Lorem ipsum dolor sit amet."
+//        ));
+//
+//        List<DonationItem> dataRC2 = new ArrayList<>();
+//        dataRC2.add(new DonationItem(
+//                R.drawable.img_donasi_3,
+//                "Papua: Donasi Makanan untuk Selamatkan Nyawa",
+//                "Kinky",
+//                "10000",
+//                "Lorem ipsum dolor sit amet."
+//        ));
 
         Bundle bundle = getActivity().getIntent().getExtras();
         if (bundle != null) {
@@ -114,10 +114,10 @@ public class LeftoverShareFragment extends Fragment {
 
             if (judul!=null && nominalBaru!=null){
                 boolean found = false;
-                for (Donasi d : dataRC1){
+                for (DonationItem d : donationList){
                     if (d.getJudul().equals(judul)){
                         int total = Integer.parseInt(d.getNominalDonasi()) + Integer.parseInt(nominalBaru);
-                        d.nominalDonasi = String.valueOf(total);
+                        d.setNominalDonasi(String.valueOf(total));
                         found = true;
                         break;
                     }
@@ -128,54 +128,17 @@ public class LeftoverShareFragment extends Fragment {
             }
         }
 
-        DonationAdapter donationAdapter = new DonationAdapter(getContext(), dataRC1);
-        DonationAdapter donationAdapter2 = new DonationAdapter(getContext(), dataRC2);
-        recyclerView1.setLayoutManager(new LinearLayoutManager(
+        DonationAdapter donationAdapter = new DonationAdapter(getContext(), donationList);
+        DonationAdapter donationAdapter2 = new DonationAdapter(getContext(), donationList);
+        rvInternasional.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false
         ));
-        recyclerView2.setLayoutManager(new LinearLayoutManager(
+        rvNasional.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false
         ));
-        recyclerView1.setAdapter(donationAdapter);
-        recyclerView2.setAdapter(donationAdapter2);
+        rvInternasional.setAdapter(donationAdapter);
+        rvNasional.setAdapter(donationAdapter2);
         donationAdapter.notifyDataSetChanged();
         return view;
-    }
-
-    public static class Donasi {
-        int gambarId;
-        String judul;
-        String namaDonatur;
-        String nominalDonasi;
-        String deskripsiDonasi;
-
-        public Donasi(int gambarId, String judul, String namaDonatur, String nominalDonasi, String deskripsiDonasi) {
-            this.gambarId = gambarId;
-            this.judul = judul;
-            this.namaDonatur = namaDonatur;
-            this.nominalDonasi = nominalDonasi;
-            this.deskripsiDonasi = deskripsiDonasi;
-        }
-
-        public int getGambar() {
-            return gambarId;
-        }
-
-        public String getJudul() {
-            return judul;
-        }
-
-        public String getNamaDonatur() {
-            return namaDonatur;
-        }
-
-        public String getNominalDonasi() {
-            return nominalDonasi;
-        }
-
-        public String getDeskripsiDonasi() {
-            return deskripsiDonasi;
-        }
-
     }
 }
