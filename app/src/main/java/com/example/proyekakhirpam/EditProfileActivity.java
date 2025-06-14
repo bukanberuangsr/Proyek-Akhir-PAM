@@ -56,7 +56,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
         if (nama.isEmpty()) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            etNama.setText(user != null && user.getDisplayName() != null ? user.getDisplayName() : "");
+            if (user != null) {
+                String fallback = user.getDisplayName() != null ? user.getDisplayName() : user.getEmail();
+                etNama.setText(fallback != null ? fallback : "");
+            } else {
+                etNama.setText("");
+            }
         } else {
             etNama.setText(nama);
         }
@@ -100,6 +105,11 @@ public class EditProfileActivity extends AppCompatActivity {
         String tanggal = etTanggalLahir.getText().toString().trim();
         String bio = etBio.getText().toString().trim();
 
+        if (nama.isEmpty() || tanggal.isEmpty()) {
+            Toast.makeText(this, "Nama dan tanggal lahir tidak boleh kosong", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Simpan ke SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("nama", nama);
@@ -112,7 +122,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (user != null) {
             String uid = user.getUid();
             Map<String, Object> userData = new HashMap<>();
-            userData.put("nama", nama);
+            userData.put("username", nama);
             userData.put("tanggalLahir", tanggal);
             userData.put("bio", bio);
 
@@ -123,10 +133,10 @@ public class EditProfileActivity extends AppCompatActivity {
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
-                        finish(); // kembali ke InfoProfileActivity → ProfileFragment
+                        finish();
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Gagal menyimpan ke Firebase", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Gagal menyimpan ke Firebase: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         } else {
             Toast.makeText(this, "User belum login", Toast.LENGTH_SHORT).show();
