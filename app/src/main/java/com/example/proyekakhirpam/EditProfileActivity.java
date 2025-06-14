@@ -1,28 +1,34 @@
 package com.example.proyekakhirpam;
 
 import android.app.DatePickerDialog;
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class EditProfileActivity extends AppCompatActivity {
 
     private EditText etNama, etTanggalLahir, etBio;
-    private ImageView btnPickDate, btnBack;
+    private ImageView btnPickDate, btnBack, imgProfile;
     private TextView tvBatal;
     private Button btnSimpan;
-    private SharedPreferences sharedPreferences;
+    private ImageView btnEditFoto;
+    private static final int PICK_IMAGE_REQUEST = 101;
+    private Uri selectedImageUri = null;
+    private String currentPhotoUrl = "";
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,45 +42,55 @@ public class EditProfileActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         tvBatal = findViewById(R.id.tvBatal);
         btnSimpan = findViewById(R.id.btnSimpan);
+        btnEditFoto = findViewById(R.id.btnEditPhoto);
+        imgProfile = findViewById(R.id.imgProfile);
 
-        sharedPreferences = getSharedPreferences("UserProfile", MODE_PRIVATE);
+        uid = getIntent().getStringExtra("uid");
+        if (uid == null) {
+            Toast.makeText(this, "UID tidak ditemukan", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
-        loadData();
+        fetchFromFirestore(uid);
 
         btnPickDate.setOnClickListener(v -> showDatePickerDialog());
         etTanggalLahir.setOnClickListener(v -> showDatePickerDialog());
 
         btnSimpan.setOnClickListener(v -> saveData());
         btnBack.setOnClickListener(v -> finish());
+        btnEditFoto.setOnClickListener(v -> uploadFoto());
         tvBatal.setOnClickListener(v -> showCancelDialog());
     }
 
-    private void loadData() {
-        String nama = sharedPreferences.getString("nama", "");
-        String tanggal = sharedPreferences.getString("tanggalLahir", "");
-        String bio = sharedPreferences.getString("bio", "");
+    private void fetchFromFirestore(String uid) {
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String nama = documentSnapshot.getString("username");
+                        String tanggal = documentSnapshot.getString("tanggalLahir");
+                        String bio = documentSnapshot.getString("bio");
+                        String photoUrl = documentSnapshot.getString("photo_url");
 
-        if (nama.isEmpty()) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null) {
-                String fallback = user.getDisplayName() != null ? user.getDisplayName() : user.getEmail();
-                etNama.setText(fallback != null ? fallback : "");
-            } else {
-                etNama.setText("");
-            }
-        } else {
-            etNama.setText(nama);
-        }
-
-        etTanggalLahir.setText(tanggal.isEmpty() ? generateRandomDate() : tanggal);
-        etBio.setText(bio);
-    }
-
-    private String generateRandomDate() {
-        int year = 1990 + new Random().nextInt(15);
-        int month = 1 + new Random().nextInt(12);
-        int day = 1 + new Random().nextInt(28);
-        return day + "/" + month + "/" + year;
+                        etNama.setText(nama != null ? nama : "");
+                        etTanggalLahir.setText(tanggal != null ? tanggal : "");
+                        etBio.setText(bio != null ? bio : "");
+                        currentPhotoUrl = photoUrl != null ? photoUrl : "";
+                        if (currentPhotoUrl != null && !currentPhotoUrl.isEmpty()) {
+                            Glide.with(this).load(currentPhotoUrl).into(imgProfile);
+                        } else {
+                            imgProfile.setImageResource(R.drawable.ic_profile);
+                        }
+                    } else {
+                        etNama.setText("");
+                        etTanggalLahir.setText("");
+                        etBio.setText("");
+                        imgProfile.setImageResource(R.drawable.ic_profile);
+                    }
+                });
     }
 
     private void showDatePickerDialog() {
@@ -110,36 +126,73 @@ public class EditProfileActivity extends AppCompatActivity {
             return;
         }
 
-        // Simpan ke SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("nama", nama);
-        editor.putString("tanggalLahir", tanggal);
-        editor.putString("bio", bio);
-        editor.apply();
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("username", nama);
+        userData.put("tanggalLahir", tanggal);
+        userData.put("bio", bio);
+        userData.put("photo_url", currentPhotoUrl); // selalu set foto
 
-        // Simpan ke Firestore
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String uid = user.getUid();
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("username", nama);
-            userData.put("tanggalLahir", tanggal);
-            userData.put("bio", bio);
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(uid)
+                .set(userData, SetOptions.merge())
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Gagal menyimpan ke Firebase: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
 
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(uid)
-                    .set(userData)
-                    .addOnSuccessListener(unused -> {
-                        Toast.makeText(this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK);
-                        finish();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Gagal menyimpan ke Firebase: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            Toast.makeText(this, "User belum login", Toast.LENGTH_SHORT).show();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            selectedImageUri = data.getData();
+            imgProfile.setImageURI(selectedImageUri);
+
+            // Upload ke Cloudinary (atau storage lain)
+            try {
+                File imageFile = CloudinaryManager.uriToFile(this, selectedImageUri);
+                Toast.makeText(this, "Mengunggah foto...", Toast.LENGTH_SHORT).show();
+                CloudinaryManager.uploadImage(imageFile, new CloudinaryManager.UploadCallback() {
+                    @Override
+                    public void onSuccess(String imageUrl) {
+                        saveProfileImageUrl(imageUrl);
+                    }
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(EditProfileActivity.this, "Upload gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (IOException e) {
+                Toast.makeText(this, "Gagal membaca file gambar", Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+
+    private void saveProfileImageUrl(String imageUrl) {
+        Map<String, Object> update = new HashMap<>();
+        update.put("photo_url", imageUrl);
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(uid)
+                .set(update, SetOptions.merge())
+                .addOnSuccessListener(unused -> {
+                    currentPhotoUrl = imageUrl;
+                    Glide.with(this).load(imageUrl).into(imgProfile);
+                    Toast.makeText(this, "Foto profil berhasil diupdate!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Gagal update foto profil: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void uploadFoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 }

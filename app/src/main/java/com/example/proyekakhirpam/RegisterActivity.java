@@ -1,5 +1,6 @@
 package com.example.proyekakhirpam;
 
+import android.app.ComponentCaller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -20,7 +22,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etUsername, etEmail, etPassword;
     private Button btnDaftar;
     private TextView loginLink;
-    FirebaseAuth mAuth; // Tambahkan FirebaseAuth
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance(); // Inisialisasi FirebaseAuth
 
+
         btnDaftar.setOnClickListener(view -> {
             String username = etUsername.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
@@ -48,19 +51,27 @@ public class RegisterActivity extends AppCompatActivity {
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            // Ambil UID user setelah berhasil daftar
-                            String uid = mAuth.getCurrentUser().getUid();
-
                             // Buat data user
                             Map<String, Object> userMap = new HashMap<>();
-                            userMap.put("username", username);
-                            userMap.put("email", email);
-                            userMap.put("createdAt", System.currentTimeMillis());
+
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if (user != null) {
+                                Map<String, Object> userData = new HashMap<>();
+                                userData.put("username", username);
+                                userData.put("email", email);
+                                userData.put("photo_url", "");
+                                userData.put("bio", "");
+                                userData.put("tanggalLahir", "");
+
+                                FirebaseFirestore.getInstance()
+                                        .collection("users")
+                                        .document(user.getUid())
+                                        .set(userData);
+                            }
 
                             // Simpan ke Firestore
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            db.collection("users").document(uid)
-                                    .set(userMap)
+                            db.collection("users").add(userMap)
                                     .addOnSuccessListener(aVoid -> {
                                         Toast.makeText(RegisterActivity.this, "Registrasi berhasil", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));

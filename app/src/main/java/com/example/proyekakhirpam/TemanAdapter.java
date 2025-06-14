@@ -34,7 +34,7 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
     @NonNull
     @Override
     public TemanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_item_teman, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_teman, parent, false);
         return new TemanViewHolder(view);
     }
 

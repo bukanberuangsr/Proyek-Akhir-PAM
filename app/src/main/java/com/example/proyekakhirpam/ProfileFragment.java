@@ -15,23 +15,24 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.google.firebase.auth.FirebaseAuth;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 public class ProfileFragment extends Fragment {
 
     private ImageView imgProfile;
     private TextView tvDonasiSaya, tvLengkapiProfil, tvRiwayatDonasi, tvNamaPengguna;
+    private ImageView imgProfil;
     private RelativeLayout layoutDetailPembelian;
     private Button btnKeluar;
     private ProgressBar progressProfil;
     private TextView tvPersentaseProfil;
 
-    public ProfileFragment() {}
+    public ProfileFragment() {
+    }
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -52,14 +53,21 @@ public class ProfileFragment extends Fragment {
         RelativeLayout layoutPertemanan = view.findViewById(R.id.layoutPertemanan);
         progressProfil = view.findViewById(R.id.progressProfil);
         tvPersentaseProfil = view.findViewById(R.id.tvPersentaseProfil);
+        imgProfil = view.findViewById(R.id.imgProfile);
 
         // Tampilkan data dan progress
-        tampilkanDataUser();
+        fetchAndDisplayDataUser();
         updateProgressBar();
 
         // Navigasi
-        tvLengkapiProfil.setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), InfoProfileActivity.class)));
+        tvLengkapiProfil.setOnClickListener(v -> {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                Intent intent = new Intent(requireContext(), InfoProfileActivity.class);
+                intent.putExtra("uid", user.getUid());
+                startActivity(intent);
+            }
+        });
 
         layoutPertemanan.setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), PertemananActivity.class)));
@@ -69,22 +77,17 @@ public class ProfileFragment extends Fragment {
 
         btnKeluar.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        });
-
-        btnKeluar.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
+            SharedPreferences prefs = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
+            prefs.edit().clear().apply();
             Intent intent = new Intent(requireContext(), LoginActivity.class);
             startActivity(intent);
-            getActivity().finish();
+            requireActivity().finish();
         });
 
         return view;
     }
 
-    private void tampilkanDataUser() {
+    private void fetchAndDisplayDataUser() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
@@ -93,27 +96,40 @@ public class ProfileFragment extends Fragment {
                     .document(user.getUid())
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
+                        SharedPreferences prefs = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+
                         if (documentSnapshot.exists()) {
                             String nama = documentSnapshot.getString("username");
+                            String photoUrl = documentSnapshot.getString("photo_url");
+
                             tvNamaPengguna.setText(nama != null && !nama.isEmpty() ? nama : "Pengguna");
 
-                            SharedPreferences prefs = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = prefs.edit();
                             editor.putString("nama", nama != null ? nama : "");
+                            editor.putString("photo_url", photoUrl != null ? photoUrl : "");
                             editor.apply();
+
+                            if (photoUrl != null && !photoUrl.isEmpty()) {
+                                Glide.with(this).load(photoUrl).into(imgProfile);
+                            } else {
+                                imgProfile.setImageResource(R.drawable.ic_profile); // fallback drawable
+                            }
                         } else {
-                            // fallback
                             tvNamaPengguna.setText(user.getEmail() != null ? user.getEmail() : "Pengguna");
+                            editor.clear().apply();
+                            imgProfile.setImageResource(R.drawable.ic_profile);
                         }
+                        updateProgressBar();
                     })
                     .addOnFailureListener(e -> {
                         tvNamaPengguna.setText("Pengguna");
+                        imgProfile.setImageResource(R.drawable.ic_profile);
                     });
         } else {
             tvNamaPengguna.setText("Pengguna");
+            imgProfile.setImageResource(R.drawable.ic_profile);
         }
     }
-
 
     private void updateProgressBar() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
@@ -131,7 +147,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        tampilkanDataUser();
-        updateProgressBar();
+        fetchAndDisplayDataUser();
     }
 }
