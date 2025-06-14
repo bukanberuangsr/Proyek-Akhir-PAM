@@ -37,7 +37,8 @@ android {
 }
 
 dependencies {
-
+    // Gunakan Firebase BOM dengan sintaks yang benar
+    implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.cloudinary:cloudinary-android:3.0.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")

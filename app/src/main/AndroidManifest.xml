@@ -22,12 +22,7 @@
         <activity
             android:name=".DonateDetail"
             android:exported="false" />
-        <activity
             android:name=".DonatePayment"
-            android:exported="false" />
-        <activity
-            android:name=".DonationActivity"
-            android:exported="false" />
 
         <!-- Food Donation -->
         <activity
@@ -67,6 +62,9 @@
             android:exported="false" />
 
         <!-- Auth & Profile -->
+        <activity
+            android:name=".PertemananActivity"
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="false" />

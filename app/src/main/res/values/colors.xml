@@ -2,21 +2,24 @@
 <resources>
     <color name="black">#FF000000</color>
 
-<!--  SYSTEM COLOR  -->
-<!--  Palette  -->
+    <!-- SYSTEM COLOR -->
+    <!-- Palette -->
     <color name="white">#FFFFFFFF</color>
     <color name="tosca">#78B3CE</color>
     <color name="orange">#F96E2A</color>
     <color name="light_blue">#C9E6f0</color>
     <color name="red">#FAFF0101</color>
 
-<!--  text global  -->
+    <!-- text global -->
     <color name="grey">#3E3E3E</color>
 
-<!--  text yang tidak terlalu ter-highlight & stroke edit text -->
+    <!-- text yang tidak terlalu ter-highlight & stroke edit text -->
     <color name="light_grey_text">#CDCDCD</color>
 
-<!--  fill color untuk edit text  -->
+    <!-- fill color untuk edit text -->
     <color name="light_grey_fill">#F6F6F6</color>
 
+    <!-- Tambahan warna centang -->
+    <color name="green">#4CAF50</color> <!-- Hijau terang untuk centang aktif -->
+    <color name="gray">#9E9E9E</color> <!-- Abu-abu untuk centang tidak aktif -->
 </resources>

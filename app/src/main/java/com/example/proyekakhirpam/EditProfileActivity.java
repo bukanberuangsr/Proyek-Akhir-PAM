@@ -1,21 +1,20 @@
 package com.example.proyekakhirpam;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -30,7 +29,6 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        // Inisialisasi View
         etNama = findViewById(R.id.etNama);
         etTanggalLahir = findViewById(R.id.etTanggalLahir);
         etBio = findViewById(R.id.etBio);
@@ -39,34 +37,44 @@ public class EditProfileActivity extends AppCompatActivity {
         tvBatal = findViewById(R.id.tvBatal);
         btnSimpan = findViewById(R.id.btnSimpan);
 
-        // Shared Preferences untuk menyimpan data
         sharedPreferences = getSharedPreferences("UserProfile", MODE_PRIVATE);
 
-        // Load Data yang sudah tersimpan
         loadData();
 
-        // Event Click untuk memilih tanggal lahir
         btnPickDate.setOnClickListener(v -> showDatePickerDialog());
         etTanggalLahir.setOnClickListener(v -> showDatePickerDialog());
 
-        // Tombol Simpan untuk menyimpan perubahan
         btnSimpan.setOnClickListener(v -> saveData());
-
-        // Tombol Kembali untuk kembali ke halaman ProfileActivity
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(EditProfileActivity.this, InfoProfileActivity.class);
-            startActivity(intent);
-            finish();
-        });
-
-        // Tombol Batal untuk menampilkan pop-up konfirmasi
+        btnBack.setOnClickListener(v -> finish());
         tvBatal.setOnClickListener(v -> showCancelDialog());
     }
 
-    // Menampilkan DatePickerDialog untuk memilih tanggal lahir
+    private void loadData() {
+        String nama = sharedPreferences.getString("nama", "");
+        String tanggal = sharedPreferences.getString("tanggalLahir", "");
+        String bio = sharedPreferences.getString("bio", "");
+
+        if (nama.isEmpty()) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            etNama.setText(user != null && user.getDisplayName() != null ? user.getDisplayName() : "");
+        } else {
+            etNama.setText(nama);
+        }
+
+        etTanggalLahir.setText(tanggal.isEmpty() ? generateRandomDate() : tanggal);
+        etBio.setText(bio);
+    }
+
+    private String generateRandomDate() {
+        int year = 1990 + new Random().nextInt(15);
+        int month = 1 + new Random().nextInt(12);
+        int day = 1 + new Random().nextInt(28);
+        return day + "/" + month + "/" + year;
+    }
+
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
+        new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) -> {
                     String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
@@ -75,47 +83,53 @@ public class EditProfileActivity extends AppCompatActivity {
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
-        );
-        datePickerDialog.show();
+        ).show();
     }
 
-    // Menampilkan pop-up konfirmasi ketika tombol BATAL ditekan
     private void showCancelDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Konfirmasi");
-        builder.setMessage("Apakah Anda yakin ingin membatalkan perubahan?");
-        builder.setPositiveButton("Ya", (dialog, which) -> finish());
-        builder.setNegativeButton("Tidak", null);
-        builder.show();
+        new AlertDialog.Builder(this)
+                .setTitle("Konfirmasi")
+                .setMessage("Apakah Anda yakin ingin membatalkan perubahan?")
+                .setPositiveButton("Ya", (dialog, which) -> finish())
+                .setNegativeButton("Tidak", null)
+                .show();
     }
 
-    // Menyimpan data ke SharedPreferences
     private void saveData() {
         String nama = etNama.getText().toString().trim();
-        String tanggalLahir = etTanggalLahir.getText().toString().trim();
+        String tanggal = etTanggalLahir.getText().toString().trim();
         String bio = etBio.getText().toString().trim();
 
         // Simpan ke SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("nama", nama);
-        editor.putString("tanggalLahir", tanggalLahir);
+        editor.putString("tanggalLahir", tanggal);
         editor.putString("bio", bio);
         editor.apply();
 
-        // Pindah ke ProfileActivity setelah menyimpan
-        Intent intent = new Intent(EditProfileActivity.this, InfoProfileActivity.class);
-        startActivity(intent);
-        finish();
-    }
+        // Simpan ke Firestore
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String uid = user.getUid();
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("nama", nama);
+            userData.put("tanggalLahir", tanggal);
+            userData.put("bio", bio);
 
-    // Memuat data yang telah disimpan sebelumnya
-    private void loadData() {
-        String nama = sharedPreferences.getString("nama", "");
-        String tanggalLahir = sharedPreferences.getString("tanggalLahir", "");
-        String bio = sharedPreferences.getString("bio", "");
-
-        etNama.setText(nama);
-        etTanggalLahir.setText(tanggalLahir);
-        etBio.setText(bio);
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(uid)
+                    .set(userData)
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
+                        finish(); // kembali ke InfoProfileActivity → ProfileFragment
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Gagal menyimpan ke Firebase", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(this, "User belum login", Toast.LENGTH_SHORT).show();
+        }
     }
 }
