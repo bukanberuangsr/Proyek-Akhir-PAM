@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class ProfileFragment extends Fragment {
 
@@ -83,21 +85,35 @@ public class ProfileFragment extends Fragment {
     }
 
     private void tampilkanDataUser() {
-        SharedPreferences prefs = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        String nama = prefs.getString("nama", "");
+        if (user != null) {
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(user.getUid())
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String nama = documentSnapshot.getString("username");
+                            tvNamaPengguna.setText(nama != null && !nama.isEmpty() ? nama : "Pengguna");
 
-        if (!nama.isEmpty()) {
-            tvNamaPengguna.setText(nama);
-        } else if (user != null) {
-            String firebaseName = user.getDisplayName();
-            String email = user.getEmail();
-            tvNamaPengguna.setText(firebaseName != null && !firebaseName.isEmpty() ? firebaseName : (email != null ? email : "Pengguna"));
+                            SharedPreferences prefs = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("nama", nama != null ? nama : "");
+                            editor.apply();
+                        } else {
+                            // fallback
+                            tvNamaPengguna.setText(user.getEmail() != null ? user.getEmail() : "Pengguna");
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        tvNamaPengguna.setText("Pengguna");
+                    });
         } else {
             tvNamaPengguna.setText("Pengguna");
         }
     }
+
 
     private void updateProgressBar() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
@@ -115,7 +131,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Perbarui data dan progress saat kembali ke fragment
         tampilkanDataUser();
         updateProgressBar();
     }

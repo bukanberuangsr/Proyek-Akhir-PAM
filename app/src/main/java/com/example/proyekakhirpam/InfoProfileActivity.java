@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Random;
@@ -43,7 +42,7 @@ public class InfoProfileActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("UserProfile", MODE_PRIVATE);
 
         checkInitialData();
-        fetchFromFirestore(); // <-- Ambil dari Firestore saat pertama kali
+        fetchFromFirestore();
 
         btnBack.setOnClickListener(v -> finish());
 
@@ -63,6 +62,8 @@ public class InfoProfileActivity extends AppCompatActivity {
                 String firebaseName = user.getDisplayName();
                 if (firebaseName != null && !firebaseName.isEmpty()) {
                     editor.putString("nama", firebaseName);
+                } else if (user.getEmail() != null) {
+                    editor.putString("nama", user.getEmail());
                 }
             }
         }
@@ -86,26 +87,25 @@ public class InfoProfileActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        String nama = documentSnapshot.getString("nama");
+                        // Gunakan 'username' agar konsisten dengan ProfileFragment
+                        String nama = documentSnapshot.getString("username");
                         String tanggal = documentSnapshot.getString("tanggalLahir");
                         String bio = documentSnapshot.getString("bio");
 
-                        // Simpan ke SharedPreferences
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         if (nama != null) editor.putString("nama", nama);
                         if (tanggal != null) editor.putString("tanggalLahir", tanggal);
                         if (bio != null) editor.putString("bio", bio);
                         editor.apply();
 
-                        // Tampilkan
                         loadData();
                     } else {
-                        loadData(); // jika belum ada dokumen
+                        loadData();
                     }
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Gagal ambil data dari Firestore", Toast.LENGTH_SHORT).show();
-                    loadData(); // fallback
+                    loadData();
                 });
     }
 
