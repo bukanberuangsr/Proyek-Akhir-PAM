@@ -102,11 +102,15 @@ public class ProfileFragment extends Fragment {
                         if (documentSnapshot.exists()) {
                             String nama = documentSnapshot.getString("username");
                             String photoUrl = documentSnapshot.getString("photo_url");
+                            String tanggalLahir = documentSnapshot.getString("tanggalLahir");
+                            String bio = documentSnapshot.getString("bio");
 
                             tvNamaPengguna.setText(nama != null && !nama.isEmpty() ? nama : "Pengguna");
 
                             editor.putString("nama", nama != null ? nama : "");
                             editor.putString("photo_url", photoUrl != null ? photoUrl : "");
+                            editor.putString("tanggalLahir", tanggalLahir != null ? tanggalLahir : "");
+                            editor.putString("bio", bio != null ? bio : "");
                             editor.apply();
 
                             if (photoUrl != null && !photoUrl.isEmpty()) {
