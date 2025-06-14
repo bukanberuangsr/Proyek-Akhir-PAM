@@ -6,29 +6,24 @@
     <string name="title_food_pickup">Food Pickup</string>
     <string name="title_profile">Profile</string>
     <string name="topbar_text_leftover_share">Berbagi makanan, berbagi kebaikan</string>
-    <string name="btn_upload_foto"><![CDATA[Upload foto makanan yang ingin di> donasikan]]></string>
-    <string name="textview_gratis_berbayar">Gratis atau Berbayar</string>
+    <string name="btn_upload_foto">Upload foto donasi</string>
+    <string name="tv_tipe">Tipe donasi</string>
     <string name="textview_jenis_donasi">Jenis Donasi</string>
-    <string name="textview_nama_makanan">Nama Makanan</string>
-    <string name="et_masukkan_nama_makanan">Masukkan nama makanan</string>
-    <string name="tv_nama_restoran_atau_individu">Nama Restoran atau Individu</string>
-    <string name="et_masukkan_nama_anda">Masukkan nama anda</string>
-    <string name="tv_jumlah_yang_ingin_di_donasikan">Jumlah yang Ingin di Donasikan</string>
+    <string name="tv_judul_donasi">Masukkan Judul Donasi</string>
+    <string name="et_judul_donasi">Judul Donasi</string>
+    <string name="tv_Deskripsi">Masukkan Deskripsi</string>
+    <string name="et_deskripsi">Deskripsi</string>
+    <string name="tv_jumlah_donasi">Target Donasi</string>
     <string name="et_masukkan_jumlah">Masukkan jumlah</string>
-    <string name="tv_expired_date">Expired Date</string>
-    <string name="et_masukkan_tanggal">Masukkan tanggal</string>
-    <string name="tv_harga">Harga</string>
-    <string name="et_masukkan_harga">Masukkan harga</string>
+    <string name="tv_expired_date">Tanggal Akhir Donasi</string>
+    <string name="et_tanggal_selesai">Masukkan Akhir Donasi</string>
+    <string name="tv_nominal">Nominal Awal Donasi</string>
+    <string name="et_masukkan_nominal">Masukkan Nominal</string>
     <string name="btn_bagikan">Bagikan</string>
     <string name="tambah_donasi">Tambah donasi</string>
-    <string-array name="dropdown_gratis_berbayar">
-        <item>Gratis</item>
-        <item>Berbayar</item>
-    </string-array>
     <string-array name="jenis_donasi">
-        <item>Makanan</item>
-        <item>Minuman</item>
-        <item>Bahan Pokok</item>
+        <item>Internasional</item>
+        <item>Nasional</item>
     </string-array>
 
     <string name="btn_toggle_gratis">Dari hati</string>
