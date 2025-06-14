@@ -31,6 +31,9 @@
 
         <!-- Food Donation -->
         <activity
+            android:name=".RincianPembelianActivity"
+            android:exported="false" />
+        <activity
             android:name=".HistoryActivity"
             android:exported="false"
             android:theme="@style/Theme.ProyekAkhirPAM" />
@@ -41,9 +44,7 @@
             android:name=".AddFoodActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".RincianPembelianActivity"
-            android:exported="false" />
+
         <!-- Profile -->
         <activity
             android:name=".PertemananActivity"
@@ -66,10 +67,7 @@
             android:name=".MainActivity"
             android:exported="false" />
 
-        <!-- Auth & Profile -->
-        <activity
-            android:name=".PertemananActivity"
-            android:exported="false" />
+        <!-- Auth  -->
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -86,7 +84,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
