@@ -7,9 +7,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.Timestamp;
+
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
 
@@ -38,17 +46,38 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     @Override
     public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
         FoodItem item = foodList.get(position);
-        holder.tvNamaMakanan.setText(item.getNamaMakanan());
-        holder.tvNamaRestoran.setText(item.getNamaRestoran());
+        holder.tvNamaMakanan.setText(item.getNama_makanan());
+        holder.tvNamaRestoran.setText(item.getDonor_nama());
         holder.tvJumlah.setText(String.valueOf(item.getJumlah()));
         holder.tvHarga.setText("Rp " + item.getHarga());
-        holder.tvTanggal.setText("Expired: " + item.getTanggal());
-        holder.ivPlaceholder.setImageResource(item.getImageId());
+
+        // Format tanggal dari Timestamp ke String
+        String tanggalStr = "";
+        Timestamp tglExpired = item.getTanggal_expired();
+        if (tglExpired != null) {
+            tanggalStr = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    .format(tglExpired.toDate());
+        }
+        holder.tvTanggal.setText("Expired: " + tanggalStr);
+
+        Glide.with(holder.itemView.getContext())
+                .load(item.getGambar_url())
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.ic_placeholder)
+                        .error(R.drawable.ic_placeholder)
+                        .centerCrop()
+                        .transform(new RoundedCorners(24)))
+                .into(holder.ivPlaceholder);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(item);
             }
+        });
+
+        holder.ivPlaceholder.setOnClickListener(v -> {
+            FoodPreviewDialog.newInstance(item.getGambar_url())
+                    .show(((AppCompatActivity) v.getContext()).getSupportFragmentManager(), "image_preview");
         });
     }
 

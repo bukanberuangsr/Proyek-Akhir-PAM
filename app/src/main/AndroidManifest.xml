@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,12 +17,56 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyekAkhirPAM"
         tools:targetApi="31">
+
+        <!-- Donation -->
+        <activity
+            android:name=".DonateDetail"
+            android:exported="false" />
+        <activity
+            android:name=".DonatePayment"
+            android:exported="false" />
+        <activity
+            android:name=".DonationActivity"
+            android:exported="false" />
+
+        <!-- Food Donation -->
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ProyekAkhirPAM" />
+        <activity
+            android:name=".EditFoodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddFoodActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".RincianPembelianActivity"
+            android:exported="false" />
+        <!-- Profile -->
+        <activity
+            android:name=".PertemananActivity"
+            android:exported="false" />
         <activity
             android:name=".EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".InfoProfileActivity"
             android:exported="false" />
+
+        <!-- Home & Article -->
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FormPostinganActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <!-- Auth & Profile -->
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -32,32 +76,8 @@
         <activity
             android:name=".WelcomeActivity"
             android:exported="false" />
-        <activity
-            android:name=".DonatePayment"
-            android:exported="false" />
-        <activity
-            android:name=".DonateDetail"
-            android:exported="false" />
-        <activity
-            android:name=".AddDonationActivity"
-            android:exported="false"/>
-        <activity
-            android:name=".PertemananActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"/>
-        <activity
-            android:name=".AddFoodActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
-        <activity
-            android:name=".RincianPembelianActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HistoryActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ProyekAkhirPAM" />
+
+        <!-- Splash Screen -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -68,5 +88,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

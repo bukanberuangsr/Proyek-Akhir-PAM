@@ -41,12 +41,11 @@ public class ProfileFragment extends Fragment {
         layoutDetailPembelian = view.findViewById(R.id.layoutDetailPembelian);
         btnKeluar = view.findViewById(R.id.btnKeluar);
 
-        // INI yang perlu ditambah agar layoutPertemanan bisa digunakan
         RelativeLayout layoutPertemanan = view.findViewById(R.id.layoutPertemanan);
 
         // Klik teks "Lengkapi profil"
         tvLengkapiProfil.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), ProfileActivity.class);
+            Intent intent = new Intent(requireContext(), InfoProfileActivity.class);
             startActivity(intent);
         });
 

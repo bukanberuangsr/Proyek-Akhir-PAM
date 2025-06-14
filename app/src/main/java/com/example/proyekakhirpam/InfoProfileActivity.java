@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ProfileActivity extends AppCompatActivity {
+public class InfoProfileActivity extends AppCompatActivity {
     private ImageView btnBack, imgProfile;
     private TextView tvEdit;
     private EditText etNama, etTanggalLahir, etBio;
@@ -15,7 +15,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_info_profile);
 
         // Inisialisasi View
         btnBack = findViewById(R.id.btnBack);
@@ -30,9 +30,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Navigasi ke Edit Profile
         tvEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+            Intent intent = new Intent(InfoProfileActivity.this, EditProfileActivity.class);
             startActivity(intent);
-            finish(); // Menutup ProfileActivity agar tidak menumpuk
         });
     }
 

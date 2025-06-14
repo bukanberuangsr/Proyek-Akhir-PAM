@@ -11,10 +11,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -93,7 +95,7 @@ public class AddFoodActivity extends AppCompatActivity {
     private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog dpd = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-            String tanggal = String.format(Locale.getDefault(), "%02d/%02d/%04d", dayOfMonth, month+1, year);
+            String tanggal = String.format(Locale.getDefault(), "%02d/%02d/%04d", dayOfMonth, month + 1, year);
             etTanggal.setText(tanggal);
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         dpd.show();
@@ -106,7 +108,6 @@ public class AddFoodActivity extends AppCompatActivity {
         String tanggalStr = etTanggal.getText().toString().trim();
         String hargaStr = etHarga.getText().toString().trim();
 
-        // Validasi sederhana
         if (selectedImageUri == null) {
             Toast.makeText(this, "Upload foto makanan!", Toast.LENGTH_SHORT).show();
             return;
@@ -119,10 +120,9 @@ public class AddFoodActivity extends AppCompatActivity {
         int jumlah = Integer.parseInt(jumlahStr);
         int harga = hargaStr.isEmpty() ? 0 : Integer.parseInt(hargaStr);
 
-        // Konversi tanggal ke Timestamp (bisa diubah sesuai kebutuhan Firestore)
+        // Konversi tanggal ke Timestamp
         Timestamp expiredDate = convertDateStrToTimestamp(tanggalStr);
 
-        // Upload gambar ke Cloudinary
         try {
             File file = CloudinaryManager.uriToFile(this, selectedImageUri);
             btnKonfirmasi.setEnabled(false);
@@ -133,6 +133,7 @@ public class AddFoodActivity extends AppCompatActivity {
                     uploadedImageUrl = imageUrl;
                     saveToFirestore(namaMakanan, restoran, jumlah, expiredDate, harga, uploadedImageUrl);
                 }
+
                 @Override
                 public void onError(Exception e) {
                     runOnUiThread(() -> {
@@ -152,16 +153,14 @@ public class AddFoodActivity extends AppCompatActivity {
         data.put("nama_makanan", namaMakanan);
         data.put("donor_nama", restoran);
         data.put("jumlah", jumlah);
-        data.put("tanggal_expired", expiredDate);
+        data.put("tanggal_expired", expiredDate); // Timestamp!
         data.put("harga", harga);
         data.put("gambar_url", imageUrl);
-        data.put("tanggal_dibagikan", Timestamp.now());
+        data.put("tanggal_dibagikan", com.google.firebase.Timestamp.now());
         data.put("isAvailable", true);
 
-        // TODO: tambahkan donor_id dari user login jika ada
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            String donorId = user.getUid();
             data.put("donor_id", user.getUid());
         } else {
             Toast.makeText(this, "Harus login untuk menyumbang makanan!", Toast.LENGTH_SHORT).show();
@@ -174,7 +173,7 @@ public class AddFoodActivity extends AppCompatActivity {
                     btnKonfirmasi.setEnabled(true);
                     btnKonfirmasi.setText("Konfirmasi");
                     Toast.makeText(this, "Donasi makanan berhasil disimpan!", Toast.LENGTH_LONG).show();
-                    finish(); // kembali ke halaman sebelumnya
+                    finish();
                 }))
                 .addOnFailureListener(e -> runOnUiThread(() -> {
                     btnKonfirmasi.setEnabled(true);
