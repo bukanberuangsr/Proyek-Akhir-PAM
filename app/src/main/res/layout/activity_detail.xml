@@ -9,11 +9,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/search_bar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
-
         <!-- Header dengan ikon back dan teks "Postingan" -->
         <RelativeLayout
             android:layout_width="411dp"
@@ -46,22 +41,23 @@
         <ImageView
             android:id="@+id/detailImage"
             android:layout_width="match_parent"
-            android:layout_height="198dp"
-            android:src="@drawable/pic1"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:contentDescription="Gambar detail donasi" />
 
         <TextView
-            android:id="@+id/detailNama"
+            android:id="@+id/judulPostingan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="15dp"
-            android:text="Pandu Satria"
+            android:text="Berbagi Akhir Pekan"
             android:textStyle="bold"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/detailDeskripsi"
+            android:id="@+id/deskripsiPostingan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -69,7 +65,18 @@
             android:layout_marginRight="20dp"
             android:text="Deskripsi donasi panjang..." />
 
-    <TextView
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Edit Postingan"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/orange" />
+
+        <TextView
         android:id="@+id/hapusPostingan"
         android:layout_width="wrap_content"
         android:layout_height="48dp"

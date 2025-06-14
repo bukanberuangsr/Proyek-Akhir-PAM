@@ -77,6 +77,12 @@
         <activity
             android:name=".WelcomeActivity"
             android:exported="false" />
+        <activity
+            android:name=".FormPostinganActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryPage"
+            android:exported="false"/>
 
         <!-- Splash Screen -->
         <activity
