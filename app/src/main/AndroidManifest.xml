@@ -20,7 +20,7 @@
 
         <!-- Donation -->
         <activity
-            android:name=".DonateDetail"
+            android:name=".DonateDetailActivity"
             android:exported="false" />
         <activity
             android:name=".DonatePayment"
