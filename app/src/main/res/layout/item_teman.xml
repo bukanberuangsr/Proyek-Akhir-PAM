@@ -27,27 +27,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nama Teman"
-            android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
             style="@style/inter_semibold" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email@example.com"
+            android:textColor="@color/grey"
+            android:textSize="10sp"
+            style="@style/inter_regular"
+            android:layout_marginTop="2dp" />
 
         <TextView
             android:id="@+id/tvDeskripsi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Deskripsi"
-            android:textColor="@color/grey"
-            android:textSize="12sp"
-            style="@style/inter_regular" />
+            android:text="Tag"
+            android:textColor="@color/tosca"
+            android:textSize="10sp"
+            style="@style/inter_regular"
+            android:layout_marginTop="2dp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btnFollow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/orange"
         android:text="Ikuti"
         android:textColor="@color/white"
         android:textSize="12sp"
-        style="@style/inter_semibold" />
+        style="@style/lexend_semibold" />
 </LinearLayout>

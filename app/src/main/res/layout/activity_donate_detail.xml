@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DonateDetail">
+    tools:context=".DonateDetailActivity"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/img_main"
@@ -13,7 +14,7 @@
         android:layout_height="250dp"
         android:background="@color/light_blue"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         style="@style/inter_bold"
@@ -36,17 +37,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Deskripsi"
+        android:textColor="@color/grey"
         android:textSize="14sp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/tv_main"/>
-    
+
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_description_header"
-        app:layout_constraintBottom_toTopOf="@id/btn_donate_payment">
+        app:layout_constraintBottom_toTopOf="@id/btn_donate_payment"
+        app:layout_constraintTop_toBottomOf="@id/tv_description_header">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,21 +57,105 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/inter_regular"
                 android:id="@+id/tv_description_content"
+                style="@style/inter_regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:text="Konten Deskripsi"
-                android:textSize="14sp"
                 android:justificationMode="inter_character"
                 android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="Konten Deskripsi"
+                android:textColor="@color/grey"
+                android:textSize="14sp" />
+
+            <TextView
+                style="@style/inter_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detail:"
+                android:textColor="@color/grey"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:paddingStart="16dp"
                 android:paddingEnd="16dp" />
+
+            <TextView
+                style="@style/inter_medium"
+                android:id="@+id/tv_tanggal_selesai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Tanggal Selesai"
+                android:textColor="@color/grey"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <TextView
+                style="@style/inter_medium"
+                android:id="@+id/tv_nominal_donasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Rp. 0"
+                android:textColor="@color/grey"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <TextView
+                style="@style/inter_medium"
+                android:id="@+id/tv_tipe_donasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Tipe Donasi"
+                android:textColor="@color/grey"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_delete"
+                    style="@style/lexend_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="#FF0000"
+                    android:text="Delete"
+                    android:textAlignment="center"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btn_update"
+                    style="@style/lexend_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="#FF9800"
+                    android:text="Update"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
+
+
 
     <Button
         style="@style/lexend_semibold"
@@ -80,6 +167,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/orange"
         android:text="Donasi Sekarang"
+        android:textColor="@color/white"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

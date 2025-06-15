@@ -6,12 +6,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DonatePayment extends AppCompatActivity {
 
@@ -23,23 +25,20 @@ public class DonatePayment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_donate_payment);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         ivGambarDonasi = findViewById(R.id.img_main);
         tvJudulDonasi = findViewById(R.id.tv_main);
 
         Intent intent = getIntent();
         String judulDonasi = intent.getStringExtra("judul");
-        int gambarDonasi = intent.getIntExtra("gambar", 0);
+        String gambarDonasi = intent.getStringExtra("gambar");
+
 
         tvJudulDonasi.setText(judulDonasi);
-        ivGambarDonasi.setImageResource(gambarDonasi);
+        Glide.with(this)
+                .load(gambarDonasi)
+                .into(ivGambarDonasi);
 
         etNominal = findViewById(R.id.et_nominal);
         btn10 = findViewById(R.id.btn_donate_10);
@@ -59,12 +58,49 @@ public class DonatePayment extends AppCompatActivity {
             // Data nominal ditambahkan ke card RecyclerView di LeftoverShareFragment
             String nominal = etNominal.getText().toString();
 
-            Intent backIntent = new Intent(DonatePayment.this, MainActivity.class);
-            backIntent.putExtra("judul", judulDonasi);
-            backIntent.putExtra("gambar", gambarDonasi);
-            backIntent.putExtra("nominal", nominal);
-            startActivity(backIntent);
-            finish();
+            // Get current user
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) {
+                // Handle not logged in
+                Toast.makeText(this, "You must be logged in to donate!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String userName = user.getDisplayName();
+            // String userId = user.getUid();
+
+            // Find the donation document by judul (or better: by id if you have it)
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("donation")
+                    .whereEqualTo("judul_donasi", judulDonasi)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // Assume only one document per judul
+                            String docId = queryDocumentSnapshots.getDocuments().get(0).getId();
+                            // Update the nominal_donasi (add the new amount)
+                            db.collection("donation").document(docId)
+                                    .update(
+                                            "nominal_donasi", com.google.firebase.firestore.FieldValue.increment(Integer.parseInt(nominal)),
+                                            "nama_donatur", userName // Optionally update donor name
+                                            // You can also add a donors array here if needed
+                                    )
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(this, "Donation successful!", Toast.LENGTH_SHORT).show();
+                                        // Go back to main or wherever
+                                        Intent backIntent = new Intent(DonatePayment.this, MainActivity.class);
+                                        startActivity(backIntent);
+                                        finish();
+                                    });
+                        }
+                    });
+
+//            Intent backIntent = new Intent(DonatePayment.this, MainActivity.class);
+//            backIntent.putExtra("judul", judulDonasi);
+//            backIntent.putExtra("gambar", gambarDonasi);
+//            backIntent.putExtra("nominal", nominal);
+//            startActivity(backIntent);
+//            finish();
         });
     }
 }

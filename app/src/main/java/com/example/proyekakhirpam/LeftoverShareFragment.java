@@ -7,11 +7,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,28 +27,27 @@ import java.util.List;
  */
 public class LeftoverShareFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // Tidak Dipakai
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    // Dipakai
+    ImageButton imageButton;
+    FirebaseFirestore db;
+    RecyclerView rvInternasional, rvNasional;
+    List<DonationItem> listInternasional;
+    List<DonationItem> listNasional;
+    DonationAdapter adapterInternasional;
+    DonationAdapter adapterNasional;
+//    List<DonationItem> donationList;
 
     public LeftoverShareFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LeftoverShareFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static LeftoverShareFragment newInstance(String param1, String param2) {
         LeftoverShareFragment fragment = new LeftoverShareFragment();
         Bundle args = new Bundle();
@@ -69,113 +72,102 @@ public class LeftoverShareFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_leftover_share, container, false);
 
-        ImageButton imageButton = view.findViewById(R.id.btn_add_donation);
-        imageButton.setOnClickListener(v->{
-            Intent intent = new Intent(getActivity(), DonationActivity.class);
+        imageButton = view.findViewById(R.id.btn_add_donation);
+        imageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), AddDonationActivity.class);
             startActivity(intent);
         });
 
-        RecyclerView recyclerView1 = view.findViewById(R.id.recycler_donasi_1);
-        RecyclerView recyclerView2 = view.findViewById(R.id.recycler_donasi_2);
+        rvInternasional = view.findViewById(R.id.recycler_donasi_1);
+        rvNasional = view.findViewById(R.id.recycler_donasi_2);
 
-        // Data Dummy
-        List<Donasi> dataRC1 = new ArrayList<>();
-        dataRC1.add(new Donasi(
-                R.drawable.img_donasi_1,
-                "Palestina: Donasi Makanan untuk Saudara Kita",
-                "Satria",
-                "200000",
-                "Di tengah konflik dan krisis kemanusiaan yang terus berlangsung, ribuan keluarga di Palestina berjuang untuk mendapatkan makanan setiap hari. Akses terhadap kebutuhan dasar semakin terbatas, dan mereka sangat membutuhkan uluran tangan kita.\n" +
-                "\n" +
-                "Blokade dan keterbatasan distribusi bahan pangan membuat harga makanan melambung tinggi, sementara persediaan semakin menipis. Banyak keluarga hanya mampu makan satu kali sehari atau bahkan terpaksa berpuasa karena tidak ada makanan yang tersisa. Situasi ini semakin diperparah dengan rusaknya infrastruktur dan sulitnya akses bantuan kemanusiaan."
-        ));
-        dataRC1.add(new Donasi(
-                R.drawable.img_donasi_2,
-                "Yaman: Donasi Makanan untuk Mengatasi Kelaparan",
-                "Farhah",
-                "500000",
-                "Lorem ipsum dolor sit amet."
-        ));
+        // Data dari Firestore
+        db = FirebaseFirestore.getInstance();
+        listInternasional = new ArrayList<>();
+        listNasional = new ArrayList<>();
 
-        List<Donasi> dataRC2 = new ArrayList<>();
-        dataRC2.add(new Donasi(
-                R.drawable.img_donasi_3,
-                "Papua: Donasi Makanan untuk Selamatkan Nyawa",
-                "Kinky",
-                "10000",
-                "Lorem ipsum dolor sit amet."
-        ));
-
-        Bundle bundle = getActivity().getIntent().getExtras();
-        if (bundle != null) {
-            String judul = bundle.getString("judul");
-            String gambar = bundle.getString("gambar");
-            String nominalBaru = bundle.getString("nominal");
-
-            if (judul!=null && nominalBaru!=null){
-                boolean found = false;
-                for (Donasi d : dataRC1){
-                    if (d.getJudul().equals(judul)){
-                        int total = Integer.parseInt(d.getNominalDonasi()) + Integer.parseInt(nominalBaru);
-                        d.nominalDonasi = String.valueOf(total);
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found){
-                    Toast.makeText(getContext(), "Data tidak ditemukan", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-
-        DonationAdapter donationAdapter = new DonationAdapter(getContext(), dataRC1);
-        DonationAdapter donationAdapter2 = new DonationAdapter(getContext(), dataRC2);
-        recyclerView1.setLayoutManager(new LinearLayoutManager(
+        adapterInternasional = new DonationAdapter(getContext(), listInternasional);
+        adapterNasional = new DonationAdapter(getContext(), listNasional);
+        rvInternasional.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false
         ));
-        recyclerView2.setLayoutManager(new LinearLayoutManager(
+        rvNasional.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false
         ));
-        recyclerView1.setAdapter(donationAdapter);
-        recyclerView2.setAdapter(donationAdapter2);
-        donationAdapter.notifyDataSetChanged();
+        rvInternasional.setAdapter(adapterInternasional);
+        rvNasional.setAdapter(adapterNasional);
+
+        // Load donations from Firestore
+        loadDonations();
+
         return view;
     }
 
-    public static class Donasi {
-        int gambarId;
-        String judul;
-        String namaDonatur;
-        String nominalDonasi;
-        String deskripsiDonasi;
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadDonations(); // Refresh data when returning to this fragment
+    }
 
-        public Donasi(int gambarId, String judul, String namaDonatur, String nominalDonasi, String deskripsiDonasi) {
-            this.gambarId = gambarId;
-            this.judul = judul;
-            this.namaDonatur = namaDonatur;
-            this.nominalDonasi = nominalDonasi;
-            this.deskripsiDonasi = deskripsiDonasi;
-        }
+    private void loadDonations() {
+        // Fetch Internasional donations
+        db.collection("donation")
+                .whereEqualTo("tipe_donasi", "Internasional")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    listInternasional.clear();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        String id = doc.getId();
+                        String gambarUrl = doc.getString("gambar_url");
+                        String judul = doc.getString("judul_donasi");
+                        String deskripsi = doc.getString("deskripsi_donasi");
+                        String namaDonatur = doc.getString("nama_donatur");
+                        String nominalDonasi = String.valueOf(doc.get("nominal_donasi"));
+                        com.google.firebase.Timestamp ts = doc.getTimestamp("tanggal_selesai");
+                        java.util.Date tanggalSelesai = ts != null ? ts.toDate() : new java.util.Date();
 
-        public int getGambar() {
-            return gambarId;
-        }
+                        DonationItem item = new DonationItem(
+                                id,
+                                gambarUrl,
+                                judul,
+                                deskripsi,
+                                namaDonatur,
+                                nominalDonasi,
+                                tanggalSelesai
+                        );
+                        listInternasional.add(item);
+                    }
+                    adapterInternasional.notifyDataSetChanged();
+                });
 
-        public String getJudul() {
-            return judul;
-        }
+        // Fetch Nasional donations
+        db.collection("donation")
+                .whereEqualTo("tipe_donasi", "Nasional")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    listNasional.clear();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        String id = doc.getId();
+                        String gambarUrl = doc.getString("gambar_url");
+                        String judul = doc.getString("judul_donasi");
+                        String deskripsi = doc.getString("deskripsi_donasi");
+                        String namaDonatur = doc.getString("nama_donatur");
+                        String nominalDonasi = String.valueOf(doc.get("nominal_donasi"));
+                        com.google.firebase.Timestamp ts = doc.getTimestamp("tanggal_selesai");
+                        java.util.Date tanggalSelesai = ts != null ? ts.toDate() : new java.util.Date();
 
-        public String getNamaDonatur() {
-            return namaDonatur;
-        }
-
-        public String getNominalDonasi() {
-            return nominalDonasi;
-        }
-
-        public String getDeskripsiDonasi() {
-            return deskripsiDonasi;
-        }
-
+                        DonationItem item = new DonationItem(
+                                id,
+                                gambarUrl,
+                                judul,
+                                deskripsi,
+                                namaDonatur,
+                                nominalDonasi,
+                                tanggalSelesai
+                        );
+                        listNasional.add(item);
+                    }
+                    adapterNasional.notifyDataSetChanged();
+                });
     }
 }

@@ -1,36 +1,40 @@
 package com.example.proyekakhirpam;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditProfileActivity extends AppCompatActivity {
 
     private EditText etNama, etTanggalLahir, etBio;
-    private ImageView btnPickDate, btnBack;
+    private ImageView btnPickDate, btnBack, imgProfile;
     private TextView tvBatal;
     private Button btnSimpan;
-    private SharedPreferences sharedPreferences;
+    private ImageView btnEditFoto;
+    private static final int PICK_IMAGE_REQUEST = 101;
+    private Uri selectedImageUri = null;
+    private String currentPhotoUrl = "";
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        // Inisialisasi View
         etNama = findViewById(R.id.etNama);
         etTanggalLahir = findViewById(R.id.etTanggalLahir);
         etBio = findViewById(R.id.etBio);
@@ -38,35 +42,60 @@ public class EditProfileActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         tvBatal = findViewById(R.id.tvBatal);
         btnSimpan = findViewById(R.id.btnSimpan);
+        btnEditFoto = findViewById(R.id.btnEditPhoto);
+        imgProfile = findViewById(R.id.imgProfile);
 
-        // Shared Preferences untuk menyimpan data
-        sharedPreferences = getSharedPreferences("UserProfile", MODE_PRIVATE);
+        uid = getIntent().getStringExtra("uid");
+        if (uid == null) {
+            Toast.makeText(this, "UID tidak ditemukan", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
-        // Load Data yang sudah tersimpan
-        loadData();
+        fetchFromFirestore(uid);
 
-        // Event Click untuk memilih tanggal lahir
         btnPickDate.setOnClickListener(v -> showDatePickerDialog());
         etTanggalLahir.setOnClickListener(v -> showDatePickerDialog());
 
-        // Tombol Simpan untuk menyimpan perubahan
         btnSimpan.setOnClickListener(v -> saveData());
-
-        // Tombol Kembali untuk kembali ke halaman ProfileActivity
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
-            startActivity(intent);
-            finish();
-        });
-
-        // Tombol Batal untuk menampilkan pop-up konfirmasi
+        btnBack.setOnClickListener(v -> finish());
+        btnEditFoto.setOnClickListener(v -> uploadFoto());
         tvBatal.setOnClickListener(v -> showCancelDialog());
     }
 
-    // Menampilkan DatePickerDialog untuk memilih tanggal lahir
+    private void fetchFromFirestore(String uid) {
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String nama = documentSnapshot.getString("username");
+                        String tanggal = documentSnapshot.getString("tanggalLahir");
+                        String bio = documentSnapshot.getString("bio");
+                        String photoUrl = documentSnapshot.getString("photo_url");
+
+                        etNama.setText(nama != null ? nama : "");
+                        etTanggalLahir.setText(tanggal != null ? tanggal : "");
+                        etBio.setText(bio != null ? bio : "");
+                        currentPhotoUrl = photoUrl != null ? photoUrl : "";
+                        if (currentPhotoUrl != null && !currentPhotoUrl.isEmpty()) {
+                            Glide.with(this).load(currentPhotoUrl).into(imgProfile);
+                        } else {
+                            imgProfile.setImageResource(R.drawable.ic_profile);
+                        }
+                    } else {
+                        etNama.setText("");
+                        etTanggalLahir.setText("");
+                        etBio.setText("");
+                        imgProfile.setImageResource(R.drawable.ic_profile);
+                    }
+                });
+    }
+
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
+        new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) -> {
                     String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
@@ -75,47 +104,95 @@ public class EditProfileActivity extends AppCompatActivity {
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
-        );
-        datePickerDialog.show();
+        ).show();
     }
 
-    // Menampilkan pop-up konfirmasi ketika tombol BATAL ditekan
     private void showCancelDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Konfirmasi");
-        builder.setMessage("Apakah Anda yakin ingin membatalkan perubahan?");
-        builder.setPositiveButton("Ya", (dialog, which) -> finish());
-        builder.setNegativeButton("Tidak", null);
-        builder.show();
+        new AlertDialog.Builder(this)
+                .setTitle("Konfirmasi")
+                .setMessage("Apakah Anda yakin ingin membatalkan perubahan?")
+                .setPositiveButton("Ya", (dialog, which) -> finish())
+                .setNegativeButton("Tidak", null)
+                .show();
     }
 
-    // Menyimpan data ke SharedPreferences
     private void saveData() {
         String nama = etNama.getText().toString().trim();
-        String tanggalLahir = etTanggalLahir.getText().toString().trim();
+        String tanggal = etTanggalLahir.getText().toString().trim();
         String bio = etBio.getText().toString().trim();
 
-        // Simpan ke SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("nama", nama);
-        editor.putString("tanggalLahir", tanggalLahir);
-        editor.putString("bio", bio);
-        editor.apply();
+        if (nama.isEmpty() || tanggal.isEmpty()) {
+            Toast.makeText(this, "Nama dan tanggal lahir tidak boleh kosong", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Pindah ke ProfileActivity setelah menyimpan
-        Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
-        startActivity(intent);
-        finish();
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("username", nama);
+        userData.put("tanggalLahir", tanggal);
+        userData.put("bio", bio);
+        userData.put("photo_url", currentPhotoUrl); // selalu set foto
+
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(uid)
+                .set(userData, SetOptions.merge())
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Gagal menyimpan ke Firebase: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
-    // Memuat data yang telah disimpan sebelumnya
-    private void loadData() {
-        String nama = sharedPreferences.getString("nama", "");
-        String tanggalLahir = sharedPreferences.getString("tanggalLahir", "");
-        String bio = sharedPreferences.getString("bio", "");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            selectedImageUri = data.getData();
+            imgProfile.setImageURI(selectedImageUri);
 
-        etNama.setText(nama);
-        etTanggalLahir.setText(tanggalLahir);
-        etBio.setText(bio);
+            // Upload ke Cloudinary (atau storage lain)
+            try {
+                File imageFile = CloudinaryManager.uriToFile(this, selectedImageUri);
+                Toast.makeText(this, "Mengunggah foto...", Toast.LENGTH_SHORT).show();
+                CloudinaryManager.uploadImage(imageFile, new CloudinaryManager.UploadCallback() {
+                    @Override
+                    public void onSuccess(String imageUrl) {
+                        saveProfileImageUrl(imageUrl);
+                    }
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(EditProfileActivity.this, "Upload gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (IOException e) {
+                Toast.makeText(this, "Gagal membaca file gambar", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void saveProfileImageUrl(String imageUrl) {
+        Map<String, Object> update = new HashMap<>();
+        update.put("photo_url", imageUrl);
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(uid)
+                .set(update, SetOptions.merge())
+                .addOnSuccessListener(unused -> {
+                    currentPhotoUrl = imageUrl;
+                    Glide.with(this).load(imageUrl).into(imgProfile);
+                    Toast.makeText(this, "Foto profil berhasil diupdate!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Gagal update foto profil: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void uploadFoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 }

@@ -12,12 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.DonationViewHolder>{
-    private List<LeftoverShareFragment.Donasi> dataList;
+    private List<DonationItem> dataList;
     private Context context;
-    public DonationAdapter(Context context, List<LeftoverShareFragment.Donasi> data) {
+    public DonationAdapter(Context context, List<DonationItem> data) {
         this.context = context;
         this.dataList = data;
     }
@@ -32,17 +34,22 @@ public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.Donati
 
     @Override
     public void onBindViewHolder(@NonNull DonationViewHolder holder, int position) {
-        LeftoverShareFragment.Donasi item = dataList.get(position);
-        holder.imageView.setImageResource(item.getGambar());
+        DonationItem item = dataList.get(position);
+//        holder.imageView.setImageResource(item.getGambar_url());
+        Glide.with(context).load(item.getGambar_url()).into(holder.imageView);
         holder.judulText.setText(item.getJudul());
         holder.namaDonatur.setText("Nama Donatur: " + item.getNamaDonatur());
         holder.nominalDonasi.setText("Donasi Sebesar Rp." + item.getNominalDonasi());
 
         holder.cardView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, DonateDetail.class);
+            Intent intent = new Intent(context, DonateDetailActivity.class);
+            intent.putExtra("donationId", item.getId());
             intent.putExtra("judul", item.getJudul());
-            intent.putExtra("gambar", item.getGambar());
+            intent.putExtra("gambar", item.getGambar_url());
             intent.putExtra("deskripsi", item.getDeskripsiDonasi());
+            intent.putExtra("tanggal_selesai", item.getTanggalSelesai().toString());
+            intent.putExtra("nominal", item.getNominalDonasi());
+            intent.putExtra("jenis_donasi", item.getTipeDonasi());
             context.startActivity(intent);
         });
     }
