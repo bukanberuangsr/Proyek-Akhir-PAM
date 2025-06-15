@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".HomeFragment"
+    android:background="@color/white">
 
     <!-- Konten utama -->
     <LinearLayout
@@ -44,6 +45,7 @@
                     android:src="@drawable/card_greeting" />
 
             </LinearLayout>
+
         </HorizontalScrollView>
 
         <LinearLayout
