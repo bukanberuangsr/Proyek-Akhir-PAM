@@ -48,6 +48,8 @@ public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.Donati
             intent.putExtra("gambar", item.getGambar_url());
             intent.putExtra("deskripsi", item.getDeskripsiDonasi());
             intent.putExtra("tanggal_selesai", item.getTanggalSelesai().toString());
+            intent.putExtra("nominal", item.getNominalDonasi());
+            intent.putExtra("jenis_donasi", item.getTipeDonasi());
             context.startActivity(intent);
         });
     }
