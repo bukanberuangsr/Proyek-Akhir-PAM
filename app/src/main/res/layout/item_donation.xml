@@ -20,7 +20,7 @@
 
         <ImageView
             android:id="@+id/img_view"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="160dp"
             android:src="@drawable/img_donasi_1"
             android:scaleType="centerCrop"/>
