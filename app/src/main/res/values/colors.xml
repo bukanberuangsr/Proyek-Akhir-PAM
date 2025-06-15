@@ -22,4 +22,6 @@
     <!-- Tambahan warna centang -->
     <color name="green">#4CAF50</color> <!-- Hijau terang untuk centang aktif -->
     <color name="gray">#9E9E9E</color> <!-- Abu-abu untuk centang tidak aktif -->
+
+    <color name="transparent">#00000000</color>
 </resources>

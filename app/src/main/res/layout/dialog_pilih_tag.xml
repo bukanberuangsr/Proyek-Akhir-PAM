@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvJudul"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pilih Tag"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Baris 1 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btnSahabat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sahabat"
+            android:layout_marginEnd="4dp"
+            style="@style/TagButtonStyle" />
+
+        <Button
+            android:id="@+id/btnKerja"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rekan Kerja"
+            android:layout_marginStart="4dp"
+            style="@style/TagButtonStyle" />
+    </LinearLayout>
+
+    <!-- Baris 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btnKeluarga"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Keluarga"
+            android:layout_marginEnd="4dp"
+            style="@style/TagButtonStyle" />
+
+        <Button
+            android:id="@+id/btnTemanMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Teman"
+            android:layout_marginStart="4dp"
+            style="@style/TagButtonStyle" />
+    </LinearLayout>
+
+    <!-- Tombol Batal & Simpan -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btnBatal"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="Batal"
+            android:backgroundTint="@color/red"
+            android:textColor="@color/white"
+            style="@style/lexend_semibold"
+            android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:id="@+id/btnSimpan"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="Simpan"
+            android:backgroundTint="@color/orange"
+            android:textColor="@color/white"
+            style="@style/lexend_semibold" />
+    </LinearLayout>
+</LinearLayout>
