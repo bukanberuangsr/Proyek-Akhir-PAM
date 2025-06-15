@@ -2,11 +2,14 @@ package com.example.proyekakhirpam;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,13 +63,55 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
         holder.btnFollow.setBackgroundTintList(ContextCompat.getColorStateList(context, colorResId));
 
         if (isFollowed) {
-            holder.tvDeskripsi.setVisibility(View.VISIBLE);
+            holder.tagContainer.setVisibility(View.VISIBLE);
             String tag = teman.getTag().isEmpty() ? "Teman" : teman.getTag();
             holder.tvDeskripsi.setText(tag);
 
+            String tagLower = tag.toLowerCase();
+
+            Drawable backgroundDrawable = holder.tvDeskripsi.getBackground();
+            GradientDrawable background;
+
+            if (backgroundDrawable instanceof GradientDrawable) {
+                background = (GradientDrawable) backgroundDrawable;
+            } else {
+                background = new GradientDrawable();
+                background.setShape(GradientDrawable.RECTANGLE);
+                background.setCornerRadius(16 * context.getResources().getDisplayMetrics().density);
+            }
+
+            int strokeWidthPx = (int) (2 * context.getResources().getDisplayMetrics().density);
+            int strokeColor = 0;
+
+            if (tagLower.contains("keluarga")) {
+                background.setColor(ContextCompat.getColor(context, R.color.pink));
+                strokeColor = ContextCompat.getColor(context, android.R.color.white);
+                holder.tvDeskripsi.setTextColor(ContextCompat.getColor(context, R.color.white));
+            } else if (tagLower.contains("kerja")) {
+                background.setColor(ContextCompat.getColor(context, R.color.blue_gray));
+                strokeColor = ContextCompat.getColor(context, android.R.color.white);
+                holder.tvDeskripsi.setTextColor(ContextCompat.getColor(context, R.color.white));
+            } else if (tagLower.contains("sahabat")) {
+                background.setColor(ContextCompat.getColor(context, R.color.purple_teal));
+                strokeColor = ContextCompat.getColor(context, android.R.color.white);
+                holder.tvDeskripsi.setTextColor(ContextCompat.getColor(context, R.color.white));
+            } else if (tagLower.contains("teman")) {
+                background.setColor(ContextCompat.getColor(context, R.color.tosca));
+                strokeColor = ContextCompat.getColor(context, android.R.color.white);
+                holder.tvDeskripsi.setTextColor(ContextCompat.getColor(context, R.color.white));
+            } else {
+                background.setColor(ContextCompat.getColor(context, R.color.gray));
+                strokeColor = ContextCompat.getColor(context, R.color.black);
+                holder.tvDeskripsi.setTextColor(ContextCompat.getColor(context, R.color.black));
+            }
+
+            background.setStroke(strokeWidthPx, strokeColor);
+            holder.tvDeskripsi.setBackground(background);
+
             holder.tvDeskripsi.setOnClickListener(v -> showEditTagDialog(holder, teman, position));
+            holder.icEditTag.setOnClickListener(v -> showEditTagDialog(holder, teman, position));
         } else {
-            holder.tvDeskripsi.setVisibility(View.GONE);
+            holder.tagContainer.setVisibility(View.GONE);
         }
 
         holder.btnFollow.setOnClickListener(v -> {
@@ -103,8 +148,7 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(context, "Berhenti mengikuti " + teman.getUsername(), Toast.LENGTH_SHORT).show();
                             if (filterDiikuti && context instanceof PertemananActivity) {
-                                PertemananActivity activity = (PertemananActivity) context;
-                                activity.removeTeman(position);
+                                ((PertemananActivity) context).removeTeman(position);
                             } else {
                                 teman.setFollowed(false);
                                 notifyItemChanged(position);
@@ -119,11 +163,9 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
 
     private void showEditTagDialog(TemanViewHolder holder, Teman teman, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View dialogView = inflater.inflate(R.layout.dialog_pilih_tag, null);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_pilih_tag, null);
         builder.setView(dialogView);
 
-        TextView tvJudul = dialogView.findViewById(R.id.tvJudul);
         Button btnSimpan = dialogView.findViewById(R.id.btnSimpan);
         Button btnBatal = dialogView.findViewById(R.id.btnBatal);
 
@@ -131,12 +173,11 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
                 dialogView.findViewById(R.id.btnSahabat),
                 dialogView.findViewById(R.id.btnKerja),
                 dialogView.findViewById(R.id.btnKeluarga),
-                dialogView.findViewById(R.id.btnTemanMain)
+                dialogView.findViewById(R.id.btnTeman)
         };
 
         final String[] selectedTag = {teman.getTag() != null ? teman.getTag() : "Teman"};
 
-        // TAMBAHKAN INI SETELAHNYA
         for (Button btn : tagButtons) {
             if (btn.getText().toString().equalsIgnoreCase(selectedTag[0])) {
                 btn.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.tosca));
@@ -188,7 +229,6 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
         alertDialog.show();
     }
 
-
     @Override
     public int getItemCount() {
         return temanList.size();
@@ -196,8 +236,9 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
 
     public static class TemanViewHolder extends RecyclerView.ViewHolder {
         TextView tvNama, tvDeskripsi, tvEmail;
-        ImageView imgTeman;
+        ImageView imgTeman, icEditTag;
         Button btnFollow;
+        LinearLayout tagContainer;
 
         public TemanViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -206,6 +247,8 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
             tvEmail = itemView.findViewById(R.id.tvEmail);
             imgTeman = itemView.findViewById(R.id.imgTeman);
             btnFollow = itemView.findViewById(R.id.btnFollow);
+            icEditTag = itemView.findViewById(R.id.icEditTag);
+            tagContainer = itemView.findViewById(R.id.tagContainer);
         }
     }
 }

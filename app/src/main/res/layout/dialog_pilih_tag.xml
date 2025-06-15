@@ -59,7 +59,7 @@
             style="@style/TagButtonStyle" />
 
         <Button
-            android:id="@+id/btnTemanMain"
+            android:id="@+id/btnTeman"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
