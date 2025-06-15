@@ -6,11 +6,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.bumptech.glide.Glide;
 
 public class DonateDetail extends AppCompatActivity {
 
@@ -29,12 +27,14 @@ public class DonateDetail extends AppCompatActivity {
 
         Intent intent = getIntent();
         String judulDonasi = intent.getStringExtra("judul");
-        int gambarDonasi = intent.getIntExtra("gambar", 0);
+        String gambarDonasi = intent.getStringExtra("gambar");
         String deskripsiDonasi = intent.getStringExtra("deskripsi");
 
         tvJudulDonasi.setText(judulDonasi);
-        ivGambarDonasi.setImageResource(gambarDonasi);
         tvDeskripsiDonasi.setText(deskripsiDonasi);
+        Glide.with(this)
+                .load(gambarDonasi)
+                .into(ivGambarDonasi);
 
         btnDonatePayment = findViewById(R.id.btn_donate_payment);
         btnDonatePayment.setOnClickListener(v -> {
