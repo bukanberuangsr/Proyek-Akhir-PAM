@@ -8,6 +8,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -15,11 +17,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DonateDetailActivity extends AppCompatActivity {
 
-    ImageView ivGambarDonasi;
-    TextView tvJudulDonasi, tvDeskripsiDonasi, tvTanggalSelesai, tvNominalDonasi;
-    Button btnDonatePayment, btnDelete, btnUpdate;
-    Spinner spTipeDonasi;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ImageView ivGambarDonasi;
+    private TextView tvJudulDonasi, tvDeskripsiDonasi, tvTanggalSelesai, tvNominalDonasi, tvTipeDonasi;
+    private Button btnDonatePayment, btnDelete, btnUpdate;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ActivityResultLauncher<Intent> editLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +32,16 @@ public class DonateDetailActivity extends AppCompatActivity {
         tvJudulDonasi = findViewById(R.id.tv_main);
         tvDeskripsiDonasi = findViewById(R.id.tv_description_content);
         tvTanggalSelesai = findViewById(R.id.tv_tanggal_selesai);
-//        tvNominalDonasi = findViewById(R.id.tv_nominal_donasi);
-//        spTipeDonasi = findViewById(R.id.sp_tipe_donasi);
+        tvNominalDonasi = findViewById(R.id.tv_nominal_donasi);
+        tvTipeDonasi = findViewById(R.id.tv_tipe_donasi);
 
         Intent intent = getIntent();
         String judulDonasi = intent.getStringExtra("judul");
         String gambarDonasi = intent.getStringExtra("gambar");
         String deskripsiDonasi = intent.getStringExtra("deskripsi");
         String tanggalSelesai = intent.getStringExtra("tanggal_selesai");
+        String nominalDonasi = intent.getStringExtra("nominal");
+        String jenisDonasi = intent.getStringExtra("jenis_donasi");
 
         tvJudulDonasi.setText(judulDonasi);
         tvDeskripsiDonasi.setText(deskripsiDonasi);
@@ -45,6 +49,8 @@ public class DonateDetailActivity extends AppCompatActivity {
                 .load(gambarDonasi)
                 .into(ivGambarDonasi);
         tvTanggalSelesai.setText(tanggalSelesai);
+        tvTipeDonasi.setText(jenisDonasi);
+        tvNominalDonasi.setText("Donasi Sebesar Rp." + nominalDonasi);
 
         btnDonatePayment = findViewById(R.id.btn_donate_payment);
         btnDonatePayment.setOnClickListener(v -> {
@@ -58,6 +64,16 @@ public class DonateDetailActivity extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btn_update);
         String docId = intent.getStringExtra("donationId"); // Get the document ID from the intent
         btnDelete.setOnClickListener(v -> deleteDonation(docId));
+
+        editLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        finish(); // Kembali ke list jika update sukses
+                    }
+                }
+        );
+
         btnUpdate.setOnClickListener(v -> updateDonation(docId));
     }
 
@@ -73,13 +89,14 @@ public class DonateDetailActivity extends AppCompatActivity {
 
     private void updateDonation(String docId) {
         Intent intent = new Intent(this, EditDonationActivity.class);
-//        intent.putExtra("donationId", docId);
-//        intent.putExtra("judul", tvJudulDonasi.getText().toString());
-//        intent.putExtra("gambar", getIntent().getStringExtra("gambar"));
-//        intent.putExtra("deskripsi", tvDeskripsiDonasi.getText().toString());
-//        intent.putExtra("tanggal_selesai", tvTanggalSelesai.getText().toString());
-//        intent.putExtra("nominal", tvNominalDonasi.getText().toString());
-//        intent.putExtra("jenis_donasi", spTipeDonasi.getSelectedItem().toString());
-        startActivity(intent);
+        intent.putExtra("donationId", docId);
+        intent.putExtra("judul", tvJudulDonasi.getText().toString());
+        intent.putExtra("gambar", getIntent().getStringExtra("gambar"));
+        intent.putExtra("deskripsi", tvDeskripsiDonasi.getText().toString());
+        intent.putExtra("tanggal_selesai", tvTanggalSelesai.getText().toString());
+        intent.putExtra("nominal", tvNominalDonasi.getText().toString().split("Rp.")[1].replace(".", "").trim());
+        intent.putExtra("jenis_donasi", tvTipeDonasi.getText().toString());
+//        startActivity(intent);
+        editLauncher.launch(intent);
     }
 }
