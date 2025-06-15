@@ -3,7 +3,6 @@ package com.example.proyekakhirpam;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,16 +18,16 @@ import java.util.List;
 
 public class PertemananActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private TemanAdapter adapter;
-    private List<Teman> temanList = new ArrayList<>();
-    private List<Teman> semuaTemanList = new ArrayList<>();
+    RecyclerView recyclerView;
+    TemanAdapter adapter;
+    List<Teman> temanList = new ArrayList<>();
+    List<Teman> semuaTemanList = new ArrayList<>();
 
-    private ImageView btnBack;
-    private RadioGroup radioFilter;
+    ImageView btnBack;
+    RadioGroup radioFilter;
 
-    private FirebaseFirestore db;
-    private String currentUserId;
+    FirebaseFirestore db;
+    String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,7 @@ public class PertemananActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewPertemanan);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         adapter = new TemanAdapter(this, temanList);
         recyclerView.setAdapter(adapter);
 
@@ -101,7 +101,6 @@ public class PertemananActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> Log.e("Firestore", "Gagal ambil data teman: " + e.getMessage()));
     }
 
-
     private void applyFilter() {
         temanList.clear();
 
@@ -115,5 +114,14 @@ public class PertemananActivity extends AppCompatActivity {
         }
 
         adapter.notifyDataSetChanged();
+    }
+
+    // Method untuk diakses dari adapter supaya bisa hapus teman di list dan update UI
+    public void removeTeman(int position) {
+        if (position >= 0 && position < temanList.size()) {
+            temanList.remove(position);
+            adapter.notifyItemRemoved(position);
+            adapter.notifyItemRangeChanged(position, temanList.size());
+        }
     }
 }

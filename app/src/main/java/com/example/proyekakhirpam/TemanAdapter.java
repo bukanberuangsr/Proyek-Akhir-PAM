@@ -1,15 +1,19 @@
 package com.example.proyekakhirpam;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,11 +28,17 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
     private FirebaseFirestore db;
     private String currentUserId;
 
+    private boolean filterDiikuti = false;
+
     public TemanAdapter(Context context, List<Teman> temanList) {
         this.context = context;
         this.temanList = temanList;
         this.db = FirebaseFirestore.getInstance();
         this.currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
+    public void setFilterDiikuti(boolean filterDiikuti) {
+        this.filterDiikuti = filterDiikuti;
     }
 
     @NonNull
@@ -41,19 +51,35 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
     @Override
     public void onBindViewHolder(@NonNull TemanViewHolder holder, int position) {
         Teman teman = temanList.get(position);
+
         holder.tvNama.setText(teman.getUsername());
-        holder.tvDeskripsi.setText(teman.getTag().isEmpty() ? teman.getEmail() : teman.getTag());
+        holder.tvEmail.setText(teman.getEmail());
         holder.imgTeman.setImageResource(R.drawable.ic_profile);
 
-        holder.btnFollow.setText(teman.isFollowed() ? "Batal" : "Ikuti");
+        boolean isFollowed = teman.isFollowed();
+        holder.btnFollow.setText(isFollowed ? "Batal" : "Ikuti");
+
+        int colorResId = isFollowed ? R.color.red : R.color.orange;
+        holder.btnFollow.setBackgroundTintList(ContextCompat.getColorStateList(context, colorResId));
+
+        if (isFollowed) {
+            holder.tvDeskripsi.setVisibility(View.VISIBLE);
+            String tag = teman.getTag().isEmpty() ? "Teman" : teman.getTag();
+            holder.tvDeskripsi.setText(tag);
+
+            holder.tvDeskripsi.setOnClickListener(v -> showEditTagDialog(holder, teman, position));
+        } else {
+            holder.tvDeskripsi.setVisibility(View.GONE);
+        }
 
         holder.btnFollow.setOnClickListener(v -> {
             boolean isNowFollowed = !teman.isFollowed();
             teman.setFollowed(isNowFollowed);
-            holder.btnFollow.setText(isNowFollowed ? "Batal" : "Ikuti");
 
             if (isNowFollowed) {
-                // Tambahkan ke Firestore (subcollection following)
+                // Follow user
+                String initialTag = "Teman";
+                teman.setTag(initialTag);
                 db.collection("users")
                         .document(currentUserId)
                         .collection("following")
@@ -62,18 +88,18 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
                                 teman.getId(),
                                 teman.getUsername(),
                                 teman.getEmail(),
-                                "teman",  // default tag
+                                initialTag,
                                 true
                         ))
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(context, "Mengikuti " + teman.getUsername(), Toast.LENGTH_SHORT).show();
+                            notifyItemChanged(position);
                         })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(context, "Gagal mengikuti: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
-
+                        .addOnFailureListener(e ->
+                                Toast.makeText(context, "Gagal mengikuti: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                        );
             } else {
-                // Hapus dari Firestore
+                // Unfollow user
                 db.collection("users")
                         .document(currentUserId)
                         .collection("following")
@@ -81,12 +107,58 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
                         .delete()
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(context, "Berhenti mengikuti " + teman.getUsername(), Toast.LENGTH_SHORT).show();
+                            if (filterDiikuti && context instanceof PertemananActivity) {
+                                // Jika filter "Diikuti", hapus langsung dari list dan update adapter via activity method
+                                PertemananActivity activity = (PertemananActivity) context;
+                                activity.removeTeman(position);
+                            } else {
+                                // Update status follow saja
+                                teman.setFollowed(false);
+                                notifyItemChanged(position);
+                            }
                         })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(context, "Gagal batal mengikuti: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                        .addOnFailureListener(e ->
+                                Toast.makeText(context, "Gagal batal mengikuti: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                        );
             }
         });
+    }
+
+    private void showEditTagDialog(TemanViewHolder holder, Teman teman, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Edit Tag untuk " + teman.getUsername());
+
+        final EditText input = new EditText(context);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(teman.getTag());
+        input.setSelection(input.getText().length());
+
+        builder.setView(input);
+
+        builder.setPositiveButton("Simpan", (dialog, which) -> {
+            String newTag = input.getText().toString().trim();
+            if (newTag.isEmpty()) {
+                Toast.makeText(context, "Tag tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            db.collection("users")
+                    .document(currentUserId)
+                    .collection("following")
+                    .document(teman.getId())
+                    .update("tag", newTag)
+                    .addOnSuccessListener(aVoid -> {
+                        teman.setTag(newTag);
+                        notifyItemChanged(position);
+                        Toast.makeText(context, "Tag diperbarui", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "Gagal memperbarui tag: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                    );
+        });
+
+        builder.setNegativeButton("Batal", (dialog, which) -> dialog.cancel());
+        builder.show();
     }
 
     @Override
@@ -95,7 +167,7 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
     }
 
     public static class TemanViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNama, tvDeskripsi;
+        TextView tvNama, tvDeskripsi, tvEmail;
         ImageView imgTeman;
         Button btnFollow;
 
@@ -103,6 +175,7 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
             super(itemView);
             tvNama = itemView.findViewById(R.id.tvNama);
             tvDeskripsi = itemView.findViewById(R.id.tvDeskripsi);
+            tvEmail = itemView.findViewById(R.id.tvEmail);
             imgTeman = itemView.findViewById(R.id.imgTeman);
             btnFollow = itemView.findViewById(R.id.btnFollow);
         }
