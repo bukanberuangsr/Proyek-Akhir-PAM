@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +38,11 @@ public class LeftoverShareFragment extends Fragment {
     ImageButton imageButton;
     FirebaseFirestore db;
     RecyclerView rvInternasional, rvNasional;
-    DonationAdapter adapter;
-    List<DonationItem> donationList;
+    List<DonationItem> listInternasional;
+    List<DonationItem> listNasional;
+    DonationAdapter adapterInternasional;
+    DonationAdapter adapterNasional;
+//    List<DonationItem> donationList;
 
     public LeftoverShareFragment() {
         // Required empty public constructor
@@ -76,69 +81,93 @@ public class LeftoverShareFragment extends Fragment {
         rvInternasional = view.findViewById(R.id.recycler_donasi_1);
         rvNasional = view.findViewById(R.id.recycler_donasi_2);
 
+        // Data dari Firestore
+        db = FirebaseFirestore.getInstance();
+        listInternasional = new ArrayList<>();
+        listNasional = new ArrayList<>();
 
-
-        // Data Dummy
-//        List<DonationItem> dataRC1 = new ArrayList<>();
-//        dataRC1.add(new DonationItem(
-//                R.drawable.img_donasi_1,
-//                "Palestina: Donasi Makanan untuk Saudara Kita",
-//                "Satria",
-//                "200000",
-//                "Di tengah konflik dan krisis kemanusiaan yang terus berlangsung, ribuan keluarga di Palestina berjuang untuk mendapatkan makanan setiap hari. Akses terhadap kebutuhan dasar semakin terbatas, dan mereka sangat membutuhkan uluran tangan kita.\n" +
-//                "\n" +
-//                "Blokade dan keterbatasan distribusi bahan pangan membuat harga makanan melambung tinggi, sementara persediaan semakin menipis. Banyak keluarga hanya mampu makan satu kali sehari atau bahkan terpaksa berpuasa karena tidak ada makanan yang tersisa. Situasi ini semakin diperparah dengan rusaknya infrastruktur dan sulitnya akses bantuan kemanusiaan."
-//        ));
-//        dataRC1.add(new DonationItem(
-//                R.drawable.img_donasi_2,
-//                "Yaman: Donasi Makanan untuk Mengatasi Kelaparan",
-//                "Farhah",
-//                "500000",
-//                "Lorem ipsum dolor sit amet."
-//        ));
-//
-//        List<DonationItem> dataRC2 = new ArrayList<>();
-//        dataRC2.add(new DonationItem(
-//                R.drawable.img_donasi_3,
-//                "Papua: Donasi Makanan untuk Selamatkan Nyawa",
-//                "Kinky",
-//                "10000",
-//                "Lorem ipsum dolor sit amet."
-//        ));
-
-        Bundle bundle = getActivity().getIntent().getExtras();
-        if (bundle != null) {
-            String judul = bundle.getString("judul");
-            String gambar = bundle.getString("gambar");
-            String nominalBaru = bundle.getString("nominal");
-
-            if (judul!=null && nominalBaru!=null){
-                boolean found = false;
-                for (DonationItem d : donationList){
-                    if (d.getJudul().equals(judul)){
-                        int total = Integer.parseInt(d.getNominalDonasi()) + Integer.parseInt(nominalBaru);
-                        d.setNominalDonasi(String.valueOf(total));
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found){
-                    Toast.makeText(getContext(), "Data tidak ditemukan", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-
-        DonationAdapter donationAdapter = new DonationAdapter(getContext(), donationList);
-        DonationAdapter donationAdapter2 = new DonationAdapter(getContext(), donationList);
+        adapterInternasional = new DonationAdapter(getContext(), listInternasional);
+        adapterNasional = new DonationAdapter(getContext(), listNasional);
         rvInternasional.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false
         ));
         rvNasional.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false
         ));
-        rvInternasional.setAdapter(donationAdapter);
-        rvNasional.setAdapter(donationAdapter2);
-        donationAdapter.notifyDataSetChanged();
+        rvInternasional.setAdapter(adapterInternasional);
+        rvNasional.setAdapter(adapterNasional);
+
+        // Load donations from Firestore
+        loadDonations();
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadDonations(); // Refresh data when returning to this fragment
+    }
+
+    private void loadDonations() {
+        // Fetch Internasional donations
+        db.collection("donation")
+                .whereEqualTo("tipe_donasi", "Internasional")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    listInternasional.clear();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        String id = doc.getId();
+                        String gambarUrl = doc.getString("gambar_url");
+                        String judul = doc.getString("judul_donasi");
+                        String deskripsi = doc.getString("deskripsi_donasi");
+                        String namaDonatur = doc.getString("nama_donatur");
+                        String nominalDonasi = String.valueOf(doc.get("nominal_donasi"));
+                        com.google.firebase.Timestamp ts = doc.getTimestamp("tanggal_selesai");
+                        java.util.Date tanggalSelesai = ts != null ? ts.toDate() : new java.util.Date();
+
+                        DonationItem item = new DonationItem(
+                                id,
+                                gambarUrl,
+                                judul,
+                                deskripsi,
+                                namaDonatur,
+                                nominalDonasi,
+                                tanggalSelesai
+                        );
+                        listInternasional.add(item);
+                    }
+                    adapterInternasional.notifyDataSetChanged();
+                });
+
+        // Fetch Nasional donations
+        db.collection("donation")
+                .whereEqualTo("tipe_donasi", "Nasional")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    listNasional.clear();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        String id = doc.getId();
+                        String gambarUrl = doc.getString("gambar_url");
+                        String judul = doc.getString("judul_donasi");
+                        String deskripsi = doc.getString("deskripsi_donasi");
+                        String namaDonatur = doc.getString("nama_donatur");
+                        String nominalDonasi = String.valueOf(doc.get("nominal_donasi"));
+                        com.google.firebase.Timestamp ts = doc.getTimestamp("tanggal_selesai");
+                        java.util.Date tanggalSelesai = ts != null ? ts.toDate() : new java.util.Date();
+
+                        DonationItem item = new DonationItem(
+                                id,
+                                gambarUrl,
+                                judul,
+                                deskripsi,
+                                namaDonatur,
+                                nominalDonasi,
+                                tanggalSelesai
+                        );
+                        listNasional.add(item);
+                    }
+                    adapterNasional.notifyDataSetChanged();
+                });
     }
 }
