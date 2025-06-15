@@ -42,7 +42,7 @@ public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.Donati
         holder.nominalDonasi.setText("Donasi Sebesar Rp." + item.getNominalDonasi());
 
         holder.cardView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, DonateDetail.class);
+            Intent intent = new Intent(context, DonateDetailActivity.class);
             intent.putExtra("judul", item.getJudul());
             intent.putExtra("gambar", item.getGambar_url());
             intent.putExtra("deskripsi", item.getDeskripsiDonasi());

@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
-public class DonateDetail extends AppCompatActivity {
+public class DonateDetailActivity extends AppCompatActivity {
 
     ImageView ivGambarDonasi;
     TextView tvJudulDonasi, tvDeskripsiDonasi;

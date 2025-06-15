@@ -18,7 +18,7 @@
         android:layout_height="24dp"
         android:src="@drawable/ic_back"
         android:layout_alignParentStart="true"
-        android:contentDescription="Back Button"/>
+        android:contentDescription="Back Button" />
 
     <TextView
         android:id="@+id/tvProfilSaya"
@@ -29,7 +29,7 @@
         android:textColor="@color/grey"
         android:layout_toEndOf="@id/btnBack"
         android:layout_marginStart="8dp"
-        style="@style/inter_semibold"/>
+        style="@style/inter_semibold" />
 
     <TextView
         android:id="@+id/tvEdit"
@@ -41,7 +41,7 @@
         android:textStyle="bold"
         android:layout_alignParentEnd="true"
         android:paddingEnd="8dp"
-        style="@style/inter_semibold"/>
+        style="@style/inter_semibold" />
   </RelativeLayout>
 
   <!-- Foto Profil -->
@@ -52,7 +52,7 @@
       android:src="@drawable/ic_profile"
       android:layout_marginTop="16dp"
       android:layout_gravity="center"
-      android:contentDescription="Profile Image"/>
+      android:contentDescription="Profile Image" />
 
   <!-- Nama Lengkap -->
   <LinearLayout
@@ -63,9 +63,10 @@
       android:layout_marginTop="24dp">
 
     <ImageView
+        android:id="@+id/icCentangNama"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_check_green"/>
+        android:src="@drawable/ic_check_green" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,7 +75,7 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:layout_marginStart="8dp"
-        style="@style/inter_semibold"/>
+        style="@style/inter_semibold" />
   </LinearLayout>
 
   <EditText
@@ -88,7 +89,7 @@
       android:textColor="@color/black"
       android:textSize="14sp"
       android:enabled="false"
-      style="@style/inter_regular"/>
+      style="@style/inter_regular" />
 
   <!-- Tanggal Lahir -->
   <LinearLayout
@@ -99,9 +100,10 @@
       android:layout_marginTop="16dp">
 
     <ImageView
+        android:id="@+id/icCentangTanggal"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_check_green"/>
+        android:src="@drawable/ic_check_green" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -110,7 +112,7 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:layout_marginStart="8dp"
-        style="@style/inter_semibold"/>
+        style="@style/inter_semibold" />
   </LinearLayout>
 
   <EditText
@@ -124,7 +126,7 @@
       android:textColor="@color/black"
       android:textSize="14sp"
       android:enabled="false"
-      style="@style/inter_regular"/>
+      style="@style/inter_regular" />
 
   <!-- Bio Singkat -->
   <LinearLayout
@@ -135,9 +137,10 @@
       android:layout_marginTop="16dp">
 
     <ImageView
+        android:id="@+id/icCentangBio"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_check_gray"/>
+        android:src="@drawable/ic_check_gray" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -146,7 +149,7 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:layout_marginStart="8dp"
-        style="@style/inter_semibold"/>
+        style="@style/inter_semibold" />
   </LinearLayout>
 
   <EditText
@@ -160,7 +163,7 @@
       android:textColor="@color/black"
       android:textSize="14sp"
       android:enabled="false"
-      style="@style/inter_regular"/>
+      style="@style/inter_regular" />
 
   <!-- Info dengan kotak -->
   <RelativeLayout
@@ -169,7 +172,6 @@
       android:layout_gravity="center_horizontal"
       android:layout_marginTop="40dp">
 
-    <!-- Kotak latar belakang teks -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

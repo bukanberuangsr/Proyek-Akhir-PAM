@@ -20,7 +20,7 @@
 
         <!-- Donation -->
         <activity
-            android:name=".DonateDetail"
+            android:name=".DonateDetailActivity"
             android:exported="false" />
         <activity
             android:name=".DonatePayment"
@@ -30,6 +30,9 @@
             android:exported="false" />
 
         <!-- Food Donation -->
+        <activity
+            android:name=".RincianPembelianActivity"
+            android:exported="false" />
         <activity
             android:name=".HistoryActivity"
             android:exported="false"
@@ -41,9 +44,7 @@
             android:name=".AddFoodActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".RincianPembelianActivity"
-            android:exported="false" />
+
         <!-- Profile -->
         <activity
             android:name=".PertemananActivity"
@@ -66,7 +67,7 @@
             android:name=".MainActivity"
             android:exported="false" />
 
-        <!-- Auth & Profile -->
+        <!-- Auth  -->
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -76,6 +77,12 @@
         <activity
             android:name=".WelcomeActivity"
             android:exported="false" />
+        <activity
+            android:name=".FormPostinganActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryPage"
+            android:exported="false"/>
 
         <!-- Splash Screen -->
         <activity
@@ -83,7 +90,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
