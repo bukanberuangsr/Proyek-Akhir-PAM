@@ -56,13 +56,17 @@ public class PertemananActivity extends AppCompatActivity {
         db.collection("users").get().addOnSuccessListener(querySnapshot -> {
             semuaTemanList.clear();
 
+            int[] totalUser = {0};
+            int[] loadedCount = {0};
+
             for (QueryDocumentSnapshot doc : querySnapshot) {
                 String uid = doc.getId();
                 if (!uid.equals(currentUserId)) {
+                    totalUser[0]++;
+
                     String username = doc.getString("username");
                     String email = doc.getString("email");
 
-                    // Cek apakah current user follow user ini
                     db.collection("users")
                             .document(currentUserId)
                             .collection("following")
@@ -75,14 +79,28 @@ public class PertemananActivity extends AppCompatActivity {
                                 Teman teman = new Teman(uid, username, email, tag, isFollowed);
                                 semuaTemanList.add(teman);
 
-                                // Terapkan filter ulang setiap data baru masuk
-                                applyFilter();
+                                loadedCount[0]++;
+                                if (loadedCount[0] == totalUser[0]) {
+                                    applyFilter(); // Jalankan SEKALI saat SEMUA teman selesai dimuat
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("Firestore", "Gagal ambil data follow: " + e.getMessage());
+                                loadedCount[0]++;
+                                if (loadedCount[0] == totalUser[0]) {
+                                    applyFilter(); // Tetap jalankan walau ada error
+                                }
                             });
                 }
             }
 
+            if (totalUser[0] == 0) {
+                applyFilter(); // Kalau tidak ada user lain selain currentUser
+            }
+
         }).addOnFailureListener(e -> Log.e("Firestore", "Gagal ambil data teman: " + e.getMessage()));
     }
+
 
     private void applyFilter() {
         temanList.clear();
@@ -92,8 +110,6 @@ public class PertemananActivity extends AppCompatActivity {
             if (checkedId == R.id.radioSemua) {
                 temanList.add(t);
             } else if (checkedId == R.id.radioFollowed && t.isFollowed()) {
-                temanList.add(t);
-            } else if (checkedId == R.id.radioBelumFollow && !t.isFollowed()) {
                 temanList.add(t);
             }
         }
