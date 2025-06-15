@@ -43,9 +43,11 @@ public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.Donati
 
         holder.cardView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DonateDetailActivity.class);
+            intent.putExtra("donationId", item.getId());
             intent.putExtra("judul", item.getJudul());
             intent.putExtra("gambar", item.getGambar_url());
             intent.putExtra("deskripsi", item.getDeskripsiDonasi());
+            intent.putExtra("tanggal_selesai", item.getTanggalSelesai().toString());
             context.startActivity(intent);
         });
     }
