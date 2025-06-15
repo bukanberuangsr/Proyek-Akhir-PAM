@@ -3,7 +3,6 @@ package com.example.proyekakhirpam;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,16 +18,16 @@ import java.util.List;
 
 public class PertemananActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private TemanAdapter adapter;
-    private List<Teman> temanList = new ArrayList<>();
-    private List<Teman> semuaTemanList = new ArrayList<>();
+    RecyclerView recyclerView;
+    TemanAdapter adapter;
+    List<Teman> temanList = new ArrayList<>();
+    List<Teman> semuaTemanList = new ArrayList<>();
 
-    private ImageView btnBack;
-    private RadioGroup radioFilter;
+    ImageView btnBack;
+    RadioGroup radioFilter;
 
-    private FirebaseFirestore db;
-    private String currentUserId;
+    FirebaseFirestore db;
+    String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,7 @@ public class PertemananActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewPertemanan);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         adapter = new TemanAdapter(this, temanList);
         recyclerView.setAdapter(adapter);
 
@@ -56,13 +56,17 @@ public class PertemananActivity extends AppCompatActivity {
         db.collection("users").get().addOnSuccessListener(querySnapshot -> {
             semuaTemanList.clear();
 
+            int[] totalUser = {0};
+            int[] loadedCount = {0};
+
             for (QueryDocumentSnapshot doc : querySnapshot) {
                 String uid = doc.getId();
                 if (!uid.equals(currentUserId)) {
+                    totalUser[0]++;
+
                     String username = doc.getString("username");
                     String email = doc.getString("email");
 
-                    // Cek apakah current user follow user ini
                     db.collection("users")
                             .document(currentUserId)
                             .collection("following")
@@ -75,10 +79,23 @@ public class PertemananActivity extends AppCompatActivity {
                                 Teman teman = new Teman(uid, username, email, tag, isFollowed);
                                 semuaTemanList.add(teman);
 
-                                // Terapkan filter ulang setiap data baru masuk
-                                applyFilter();
+                                loadedCount[0]++;
+                                if (loadedCount[0] == totalUser[0]) {
+                                    applyFilter(); // Jalankan SEKALI saat SEMUA teman selesai dimuat
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("Firestore", "Gagal ambil data follow: " + e.getMessage());
+                                loadedCount[0]++;
+                                if (loadedCount[0] == totalUser[0]) {
+                                    applyFilter(); // Tetap jalankan walau ada error
+                                }
                             });
                 }
+            }
+
+            if (totalUser[0] == 0) {
+                applyFilter(); // Kalau tidak ada user lain selain currentUser
             }
 
         }).addOnFailureListener(e -> Log.e("Firestore", "Gagal ambil data teman: " + e.getMessage()));
@@ -93,11 +110,18 @@ public class PertemananActivity extends AppCompatActivity {
                 temanList.add(t);
             } else if (checkedId == R.id.radioFollowed && t.isFollowed()) {
                 temanList.add(t);
-            } else if (checkedId == R.id.radioBelumFollow && !t.isFollowed()) {
-                temanList.add(t);
             }
         }
 
         adapter.notifyDataSetChanged();
+    }
+
+    // Method untuk diakses dari adapter supaya bisa hapus teman di list dan update UI
+    public void removeTeman(int position) {
+        if (position >= 0 && position < temanList.size()) {
+            temanList.remove(position);
+            adapter.notifyItemRemoved(position);
+            adapter.notifyItemRangeChanged(position, temanList.size());
+        }
     }
 }

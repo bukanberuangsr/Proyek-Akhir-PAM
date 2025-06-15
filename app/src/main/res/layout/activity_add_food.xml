@@ -60,8 +60,6 @@
 
             <!-- Upload foto -->
 
-            <!-- Form input -->
-
             <FrameLayout
                 android:id="@+id/upload_placeholder"
                 android:layout_width="280dp"

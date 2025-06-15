@@ -33,7 +33,7 @@ public class SearchBar extends LinearLayout {
         ImageView notifHistory = findViewById(R.id.ic_history);
 
         notifHistory.setOnClickListener(v -> {
-            Intent intent = new Intent(context, HistoryPage.class);
+            Intent intent = new Intent(context, HistoryActivity.class);
             context.startActivity(intent);
         });
     }

@@ -38,7 +38,7 @@
             android:layout_marginBottom="10dp"/>
 
         <TextView
-            android:id="@+id/tv_nama_restoran"
+            android:id="@+id/tv_nama_donor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nama Restoran"
@@ -46,6 +46,16 @@
             android:textColor="@color/grey"
             android:textSize="14sp"/>
 
+        <TextView
+            android:id="@+id/tv_error_stok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:text="Melebihi jumlah yang tersedia"
+            style="@style/inter_medium"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
 
         <EditText
             android:id="@+id/et_jumlah"

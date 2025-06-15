@@ -1,34 +1,52 @@
 package com.example.proyekakhirpam;
 
 public class OrderItem {
-    String namaMakanan;
-    String namaRestoran;
+    String doc_id;   // simpan id dokumen Firestore jika perlu pembatalan
+    String makanan_id;
+    String nama_makanan;
+    String nama_donor;
+    String image_url;
     int jumlah;
-    String tanggal;
-    int totalHarga;
-    int image;
+    int total_harga;
 
-    public OrderItem(String namaMakanan, String namaRestoran, int jumlah, String tanggal, int totalHarga, int image) {
-        this.namaMakanan = namaMakanan;
-        this.namaRestoran = namaRestoran;
-        this.jumlah = jumlah;
-        this.tanggal = tanggal;
-        this.totalHarga = totalHarga;
-        this.image = image;
+    public OrderItem() {
     }
 
-    // Getter (atau bisa pakai public variable kalau mau simple)
+    //Constructor
+    public OrderItem(String makanan_id, String nama_makanan, String nama_donor, String image_url, int jumlah, int total_harga) {
+        this.makanan_id = makanan_id;
+        this.nama_makanan = nama_makanan;
+        this.nama_donor = nama_donor;
+        this.image_url = image_url;
+        this.jumlah = jumlah;
+        this.total_harga = total_harga;
+    }
+
     public String getNamaMakanan() {
-        return namaMakanan; }
+        return nama_makanan;
+    }
+
     public String getNamaRestoran() {
-        return namaRestoran; }
+        return nama_donor;
+    }
+
     public int getJumlah() {
-        return jumlah; }
-    public String getTanggal() {
-        return tanggal; }
+        return jumlah;
+    }
+
     public int getTotalHarga() {
-        return totalHarga; }
-    public int getImageId() {
-        return image;
+        return total_harga;
+    }
+
+    public String getMakananId() {
+        return makanan_id;
+    }
+
+    public String getImageURL() {
+        return image_url;
+    }
+
+    public String getDocumentId() {
+        return doc_id;
     }
 }

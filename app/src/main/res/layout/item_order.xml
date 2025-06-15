@@ -11,7 +11,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_gravity="center"
-        android:contentDescription="Steak sapi"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_placeholder" />
 
     <LinearLayout
@@ -32,7 +32,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_nama_restoran"
+            android:id="@+id/tv_nama_donor"
             style="@style/inter_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,15 +47,6 @@
             android:layout_height="wrap_content"
             android:text="Total"
             android:textColor="@color/tosca"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/tv_expired"
-            style="@style/inter_regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="x"
-            android:textColor="@color/orange"
             android:textSize="10sp" />
 
         <Button

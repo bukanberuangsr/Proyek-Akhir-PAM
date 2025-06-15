@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.widget.Button;
 import android.widget.EditText;
@@ -169,9 +171,10 @@ public class FoodPickupFragment extends Fragment {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_order, null);
 
         TextView tvNamaMakanan = dialogView.findViewById(R.id.tv_nama_makanan);
-        TextView tvNamaDonor = dialogView.findViewById(R.id.tv_nama_restoran);
+        TextView tvNamaDonor = dialogView.findViewById(R.id.tv_nama_donor);
         EditText et_jumlah = dialogView.findViewById(R.id.et_jumlah);
         Button btn_beli = dialogView.findViewById(R.id.btn_beli);
+        TextView tvErrorStok = dialogView.findViewById(R.id.tv_error_stok);
 
         tvNamaMakanan.setText(item.getNama_makanan());
         tvNamaDonor.setText(item.getDonor_nama());
@@ -183,12 +186,72 @@ public class FoodPickupFragment extends Fragment {
         btn_beli.setOnClickListener(v -> {
             String jumlahStr = et_jumlah.getText().toString().trim();
             if (!jumlahStr.isEmpty()) {
-                dialog.dismiss();
+                int jumlah;
+                try {
+                    jumlah = Integer.parseInt(jumlahStr);
+                } catch (NumberFormatException e) {
+                    tvErrorStok.setText("Jumlah tidak valid");
+                    tvErrorStok.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                if (jumlah <= 0) {
+                    tvErrorStok.setText("Jumlah harus lebih dari 0");
+                    tvErrorStok.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                if (jumlah > item.getJumlah()) {
+                    tvErrorStok.setText("Melebihi jumlah ketersediaan. Maksimal: " + item.getJumlah());
+                    tvErrorStok.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                tvErrorStok.setVisibility(View.GONE);
+                prosesOrder(item, jumlah, dialog);
             } else {
-                Toast.makeText(getContext(), "Masukkan jumlah yang ingin dipesan", Toast.LENGTH_SHORT).show();
+                tvErrorStok.setText("Masukkan jumlah yang ingin dipesan");
+                tvErrorStok.setVisibility(View.VISIBLE);
             }
         });
 
         dialog.show();
+    }
+
+    private void prosesOrder(FoodItem item, int jumlah, AlertDialog dialog) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        int totalHarga = jumlah * item.getHarga();
+        Map<String, Object> dataOrder = new HashMap<>();
+        dataOrder.put("user_id", user.getUid());
+        dataOrder.put("gambar_url", item.getGambar_url());
+        dataOrder.put("makanan_id", item.getId());
+        dataOrder.put("nama_makanan", item.getNama_makanan());
+        dataOrder.put("nama_donor", item.getDonor_nama());
+        dataOrder.put("jumlah", jumlah);
+        dataOrder.put("total_harga", totalHarga);
+
+        FirebaseFirestore.getInstance()
+                .collection("orders")
+                .add(dataOrder)
+                .addOnSuccessListener(docRef -> {
+                    // Update stok makanan
+                    int updateJumlah = item.getJumlah() - jumlah;
+                    FirebaseFirestore.getInstance()
+                            .collection("food-pickup")
+                            .document(item.getId())
+                            .update("jumlah", updateJumlah)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(getContext(), "Order berhasil & stok terupdate!", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(getContext(), "Order berhasil, update stok gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            });
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(getContext(), "Order gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }
