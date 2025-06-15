@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.DonationViewHolder>{
@@ -33,7 +35,8 @@ public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.Donati
     @Override
     public void onBindViewHolder(@NonNull DonationViewHolder holder, int position) {
         DonationItem item = dataList.get(position);
-        holder.imageView.setImageResource(item.getGambar());
+//        holder.imageView.setImageResource(item.getGambar_url());
+        Glide.with(context).load(item.getGambar_url()).into(holder.imageView);
         holder.judulText.setText(item.getJudul());
         holder.namaDonatur.setText("Nama Donatur: " + item.getNamaDonatur());
         holder.nominalDonasi.setText("Donasi Sebesar Rp." + item.getNominalDonasi());
@@ -41,7 +44,7 @@ public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.Donati
         holder.cardView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DonateDetail.class);
             intent.putExtra("judul", item.getJudul());
-            intent.putExtra("gambar", item.getGambar());
+            intent.putExtra("gambar", item.getGambar_url());
             intent.putExtra("deskripsi", item.getDeskripsiDonasi());
             context.startActivity(intent);
         });
