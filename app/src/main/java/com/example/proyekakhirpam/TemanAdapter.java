@@ -2,7 +2,6 @@ package com.example.proyekakhirpam;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
     private List<Teman> temanList;
     private FirebaseFirestore db;
     private String currentUserId;
-
     private boolean filterDiikuti = false;
 
     public TemanAdapter(Context context, List<Teman> temanList) {
@@ -77,7 +75,6 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
             teman.setFollowed(isNowFollowed);
 
             if (isNowFollowed) {
-                // Follow user
                 String initialTag = "Teman";
                 teman.setTag(initialTag);
                 db.collection("users")
@@ -99,7 +96,6 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
                                 Toast.makeText(context, "Gagal mengikuti: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                         );
             } else {
-                // Unfollow user
                 db.collection("users")
                         .document(currentUserId)
                         .collection("following")
@@ -108,11 +104,9 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(context, "Berhenti mengikuti " + teman.getUsername(), Toast.LENGTH_SHORT).show();
                             if (filterDiikuti && context instanceof PertemananActivity) {
-                                // Jika filter "Diikuti", hapus langsung dari list dan update adapter via activity method
                                 PertemananActivity activity = (PertemananActivity) context;
                                 activity.removeTeman(position);
                             } else {
-                                // Update status follow saja
                                 teman.setFollowed(false);
                                 notifyItemChanged(position);
                             }
@@ -126,40 +120,75 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
 
     private void showEditTagDialog(TemanViewHolder holder, Teman teman, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Edit Tag untuk " + teman.getUsername());
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.dialog_pilih_tag, null);
+        builder.setView(dialogView);
 
-        final EditText input = new EditText(context);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText(teman.getTag());
-        input.setSelection(input.getText().length());
+        TextView tvJudul = dialogView.findViewById(R.id.tvJudul);
+        Button btnSimpan = dialogView.findViewById(R.id.btnSimpan);
+        Button btnBatal = dialogView.findViewById(R.id.btnBatal);
 
-        builder.setView(input);
+        Button[] tagButtons = {
+                dialogView.findViewById(R.id.btnSahabat),
+                dialogView.findViewById(R.id.btnKerja),
+                dialogView.findViewById(R.id.btnKeluarga),
+                dialogView.findViewById(R.id.btnTemanMain)
+        };
 
-        builder.setPositiveButton("Simpan", (dialog, which) -> {
-            String newTag = input.getText().toString().trim();
-            if (newTag.isEmpty()) {
-                Toast.makeText(context, "Tag tidak boleh kosong", Toast.LENGTH_SHORT).show();
-                return;
+        final String[] selectedTag = {teman.getTag() != null ? teman.getTag() : "Teman"};
+
+        // TAMBAHKAN INI SETELAHNYA
+        for (Button btn : tagButtons) {
+            if (btn.getText().toString().equalsIgnoreCase(selectedTag[0])) {
+                btn.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.tosca));
+                btn.setTextColor(ContextCompat.getColor(context, R.color.white));
+            } else {
+                btn.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.transparent));
+                btn.setTextColor(ContextCompat.getColor(context, R.color.orange));
             }
+        }
+
+        for (Button btn : tagButtons) {
+            btn.setOnClickListener(v -> {
+                for (Button other : tagButtons) {
+                    other.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.transparent));
+                    other.setTextColor(ContextCompat.getColor(context, R.color.orange));
+                }
+
+                btn.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.tosca));
+                btn.setTextColor(ContextCompat.getColor(context, R.color.white));
+
+                selectedTag[0] = btn.getText().toString();
+            });
+        }
+
+        AlertDialog alertDialog = builder.create();
+
+        btnSimpan.setOnClickListener(v -> {
+            String finalTag = selectedTag[0];
 
             db.collection("users")
                     .document(currentUserId)
                     .collection("following")
                     .document(teman.getId())
-                    .update("tag", newTag)
+                    .update("tag", finalTag)
                     .addOnSuccessListener(aVoid -> {
-                        teman.setTag(newTag);
+                        teman.setTag(finalTag);
                         notifyItemChanged(position);
                         Toast.makeText(context, "Tag diperbarui", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e ->
-                            Toast.makeText(context, "Gagal memperbarui tag: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Gagal memperbarui tag", Toast.LENGTH_SHORT).show()
                     );
+
+            alertDialog.dismiss();
         });
 
-        builder.setNegativeButton("Batal", (dialog, which) -> dialog.cancel());
-        builder.show();
+        btnBatal.setOnClickListener(v -> alertDialog.dismiss());
+
+        alertDialog.show();
     }
+
 
     @Override
     public int getItemCount() {
