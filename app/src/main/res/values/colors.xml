@@ -24,4 +24,8 @@
     <color name="gray">#9E9E9E</color> <!-- Abu-abu untuk centang tidak aktif -->
 
     <color name="transparent">#00000000</color>
+    <color name="blue_gray">#607D8B</color>
+    <color name="purple_teal">#7B68EE</color>
+    <color name="pink">#F48FB1</color>
+
 </resources>

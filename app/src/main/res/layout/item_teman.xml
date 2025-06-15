@@ -41,16 +41,37 @@
             style="@style/inter_regular"
             android:layout_marginTop="2dp" />
 
-        <TextView
-            android:id="@+id/tvDeskripsi"
+        <LinearLayout
+            android:id="@+id/tagContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tag"
-            android:textColor="@color/tosca"
-            android:textSize="10sp"
-            style="@style/inter_regular"
-            android:layout_marginTop="2dp"
-            android:visibility="gone" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvDeskripsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tag"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                style="@style/inter_regular"
+                android:background="@drawable/bg_tag_rounded"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp" />
+
+            <ImageView
+                android:id="@+id/icEditTag"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="Edit Tag" />
+        </LinearLayout>
     </LinearLayout>
 
     <Button
