@@ -33,19 +33,6 @@
 
     <TextView
         style="@style/inter_bold"
-        android:id="@+id/tv_tanggal_selesai"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tanggal Selesai"
-        android:textColor="@color/grey"
-        android:textAlignment="textEnd"
-        android:textSize="14sp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_main"/>
-
-    <TextView
-        style="@style/inter_bold"
         android:id="@+id/tv_description_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,37 +70,92 @@
                 android:textColor="@color/grey"
                 android:textSize="14sp" />
 
+            <TextView
+                style="@style/inter_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detail:"
+                android:textColor="@color/grey"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <TextView
+                style="@style/inter_medium"
+                android:id="@+id/tv_tanggal_selesai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Tanggal Selesai"
+                android:textColor="@color/grey"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <TextView
+                style="@style/inter_medium"
+                android:id="@+id/tv_nominal_donasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Rp. 0"
+                android:textColor="@color/grey"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <TextView
+                style="@style/inter_medium"
+                android:id="@+id/tv_tipe_donasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Tipe Donasi"
+                android:textColor="@color/grey"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_delete"
+                    style="@style/lexend_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="#FF0000"
+                    android:text="Delete"
+                    android:textAlignment="center"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btn_update"
+                    style="@style/lexend_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="#FF9800"
+                    android:text="Update"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
 
-    <Button
-        style="@style/lexend_semibold"
-        android:id="@+id/btn_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Delete"
-        android:backgroundTint="#FF0000"
-        android:textColor="@color/white"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/img_main"
-        app:layout_constraintTop_toTopOf="@+id/img_main" />
 
-    <Button
-        style="@style/lexend_semibold"
-        android:id="@+id/btn_update"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="#FF9800"
-        android:text="Update"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/img_main"
-        app:layout_constraintTop_toTopOf="@+id/btn_delete" />
 
     <Button
         style="@style/lexend_semibold"
