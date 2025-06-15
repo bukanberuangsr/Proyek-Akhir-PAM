@@ -3,21 +3,39 @@ package com.example.proyekakhirpam;
 import java.util.Date;
 
 public class DonationItem {
+    private String id;
     private String judul;
     private String deskripsiDonasi;
     private String namaDonatur;
     private String nominalDonasi;
     private Date tanggalSelesai;
-    private int gambar;
+    private String gambar_url;
     private String jenisDonasi;
 
-    public DonationItem(int gambar, String judul, String deskripsi, String namaDonatur, String nominalDonasi, Date tanggalSelesai) {
-        this.gambar = gambar;
+    public DonationItem(String id, String gambar, String judul, String deskripsi, String namaDonatur, String nominalDonasi, Date tanggalSelesai) {
+        this.id = id;
+        this.gambar_url = gambar;
         this.judul = judul;
         this.namaDonatur = namaDonatur;
         this.nominalDonasi = nominalDonasi;
         this.deskripsiDonasi = deskripsi;
         this.tanggalSelesai = tanggalSelesai;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getJenisDonasi() {
+        return jenisDonasi;
+    }
+
+    public void setJenisDonasi(String jenisDonasi) {
+        this.jenisDonasi = jenisDonasi;
     }
 
     public String getJudul() {
@@ -52,12 +70,12 @@ public class DonationItem {
         this.nominalDonasi = nominalDonasi;
     }
 
-    public int getGambar() {
-        return gambar;
+    public String getGambar_url() {
+        return gambar_url;
     }
 
-    public void setGambar(int gambar) {
-        this.gambar = gambar;
+    public void setGambar_url(String gambar_url) {
+        this.gambar_url = gambar_url;
     }
 
     public Date getTanggalSelesai() {
