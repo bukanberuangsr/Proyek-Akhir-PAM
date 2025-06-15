@@ -16,7 +16,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -132,7 +131,7 @@ public class AddDonationActivity extends AppCompatActivity {
         }
 
         int nominal = Integer.parseInt(nominalDonasi);
-        Timestamp tanggalSelesai = convertDateStrToTimestamp(tanggalStr);
+        Date tanggalSelesai = convertDateStrToDate(tanggalStr);
         String tipeDonasi = spTipeDonasi.getSelectedItem().toString();
 
         try {
@@ -158,7 +157,7 @@ public class AddDonationActivity extends AppCompatActivity {
             Toast.makeText(this, "Gagal membaca gambar", Toast.LENGTH_SHORT).show();
         }
     }
-    private void saveToFirestore(String judulDonasi, String deskripsiDonasi, Timestamp tanggalSelesai, int nominalDonasi, String imageUrl, String tipeDonasi) {
+    private void saveToFirestore(String judulDonasi, String deskripsiDonasi, Date tanggalSelesai, int nominalDonasi, String imageUrl, String tipeDonasi) {
         Map<String, Object> data = new HashMap<>();
         data.put("judul_donasi", judulDonasi);
         data.put("deskripsi_donasi", deskripsiDonasi);
@@ -194,13 +193,12 @@ public class AddDonationActivity extends AppCompatActivity {
                 }));
     }
 
-    private com.google.firebase.Timestamp convertDateStrToTimestamp(String dateStr) {
+    private Date convertDateStrToDate(String dateStr) {
         try {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            Date date = sdf.parse(dateStr);
-            return new com.google.firebase.Timestamp(date);
+            return sdf.parse(dateStr);
         } catch (Exception e) {
-            return com.google.firebase.Timestamp.now();
+            return new Date();
         }
     }
 }
