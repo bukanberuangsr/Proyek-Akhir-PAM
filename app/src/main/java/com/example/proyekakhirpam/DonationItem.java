@@ -10,7 +10,7 @@ public class DonationItem {
     private String nominalDonasi;
     private Date tanggalSelesai;
     private String gambar_url;
-    private String jenisDonasi;
+    private String tipeDonasi;
 
     public DonationItem(String id, String gambar, String judul, String deskripsi, String namaDonatur, String nominalDonasi, Date tanggalSelesai) {
         this.id = id;
@@ -30,12 +30,12 @@ public class DonationItem {
         this.id = id;
     }
 
-    public String getJenisDonasi() {
-        return jenisDonasi;
+    public String getTipeDonasi() {
+        return tipeDonasi;
     }
 
-    public void setJenisDonasi(String jenisDonasi) {
-        this.jenisDonasi = jenisDonasi;
+    public void setTipeDonasi(String tipeDonasi) {
+        this.tipeDonasi = tipeDonasi;
     }
 
     public String getJudul() {
