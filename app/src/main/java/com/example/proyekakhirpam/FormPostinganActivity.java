@@ -33,7 +33,7 @@ public class FormPostinganActivity extends AppCompatActivity {
     private String documentId = null;
     private String existingImageUrl = null;
     private boolean isEditMode = false;
-
+    ImageView backIcon;
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     private final ActivityResultLauncher<Intent> pickImageLauncher =
@@ -54,10 +54,12 @@ public class FormPostinganActivity extends AppCompatActivity {
         imagePreview = findViewById(R.id.imagePreview);
         btnPilihGambar = findViewById(R.id.btnPilihGambar);
         btnSubmit = findViewById(R.id.btnSubmit);
+        backIcon = findViewById(R.id.backIcon);
         ImageView iconUpload = findViewById(R.id.iconUpload);
         TextView textUpload = findViewById(R.id.textUpload);
 
         btnPilihGambar.setOnClickListener(v -> pilihGambar());
+        backIcon.setOnClickListener(v -> finish());
 
         // Cek apakah ini mode edit
         Intent intent = getIntent();
