@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
             launcherFormPostingan.launch(intent);
         });
 
-        recyclerView = view.findViewById(R.id.recycle_contact);
+        recyclerView = view.findViewById(R.id.recycle_post);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         postList = new ArrayList<>();
