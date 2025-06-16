@@ -45,7 +45,6 @@ public class ProfileFragment extends Fragment {
 
         // Inisialisasi UI
         imgProfile = view.findViewById(R.id.imgProfile);
-        tvDonasiSaya = view.findViewById(R.id.tvDonasiSaya);
         tvLengkapiProfil = view.findViewById(R.id.tvLengkapiProfil);
         layoutDetailPembelian = view.findViewById(R.id.layoutDetailPembelian);
         btnKeluar = view.findViewById(R.id.btnKeluar);
