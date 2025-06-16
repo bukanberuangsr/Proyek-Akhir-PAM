@@ -107,38 +107,6 @@
                 android:layout_height="1dp"
                 android:background="@color/light_grey_text"/>
 
-            <!-- Donasi Saya -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:id="@+id/tvDonasiSaya"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Donasi saya"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    style="@style/inter_semibold"/>
-
-                <ImageView
-                    android:id="@+id/icArrowDonasi"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_arrow_right"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="Arrow Right"/>
-            </RelativeLayout>
-
-            <!-- Garis Pembatas -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_grey_text"/>
 
             <!-- Pertemanan -->
             <RelativeLayout
@@ -211,7 +179,7 @@
             <!-- Spacer -->
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="230dp" />
+                android:layout_height="280dp" />
 
             <!-- Tombol Keluar -->
             <Button
