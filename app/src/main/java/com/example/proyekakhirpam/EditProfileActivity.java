@@ -95,7 +95,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
-        new DatePickerDialog(
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) -> {
                     String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
@@ -104,16 +104,32 @@ public class EditProfileActivity extends AppCompatActivity {
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
-        ).show();
+        );
+
+        datePickerDialog.setOnShowListener(dialog -> {
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE)
+                    .setTextColor(getResources().getColor(android.R.color.black));
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE)
+                    .setTextColor(getResources().getColor(android.R.color.black));
+        });
+
+        datePickerDialog.show();
     }
 
     private void showCancelDialog() {
-        new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Konfirmasi")
                 .setMessage("Apakah Anda yakin ingin membatalkan perubahan?")
-                .setPositiveButton("Ya", (dialog, which) -> finish())
+                .setPositiveButton("Ya", (dialogInterface, which) -> finish())
                 .setNegativeButton("Tidak", null)
-                .show();
+                .create();
+
+        dialog.setOnShowListener(d -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(android.R.color.black));
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(android.R.color.black));
+        });
+
+        dialog.show();
     }
 
     private void saveData() {
