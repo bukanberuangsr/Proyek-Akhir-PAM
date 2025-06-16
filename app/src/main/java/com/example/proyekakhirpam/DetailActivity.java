@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -66,11 +67,10 @@ public class DetailActivity extends AppCompatActivity {
 
         // klik hapus
         hapusPostingan.setOnClickListener(v -> {
-            new MaterialAlertDialogBuilder(this)
+            AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                     .setTitle("Konfirmasi Hapus")
                     .setMessage("Apakah Anda yakin ingin menghapus postingan ini?")
-                    .setPositiveButton("Hapus", (dialog, which) -> {
-                        // Proses penghapusan Firestore
+                    .setPositiveButton("Hapus", (dialogInterface, which) -> {
                         if (postinganId != null && !postinganId.isEmpty()) {
                             FirebaseFirestore.getInstance().collection("postingan")
                                     .document(postinganId)
@@ -85,8 +85,17 @@ public class DetailActivity extends AppCompatActivity {
                                     });
                         }
                     })
-                    .setNegativeButton("Batal", (dialog, which) -> dialog.dismiss())
-                    .show();
+                    .setNegativeButton("Batal", (dialogInterface, which) -> dialogInterface.dismiss())
+                    .create(); // <-- jangan langsung show dulu
+
+            // set warna tombol setelah dialog muncul
+            dialog.setOnShowListener(dialogInterface -> {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(getResources().getColor(android.R.color.black));
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                        .setTextColor(getResources().getColor(android.R.color.black));
+            });
+            dialog.show(); // baru show terakhir
         });
     }
 
